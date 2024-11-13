@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+.font-mont{
+  font-family: Montserrat;
+}
+
+.bg-color{
+  background: #ECECEC;
+  height: 100vh;
+}
+
+.bg-color-full{
+  background: #ECECEC;
+  height: 100%;
+}
+
+.bg-light-gray{
+  background: #ECECEC;
+}
+
+.bg-gray{
+  background: #DCDCDC;
+}
+
+.text-light-gray{
+  color: #B8B8B8;
+}
+
+.text-gray{
+  background: #939393;
+}
+
+.black-bg{
+  background: #1E1E1E;
+}
+
+.text-black{
+  color: #1E1E1E;
+}
+
+.text-green{
+  color: #00940A;
+}
+
+.icon-blue{
+  color: #0076CB;
+}
+
+.icon-red{
+  color: #F10000;
+}
+
+.icon-yellow{
+  color: #E3D322;
+}
+
+.icon-green{
+  color: #0AE418;
+}

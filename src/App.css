@@ -57,3 +57,20 @@
 .icon-green{
   color: #0AE418;
 }
+
+
+
+
+
+/* ##### MOBILE ##### */
+@media screen and (max-width: 490px){
+  .bg-color{
+    background: none;
+    height: none;
+  }
+  
+  .bg-color-full{
+    background: none;
+    height: none;
+  }
+}

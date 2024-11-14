@@ -14,6 +14,16 @@
   height: 100%;
 }
 
+.bg-color-dash{
+  background: #ECECEC;
+  height: 100vh;
+}
+
+.bg-color-full-dash{
+  background: #ECECEC;
+  height: 100%;
+}
+
 .bg-light-gray{
   background: #ECECEC;
 }
@@ -34,11 +44,11 @@
   background: #1E1E1E;
 }
 
-.text-black{
+.black-text{
   color: #1E1E1E;
 }
 
-.text-green{
+.green-text{
   color: #00940A;
 }
 
@@ -58,7 +68,16 @@
   color: #0AE418;
 }
 
+.dash-width{
+  width: 97%;
+}
 
+.increase{
+border-radius: 16px;
+border: 1px solid #0AE418;
+background: rgba(10, 228, 24, 0.08);
+width: 50px;
+}
 
 
 
@@ -72,5 +91,9 @@
   .bg-color-full{
     background: none;
     height: none;
+  }
+
+  .dash-width{
+    width: 92%;
   }
 }

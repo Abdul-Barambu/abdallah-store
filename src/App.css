@@ -40,6 +40,10 @@
   background: #939393;
 }
 
+.month-gray{
+  background: #FAFAFA;
+}
+
 .black-bg{
   background: #1E1E1E;
 }
@@ -79,6 +83,26 @@ background: rgba(10, 228, 24, 0.08);
 width: 50px;
 }
 
+.increase-view{
+border-radius: 16px;
+border: 1px solid #0AE418;
+background: rgba(10, 228, 24, 0.08);
+}
+
+.deccrease{
+border-radius: 16px;
+border: 1px solid #F10000;
+background: rgba(228, 10, 10, 0.08);
+width: 50px;
+}
+
+.on-credit{
+border-radius: 24px;
+border: 1px solid #F10000;
+background: rgba(241, 0, 0, 0.08);
+padding: 10px 21px;
+}
+
 
 
 /* ##### MOBILE ##### */
@@ -96,4 +120,8 @@ width: 50px;
   .dash-width{
     width: 92%;
   }
+
+  .on-credit{
+    padding: 6px 17px;
+    }
 }

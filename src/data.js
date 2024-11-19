@@ -9,7 +9,7 @@ export const dues = [
     },
     {
         id: 2,
-        name: 'Abdulkadir Umar',
+        name: 'Usman Umar',
         date: '2024-09-03',
         description: 'Nivea body spray',
         price: '3500',
@@ -17,7 +17,7 @@ export const dues = [
     },
     {
         id: 3,
-        name: 'Abdulkadir Umar',
+        name: 'Isa Kalla',
         date: '2024-09-03',
         description: 'Nivea body spray',
         price: '3500',
@@ -25,7 +25,7 @@ export const dues = [
     },
     {
         id: 4,
-        name: 'Abdulkadir Umar',
+        name: 'Zainab Abdulkadir',
         date: '2024-09-03',
         description: 'Nivea body spray',
         price: '3500',
@@ -49,10 +49,34 @@ export const dues = [
     },
     {
         id: 7,
-        name: 'Abdulkadir Umar',
+        name: 'Moses Aliya',
         date: '2024-09-03',
         description: 'Nivea body spray',
         price: '3500',
         status: 'On credit' 
     },
+]
+
+export const receiptProducts = [
+    {
+        id: 1,
+        description: 'Nivea body spray',
+        price: '3500',
+        qty: '50',
+        amount: '15000'
+    },
+    {
+        id: 2,
+        description: 'Nivea body spray',
+        price: '3500',
+        qty: '50',
+        amount: '15000'
+    },
+    {
+        id: 3,
+        description: 'Nivea body spray',
+        price: '3500',
+        qty: '50',
+        amount: '15000'
+    }
 ]

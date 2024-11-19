@@ -6,15 +6,20 @@ import { FaFilter } from "react-icons/fa";
 import { dues } from '../../../../../data';
 
 const DueOutstanding = ({ setClicked }) => {
+
     const [searchValue, setSearchValue] = useState('');
+
+    const filteredDues = dues.filter((due) =>
+        due.name.toLowerCase().includes(searchValue.toLowerCase())
+    );
 
     return (
         <div className='bg-color-dash'>
             {/* Top Section */}
             <div className='flex flex-col sm:flex-row sm:items-center mt-5 gap-6 sm:gap-20 lg:gap-40 xl:gap-72'>
                 {/* Back Button */}
-                <div 
-                    className='flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer' 
+                <div
+                    className='flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer'
                     onClick={() => setClicked('ManagerDashboard')}
                 >
                     <GoArrowLeft className='text-xs sm:text-sm lg:text-xl' />
@@ -58,17 +63,17 @@ const DueOutstanding = ({ setClicked }) => {
                     {/* Data */}
                     <div className='h-96 overflow-y-scroll'>
                         {
-                            dues.map((due) => (
+                            filteredDues.map((due) => (
                                 <div key={due.id} className='grid grid-cols-6 my-0.5 text-center'>
                                     <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{due.name}</span>
                                     <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{due.date}</span>
                                     <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{due.description}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{due.price}</span>
+                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{due.price}</span>
                                     <div className='bg-white/[0.47] py-5'>
                                         <span className='font-mont text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-medium icon-red on-credit truncate'>{due.status}</span>
                                     </div>
                                     <div className='flex flex-row gap-1 justify-center items-center bg-white/[0.47]'>
-                                        <IoEye className='cursor-pointer' />
+                                        <IoEye className='cursor-pointer' onClick={() => {setClicked("Receipt"); localStorage.setItem('due', JSON.stringify(due))}} />
                                     </div>
                                 </div>
                             ))

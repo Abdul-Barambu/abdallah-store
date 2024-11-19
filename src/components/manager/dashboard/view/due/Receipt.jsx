@@ -85,12 +85,12 @@ const Receipt = ({ setClicked, handlePrint, button }) => {
         <div className='mt-3'>
           {/* top */}
           <div className='mx-5 sm:mx-10'>
-            <p className='font-mont text-[11px] sm:text-base font-semibold mb-1'>Wholesaler's Name: James Bond</p>
+            <p className='font-mont text-[11px] sm:text-base font-semibold mb-1'>Wholesaler's Name: {due.name}</p>
             <p className='font-mont text-[9px] sm:text-sm font-medium mb-1'>Phone number: 08123456789</p>
             <p className='font-mont text-[8px] sm:text-xs gray-text font-medium mb-1'>Invoice #123456</p>
             <span className='flex justify-between items-center'>
               <p className='font-mont text-[8px] sm:text-xs gray-text font-medium'>Receipt #123456</p>
-              <p className='font-mont text-[8px] sm:text-xs black-text font-medium'>Date of Purchase: kkk</p>
+              <p className='font-mont text-[8px] sm:text-xs black-text font-medium'>Date of Purchase: {due.date}</p>
             </span>
           </div>
           {/* middle */}
@@ -124,7 +124,7 @@ const Receipt = ({ setClicked, handlePrint, button }) => {
             <div className='mt-10 sm:mt-14 mx-5 sm:mx-10'>
               <div className='flex items-center justify-between mb-4 sm:mb-5'>
                 <p className='text-[10px] sm:text-sm font-mont font-medium'>Outstanding:</p>
-                <p className='text-[10px] sm:text-sm font-mont font-medium'>₦30000</p>
+                <p className='text-[10px] sm:text-sm font-mont font-medium'>₦{due.price}</p>
               </div>
               <div className='flex items-center justify-between mb-5'>
                 <p className='text-[10px] sm:text-sm font-mont font-bold'>Amount Paid:</p>

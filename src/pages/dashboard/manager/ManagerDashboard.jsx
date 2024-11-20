@@ -7,6 +7,11 @@ import { FaTimes } from "react-icons/fa";
 import Cards from '../../../components/manager/dashboard/cards/Cards'
 import DueOutstanding from '../../../components/manager/dashboard/view/due/DueOutstanding'
 import Receipt from '../../../components/manager/dashboard/view/due/Receipt'
+import Inventory from '../../../components/manager/inventory/Inventory'
+import ListOfStocks from '../../../components/manager/inventory/listOfStocks/ListOfStocks'
+import ViewStock from '../../../components/manager/inventory/listOfStocks/ViewStock'
+import EditStock from '../../../components/manager/inventory/listOfStocks/EditStock'
+import StockStatus from '../../../components/manager/inventory/stockStatus/StockStatus'
 
 const ManagerDashboard = () => {
   const [clicked, setClicked] = useState('ManagerDashboard')
@@ -26,7 +31,7 @@ const ManagerDashboard = () => {
   }
 
   return (
-    <div className={`${nav ? 'bg-color-dash' : 'bg-color-full-dash'} pt-3 pb-5`}>
+    <div className={`${nav ? 'bg-color-dash' : 'bg-color-full-dash'} pt-3 pb-0 sm:pb-5`}>
 
       {/* MOBILE VIEW HEADER */}
       <div className={`${button ? 'hidden' : 'block'}`}>
@@ -61,13 +66,13 @@ const ManagerDashboard = () => {
                 <div>
                   <div className={`flex flex-col gap-14 px-14 pt-10 ${clicked === 'More' ? 'pb-5' : 'pb-10'}`}>
                     <span
-                      className={`${clicked === 'ManagerDashboard' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
+                      className={`${(clicked === 'ManagerDashboard' || clicked === 'DueOutstanding' || clicked === "Receipt") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
                       onClick={() => { setClicked('ManagerDashboard'); setNav(false) }}
                     >
                       Dashboard
                     </span>
                     <span
-                      className={`${clicked === 'Inventory' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
+                      className={`${(clicked === 'Inventory' || clicked === 'ListOfStocks' || clicked === 'ViewStock' || clicked === 'EditStock' || clicked === "StockStatus") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
                       onClick={() => { setClicked('Inventory'); setNav(false) }}
                     >
                       Inventory
@@ -168,7 +173,7 @@ const ManagerDashboard = () => {
                     Dashboard
                   </span>
                   <span
-                    className={`${clicked === 'Inventory' ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
+                    className={`${(clicked === 'Inventory' || clicked === 'ListOfStocks' || clicked === 'ViewStock' || clicked === 'EditStock' || clicked === "StockStatus") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
                     onClick={() => setClicked('Inventory')}
                   >
                     Inventory
@@ -254,9 +259,11 @@ const ManagerDashboard = () => {
         </div>
 
         {/* components */}
-        <div className={`${button ? 'mx-0' : 'mx-4'} ${nav ? 'hidden' : 'visible'}`}>
+        <div className={`${button ? 'mx-0' : 'mx-0 sm:mx-4'} ${nav ? 'hidden' : 'visible'}`}>
           {
-            clicked === "ManagerDashboard" ? <Cards setClicked={setClicked} /> : clicked === "DueOutstanding" ? <DueOutstanding setClicked={setClicked} /> : clicked === "Receipt" ? <Receipt setClicked={setClicked} handlePrint={handlePrint} button={button} /> : null
+            clicked === "ManagerDashboard" ? <Cards setClicked={setClicked} /> : clicked === "DueOutstanding" ? <DueOutstanding setClicked={setClicked} /> : clicked === "Receipt" ? <Receipt setClicked={setClicked} handlePrint={handlePrint} button={button} />
+              : clicked === "Inventory" ? <Inventory setClicked={setClicked} /> : clicked === "ListOfStocks" ? <ListOfStocks setClicked={setClicked} /> : clicked === 'ViewStock' ? <ViewStock setClicked={setClicked} /> : clicked === "EditStock" ? <EditStock setClicked={setClicked} />
+                : clicked === "StockStatus" ? <StockStatus setClicked={setClicked} handlePrint={handlePrint} button={button} /> : null
           }
         </div>
 

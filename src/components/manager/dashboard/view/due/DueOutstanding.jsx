@@ -14,7 +14,7 @@ const DueOutstanding = ({ setClicked }) => {
     );
 
     return (
-        <div className='bg-color-dash'>
+        <div className='bg-color-dash mx-4 sm:mx-0'>
             {/* Top Section */}
             <div className='flex flex-col sm:flex-row sm:items-center mt-5 gap-6 sm:gap-20 lg:gap-40 xl:gap-72'>
                 {/* Back Button */}

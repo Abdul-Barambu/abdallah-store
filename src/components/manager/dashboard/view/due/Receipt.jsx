@@ -62,7 +62,7 @@ const Receipt = ({ setClicked, handlePrint, button }) => {
   const due = JSON.parse(localStorage.getItem('due'));
 
   return (
-    <div className={`${button ? 'bg-white' : 'bg-color-full'}`}>
+    <div className={`${button ? 'bg-white' : 'bg-color-full'} mx-4 sm:mx-0 pb-10 sm:pb-0`}>
       {/* back */}
       <div
         className={`mt-4 mb-2 flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer ${button ? 'hidden' : 'block'}`}

@@ -7,7 +7,7 @@ import Charts from '../charts/Charts';
 
 const Cards = ({setClicked}) => {
     return (
-        <div className='mt-4'>
+        <div className='mt-4 mx-4 sm:mx-0 pb-10 sm:pb-0'>
             {/* cards */}
             <div className='flex sm:flex-row flex-col justify-between items-center gap-5'>
                 {/* card */}

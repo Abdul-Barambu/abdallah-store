@@ -32,6 +32,10 @@
   background: #DCDCDC;
 }
 
+.bg-gray-view{
+  background: rgba(236, 236, 236, 0.56);
+}
+
 .text-light-gray{
   color: #B8B8B8;
 }
@@ -42,6 +46,10 @@
 
 .month-gray{
   background: #FAFAFA;
+}
+
+.search-gray{
+  background: #F6F6F6;
 }
 
 .black-bg{
@@ -107,6 +115,43 @@ padding: 10px 21px;
   border: 3.5px solid white;
 }
 
+.impo{
+  margin: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.green-box{
+width: 16px;
+height: 16px;
+flex-shrink: 0;
+border-radius: 5px;
+background: #0AE418;
+}
+
+.yellow-box{
+width: 16px;
+height: 16px;
+flex-shrink: 0;
+border-radius: 5px;
+background: #E3D322;;
+}
+
+.red-box{
+width: 16px;
+height: 16px;
+flex-shrink: 0;
+border-radius: 5px;
+background: #F10000;;
+}
+
+.box{
+border: 1px solid #ECECEC;
+background: #F6F6F6;
+}
+
+.bg-table{
+  background: rgba(236, 236, 236, 0.47);
+}
 
 
 /* ##### MOBILE ##### */

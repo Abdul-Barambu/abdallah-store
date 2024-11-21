@@ -3,15 +3,24 @@ import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
 import { GoArrowLeft } from "react-icons/go";
 import { CiSearch } from "react-icons/ci";
 import { FaFilter } from "react-icons/fa";
-import { stocks } from '../../../../data';
+import { listOfStocks } from '../../../../data';
 
 const StockStatus = ({ setClicked, handlePrint, button }) => {
 
     const [searchValue, setSearchValue] = useState('');
+    const [filter, setFilter] = useState(false)
+    const [selectedFilter, setSelectedFilter] = useState('All');
 
-    const filteredDues = stocks.filter((stock) =>
-        stock.name.toLowerCase().includes(searchValue.toLowerCase())
-    );
+    const filteredDues = listOfStocks.filter((stock) => {
+        const matchesSearch = stock.name.toLowerCase().includes(searchValue.toLowerCase());
+        const matchesFilter =
+            selectedFilter === 'All' ||
+            (selectedFilter === 'Healthy Stock' && stock.remaining > stock.lowStock) ||
+            (selectedFilter === 'Low Stock' && stock.remaining <= stock.lowStock && stock.remaining > '0') ||
+            (selectedFilter === 'Out of Stock' && stock.remaining === '0');
+        return matchesSearch && matchesFilter;
+    });
+
 
     const data = [
         { name: 'Healthy Stock', value: 10, color: '#0AE418' },
@@ -25,7 +34,7 @@ const StockStatus = ({ setClicked, handlePrint, button }) => {
         <div className='bg-color-full'>
             {/* Back Button */}
             <div
-                className='mt-4 mb-4 mx-4 sm:mx-0 flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer'
+                className={`mt-4 mb-4 mx-4 sm:mx-0 flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer ${button ? 'hidden' : 'block'}`}
                 onClick={() => setClicked('Inventory')}
             >
                 <GoArrowLeft className='text-xs sm:text-sm lg:text-xl' />
@@ -106,9 +115,9 @@ const StockStatus = ({ setClicked, handlePrint, button }) => {
                     </div>
                 </div>
                 {/* searh and filter and print */}
-                <div className='mx-4 sm:mx-20 mt-5 sm:mt-0 sm:flex items-center justify-between'>
+                <div className={`mx-4 sm:mx-20 mt-5 sm:mt-0 sm:flex items-center justify-between`}>
                     {/* search and filter */}
-                    <div>
+                    <div className={`${button ? 'hidden' : 'block'}`}>
                         <div className='relative flex items-center gap-2'>
                             {!searchValue && (
                                 <CiSearch className='absolute left-24 sm:left-36 lg:left-40' size={15} />
@@ -120,20 +129,49 @@ const StockStatus = ({ setClicked, handlePrint, button }) => {
                                 onChange={(e) => setSearchValue(e.target.value)}
                                 className='font-mont font-medium w-full sm:w-[350px] lg:w-[400px] pl-10 pr-4 py-3 sm:py-2 search-gray rounded-lg outline-none text-center text-xs sm:text-base'
                             />
-                            <div className='search-gray py-3 px-3 rounded-lg'>
+                            <div className='search-gray py-3 px-3 rounded-lg cursor-pointer' onClick={() => setFilter(!filter)}>
                                 <FaFilter className='text-sm' />
                             </div>
                         </div>
+                        {/* filter */}
+                        {filter && (
+                            <div className='sm:top-[57%] lg:top-[45%] xl:top-[103%] left-0 sm:left-[40%] lg:left-[36%] xl:left-[32%] absolute bg-white w-10/12 ml-8 sm:ml-0 sm:w-1/5 px-8 sm:px-10 py-5'>
+                                <p
+                                    className={`${selectedFilter === 'All' ? 'border border-black black-text' : 'border-none gray-text'} text-center font-mont font-medium text-[15px] mb-3 bg-light-gray py-2 px-6 rounded-xl shadow-md cursor-pointer`}
+                                    onClick={() => { setSelectedFilter('All'); setFilter(false) }}
+                                >
+                                    All
+                                </p>
+                                <p
+                                    className={`${selectedFilter === 'Healthy Stock' ? 'border border-black black-text' : 'border-none gray-text'} text-center font-mont font-medium text-[15px] mb-3 bg-light-gray py-2 px-6 rounded-xl shadow-md cursor-pointer`}
+                                    onClick={() => { setSelectedFilter('Healthy Stock'); setFilter(false) }}
+                                >
+                                    Healthy Stock
+                                </p>
+                                <p
+                                    className={`${selectedFilter === 'Low Stock' ? 'border border-black black-text' : 'border-none gray-text'} text-center font-mont font-medium text-[15px] mb-3 bg-light-gray py-2 px-6 rounded-xl shadow-md cursor-pointer`}
+                                    onClick={() => { setSelectedFilter('Low Stock'); setFilter(false) }}
+                                >
+                                    Low Stock
+                                </p>
+                                <p
+                                    className={`${selectedFilter === 'Out of Stock' ? 'border border-black black-text' : 'border-none gray-text'} text-center font-mont font-medium text-[15px] mb-3 bg-light-gray py-2 px-6 rounded-xl shadow-md cursor-pointer`}
+                                    onClick={() => { setSelectedFilter('Out of Stock'); setFilter(false) }}
+                                >
+                                    Out of Stock
+                                </p>
+                            </div>
+                        )}
                     </div>
                     {/* print */}
-                    <div className='black-bg w-full sm:w-[17%] lg:w-[12%] py-1.5 rounded-lg text-center hidden sm:block'>
-                        <button onClick={handlePrint} className="text-white text-xs font-mont font-semibold">Print</button>
+                    <div onClick={handlePrint} className={`black-bg w-full sm:w-[17%] lg:w-[12%] py-1.5 rounded-lg text-center hidden sm:block ${button ? 'sm:hidden' : 'block'}`}>
+                        <button className="text-white text-xs font-mont font-semibold">Print</button>
                     </div>
                 </div>
                 {/* list of products */}
-                <div className='mt-6 mx-4 overflow-x-auto'>
+                <div className={`${button ? '' : 'mt-6 mx-3 sm:mx-0 overflow-x-auto'}`}>
                     {/* Wrapper for horizontal scroll */}
-                    <div className='min-w-[600px]'>
+                    <div className={`${button ? '' : 'min-w-[600px]'}`}>
                         {/* Head */}
                         <div className='grid grid-cols-6 bg-light-gray py-3 text-center mb-1'>
                             <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Stock Name</span>
@@ -141,11 +179,11 @@ const StockStatus = ({ setClicked, handlePrint, button }) => {
                             <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>SKU</span>
                             <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Qty</span>
                             <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Remaining</span>
-                            <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Action</span>
+                            <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Status</span>
                         </div>
 
                         {/* Data */}
-                        <div className='h-96 overflow-y-scroll'>
+                        <div className={`${button ? '' : 'h-96 overflow-y-scroll'}`}>
                             {
                                 filteredDues.map((stock) => (
                                     <div key={stock.id} className='grid grid-cols-6 my-0.5 text-center'>
@@ -154,9 +192,9 @@ const StockStatus = ({ setClicked, handlePrint, button }) => {
                                         <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.sku}</span>
                                         <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.qty}</span>
                                         <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.remaining}</span>
-                                        <div className='flex flex-row gap-4 justify-center items-center bg-table'>
-                                            <div className={`${stock.remaining === '10' ? 'green-box' : stock.remaining === '5' ? 'yellow-box' : stock.remaining === '0' ? 'red-box' : null}`}></div>
-                                            <span className='font-mont font-semibold text-[7px] sm:text-xs'>{stock.remaining === '10' ? 'Healthy Stock' : stock.remaining === '5' ? 'Low Stock' : stock.remaining === '0' ? 'Out of Stock' : null}</span>
+                                        <div className='flex flex-row gap-2  lg:gap-4 justify-start items-center bg-table sm:pl-1 lg:pl-8 xl:pl-14'>
+                                            <div className={`${stock.remaining > stock.lowStock ? 'green-box' : stock.remaining <= stock.lowStock && stock.remaining > '0' ? 'yellow-box' : stock.remaining === '0' ? 'red-box' : null}`}></div>
+                                            <span className='font-mont font-semibold text-[7px] sm:text-xs'>{stock.remaining > stock.lowStock ? 'Healthy Stock' : stock.remaining <= stock.lowStock && stock.remaining > '0' ? 'Low Stock' : stock.remaining === '0' ? 'Out of Stock' : null}</span>
                                         </div>
                                     </div>
                                 ))
@@ -165,8 +203,8 @@ const StockStatus = ({ setClicked, handlePrint, button }) => {
                     </div>
                 </div>
                 {/* print */}
-                <div className='black-bg w-1/2 sm:w-[17%] lg:w-[12%] py-1.5 rounded-lg text-center sm:hidden block mx-auto mt-6'>
-                    <button onClick={handlePrint} className="text-white text-xs font-mont font-semibold">Print</button>
+                <div onClick={handlePrint} className={`black-bg w-1/2 sm:w-[17%] lg:w-[12%] py-1.5 rounded-lg text-center sm:hidden block mx-auto mt-6 ${button ? 'hidden' : 'block'}`}>
+                    <button className="text-white text-xs font-mont font-semibold">Print</button>
                 </div>
             </div>
         </div>

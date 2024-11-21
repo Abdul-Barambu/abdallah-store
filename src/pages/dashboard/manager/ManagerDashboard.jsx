@@ -12,6 +12,8 @@ import ListOfStocks from '../../../components/manager/inventory/listOfStocks/Lis
 import ViewStock from '../../../components/manager/inventory/listOfStocks/ViewStock'
 import EditStock from '../../../components/manager/inventory/listOfStocks/EditStock'
 import StockStatus from '../../../components/manager/inventory/stockStatus/StockStatus'
+import Reports from '../../../components/manager/report/Reports'
+import SupplierManagement from '../../../components/manager/more/supplier/SupplierManagement'
 
 const ManagerDashboard = () => {
   const [clicked, setClicked] = useState('ManagerDashboard')
@@ -31,7 +33,7 @@ const ManagerDashboard = () => {
   }
 
   return (
-    <div className={`${nav ? 'bg-color-dash' : 'bg-color-full-dash'} pt-3 pb-0 sm:pb-5`}>
+    <div className={`${(clicked === 'More' || clicked === 'Profile' || nav) ? 'bg-color-dash' : 'bg-color-full-dash'} pt-3 pb-0 sm:pb-5`}>
 
       {/* MOBILE VIEW HEADER */}
       <div className={`${button ? 'hidden' : 'block'}`}>
@@ -142,6 +144,12 @@ const ManagerDashboard = () => {
                       >
                         Settings
                       </p>
+                      <p
+                        className={`${clicked === 'Logout' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-base py-3 text-center px-5 rounded-3xl mb-5 cursor-pointer`}
+                        onClick={() => { setNav(false) }}
+                      >
+                        Logout
+                      </p>
                     </div>
                   )}
                 </div>
@@ -250,6 +258,12 @@ const ManagerDashboard = () => {
                       >
                         Settings
                       </p>
+                      <p
+                        className={`${clicked === 'Logout' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-[10px] py-2 px-16 rounded-xl mb-5 cursor-pointer`}
+                        onClick={() => setClicked('Logout')}
+                      >
+                        Logout
+                      </p>
                     </div>
                   )}
                 </div>
@@ -263,7 +277,8 @@ const ManagerDashboard = () => {
           {
             clicked === "ManagerDashboard" ? <Cards setClicked={setClicked} /> : clicked === "DueOutstanding" ? <DueOutstanding setClicked={setClicked} /> : clicked === "Receipt" ? <Receipt setClicked={setClicked} handlePrint={handlePrint} button={button} />
               : clicked === "Inventory" ? <Inventory setClicked={setClicked} /> : clicked === "ListOfStocks" ? <ListOfStocks setClicked={setClicked} /> : clicked === 'ViewStock' ? <ViewStock setClicked={setClicked} /> : clicked === "EditStock" ? <EditStock setClicked={setClicked} />
-                : clicked === "StockStatus" ? <StockStatus setClicked={setClicked} handlePrint={handlePrint} button={button} /> : null
+                : clicked === "StockStatus" ? <StockStatus setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "Reports" ? <Reports setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "SupplierManagement" ? <SupplierManagement setClicked={setClicked} />
+                  : null
           }
         </div>
 

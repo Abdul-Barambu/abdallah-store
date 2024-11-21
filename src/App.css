@@ -28,7 +28,7 @@
   background: #ECECEC;
 }
 
-.bg-gray{
+.bg-gray-d{
   background: #DCDCDC;
 }
 
@@ -80,6 +80,10 @@
   color: #0AE418;
 }
 
+.green-text{
+  color: #00940A;
+}
+
 .dash-width{
   width: 97%;
 }
@@ -109,6 +113,13 @@ border-radius: 24px;
 border: 1px solid #F10000;
 background: rgba(241, 0, 0, 0.08);
 padding: 10px 21px;
+}
+
+.fully-paid{
+  border-radius: 24px;
+  border: 1px solid #00940A;
+  background: rgba(10, 228, 24, 0.08);
+  padding: 10px 21px;
 }
 
 .border-receipt{

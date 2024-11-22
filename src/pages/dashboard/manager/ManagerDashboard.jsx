@@ -14,6 +14,13 @@ import EditStock from '../../../components/manager/inventory/listOfStocks/EditSt
 import StockStatus from '../../../components/manager/inventory/stockStatus/StockStatus'
 import Reports from '../../../components/manager/report/Reports'
 import SupplierManagement from '../../../components/manager/more/supplier/SupplierManagement'
+import AddStock from '../../../components/manager/more/supplier/addStock/AddStock'
+import AddNewStock from '../../../components/manager/more/supplier/addStock/AddNewStock'
+import AddExistingStock from '../../../components/manager/more/supplier/addStock/AddExistingStock'
+import AddExisting from '../../../components/manager/more/supplier/addStock/AddExisting'
+import EditStockDetails from '../../../components/manager/more/supplier/edit/EditStockDetails'
+import ViewSupplierDetails from '../../../components/manager/more/supplier/view/ViewSupplierDetails'
+import ViewSupplierSales from '../../../components/manager/more/supplier/view/ViewSupplierSales'
 
 const ManagerDashboard = () => {
   const [clicked, setClicked] = useState('ManagerDashboard')
@@ -99,7 +106,7 @@ const ManagerDashboard = () => {
                   {clicked === 'More' && (
                     <div className='pb-5'>
                       <p
-                        className={`${clicked === 'SupplierManagement' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-base py-3 text-center px-5 rounded-3xl mb-5 mt-3 cursor-pointer`}
+                        className={`${(clicked === 'SupplierManagement' || clicked === "AddStock" || clicked === "AddNewStock" || clicked === "AddExistingStock" || clicked === "AddExisting") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-base py-3 text-center px-5 rounded-3xl mb-5 mt-3 cursor-pointer`}
                         onClick={() => { setClicked('SupplierManagement'); setNav(false) }}
                       >
                         Supplier Management
@@ -205,7 +212,7 @@ const ManagerDashboard = () => {
                   {clicked === 'More' && (
                     <div className='md:top-[8.5%] lg:top-[6.5%] xl:top-[15.5%] md:left-1/2 lg:left-[60%] xl:left-[63%] z-10 absolute bg-white px-7 py-3 dropdown-position'>
                       <p
-                        className={`${clicked === 'SupplierManagement' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-[10px] py-2 px-5 rounded-xl mb-5 mt-3 cursor-pointer`}
+                        className={`${(clicked === 'SupplierManagement' || clicked === "AddStock" || clicked === "AddNewStock" || clicked === "AddExistingStock" || clicked === "AddExisting") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-[10px] py-2 px-5 rounded-xl mb-5 mt-3 cursor-pointer`}
                         onClick={() => setClicked('SupplierManagement')}
                       >
                         Supplier Management
@@ -278,7 +285,8 @@ const ManagerDashboard = () => {
             clicked === "ManagerDashboard" ? <Cards setClicked={setClicked} /> : clicked === "DueOutstanding" ? <DueOutstanding setClicked={setClicked} /> : clicked === "Receipt" ? <Receipt setClicked={setClicked} handlePrint={handlePrint} button={button} />
               : clicked === "Inventory" ? <Inventory setClicked={setClicked} /> : clicked === "ListOfStocks" ? <ListOfStocks setClicked={setClicked} /> : clicked === 'ViewStock' ? <ViewStock setClicked={setClicked} /> : clicked === "EditStock" ? <EditStock setClicked={setClicked} />
                 : clicked === "StockStatus" ? <StockStatus setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "Reports" ? <Reports setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "SupplierManagement" ? <SupplierManagement setClicked={setClicked} />
-                  : null
+                  : clicked === "AddStock" ? <AddStock setClicked={setClicked} /> : clicked === "AddNewStock" ? <AddNewStock setClicked={setClicked} /> : clicked === "AddExistingStock" ? <AddExistingStock setClicked={setClicked} /> : clicked === "AddExisting" ? <AddExisting setClicked={setClicked} />
+                    : clicked === "EditStockDetails" ? <EditStockDetails setClicked={setClicked} /> : clicked === "ViewSupplierDetails" ? <ViewSupplierDetails setClicked={setClicked} /> : clicked === "ViewSupplierSales" ? <ViewSupplierSales setClicked={setClicked} /> : null
           }
         </div>
 

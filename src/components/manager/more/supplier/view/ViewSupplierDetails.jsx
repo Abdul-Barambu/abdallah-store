@@ -1,7 +1,7 @@
 import React from 'react'
 import { GoArrowLeft } from "react-icons/go";
 
-const ViewStock = ({ setClicked }) => {
+const ViewSupplierDetails = ({ setClicked }) => {
 
     const list = JSON.parse(localStorage.getItem('ListOfStocks'))
 
@@ -20,7 +20,7 @@ const ViewStock = ({ setClicked }) => {
             <div className='bg-white mt-5 px-6 py-7'>
                 {/* text */}
                 <div>
-                    <p className='font-mont font-semibold text-xl sm:text-2xl'>Full Details</p>
+                    <p className='font-mont font-semibold text-xl sm:text-2xl'>Supplier's Purchase Details</p>
                     <p className='text-light-gray font-mont font-medium text-[10px] sm:text-xs mt-2'>Full details of the stock</p>
                 </div>
                 {/* info */}
@@ -50,16 +50,6 @@ const ViewStock = ({ setClicked }) => {
                         <div className='flex items-center gap-2 mb-2'>
                             <p className='bg-gray-view w-1/2 sm:w-1/4 py-2 pl-4 sm:pl-6 font-mont font-medium text-[8px] sm:text-[9px] lg:text-xs xl:text-sm'>Supplier</p>
                             <p className='bg-gray-view  w-1/2 sm:w-full py-2 pl-4 sm:pl-6 font-mont font-medium text-[8px] sm:text-[9px] lg:text-xs xl:text-sm'>{list.supplier}</p>
-                        </div>
-                        {/* list */}
-                        <div className='flex items-center gap-2 mb-2'>
-                            <p className='bg-gray-view w-1/2 sm:w-1/4 py-2 pl-4 sm:pl-6 font-mont font-medium text-[8px] sm:text-[9px] lg:text-xs xl:text-sm'>Stock Price</p>
-                            <p className='bg-gray-view  w-1/2 sm:w-full py-2 pl-4 sm:pl-6 font-mont font-medium text-[8px] sm:text-[9px] lg:text-xs xl:text-sm'>₦{list.price}</p>
-                        </div>
-                        {/* list */}
-                        <div className='flex items-center gap-2 mb-2'>
-                            <p className='bg-gray-view w-1/2 sm:w-1/4 py-2 pl-4 sm:pl-6 font-mont font-medium text-[8px] sm:text-[9px] lg:text-xs xl:text-sm'>Amount Paid</p>
-                            <p className='bg-gray-view  w-1/2 sm:w-full py-2 pl-4 sm:pl-6 font-mont font-medium text-[8px] sm:text-[9px] lg:text-xs xl:text-sm'>₦{list.amountPaid}</p>
                         </div>
                         {/* list */}
                         <div className='flex items-center gap-2 mb-2'>
@@ -96,6 +86,27 @@ const ViewStock = ({ setClicked }) => {
                             <p className='bg-gray-view w-1/2 sm:w-1/4 py-2 pl-4 sm:pl-6 font-mont font-medium text-[8px] sm:text-[9px] lg:text-xs xl:text-sm'>Payment Status</p>
                             <p className='bg-gray-view  w-1/2 sm:w-full py-2 pl-4 sm:pl-6 font-mont font-medium text-[8px] sm:text-[9px] lg:text-xs xl:text-sm'>{list.status}</p>
                         </div>
+                        <div className='mt-10'>
+                            {/* list */}
+                            <div className='flex items-center gap-2 mb-2'>
+                                <p className='bg-gray-view w-1/2 sm:w-1/4 py-2 pl-4 sm:pl-6 font-mont font-medium text-[8px] sm:text-[9px] lg:text-xs xl:text-sm'>Amount to be Paid</p>
+                                <p className='bg-gray-view  w-1/2 sm:w-full py-2 pl-4 sm:pl-6 font-mont font-medium text-[8px] sm:text-[9px] lg:text-xs xl:text-sm'>₦{list.price}</p>
+                            </div>
+                            {/* list */}
+                            <div className='flex items-center gap-2 mb-2'>
+                                <p className='bg-gray-view w-1/2 sm:w-1/4 py-2 pl-4 sm:pl-6 font-mont font-medium text-[8px] sm:text-[9px] lg:text-xs xl:text-sm'>Amount Paid</p>
+                                <p className='bg-gray-view  w-1/2 sm:w-full py-2 pl-4 sm:pl-6 font-mont font-medium text-[8px] sm:text-[9px] lg:text-xs xl:text-sm'>₦{list.amountPaid}</p>
+                            </div>
+                            {/* list */}
+                            <div className='flex items-center gap-2 mb-2'>
+                                <p className='bg-gray-view w-1/2 sm:w-1/4 py-2 pl-4 sm:pl-6 font-mont font-medium text-[8px] sm:text-[9px] lg:text-xs xl:text-sm'>Outstanding payment</p>
+                                <p className='bg-gray-view  w-1/2 sm:w-full py-2 pl-4 sm:pl-6 font-mont font-medium text-[8px] sm:text-[9px] lg:text-xs xl:text-sm'>₦{list.outstanding}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {/* view all supplier sales */}
+                    <div className={`mx-4 sm:mx-8 mt-16 mb-6`} onClick={() => setClicked("ViewSupplierSales")}>
+                        <p className='font-mont font-semibold text-sm underline cursor-pointer'>View Total Sales by Supplier</p>
                     </div>
                 </div>
             </div>
@@ -103,4 +114,4 @@ const ViewStock = ({ setClicked }) => {
     )
 }
 
-export default ViewStock
+export default ViewSupplierDetails

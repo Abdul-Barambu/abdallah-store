@@ -27,6 +27,7 @@ import ReceiptRecord from '../../../components/manager/more/receipt/ReceiptRecor
 import AddNewReceiptRecord from '../../../components/manager/more/receipt/AddNewReceiptRecord'
 import ViewReceiptRecord from '../../../components/manager/more/receipt/ViewReceiptRecord'
 import EditReceiptRecord from '../../../components/manager/more/receipt/EditReceiptRecord'
+import MyProfile from '../../../components/profile/myProfile/MyProfile'
 
 const ManagerDashboard = () => {
   const [clicked, setClicked] = useState('ManagerDashboard')
@@ -294,7 +295,10 @@ const ManagerDashboard = () => {
                   : clicked === "AddStock" ? <AddStock setClicked={setClicked} /> : clicked === "AddNewStock" ? <AddNewStock setClicked={setClicked} /> : clicked === "AddExistingStock" ? <AddExistingStock setClicked={setClicked} /> : clicked === "AddExisting" ? <AddExisting setClicked={setClicked} />
                     : clicked === "EditStockDetails" ? <EditStockDetails setClicked={setClicked} /> : clicked === "ViewSupplierDetails" ? <ViewSupplierDetails setClicked={setClicked} /> : clicked === "ViewSupplierSales" ? <ViewSupplierSales setClicked={setClicked} /> : clicked === "CustomerPurchase" ? <CustomerPurchase setClicked={setClicked} />
                       : clicked === "CustomerPurchaseReceipt" ? <CustomerPurchaseReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "ReceiptsRecords" ? <ReceiptRecord setClicked={setClicked} /> : clicked === "AddNewReceiptRecord" ? <AddNewReceiptRecord setClicked={setClicked} />
-                        : clicked === "ViewReceiptRecord" ? <ViewReceiptRecord setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "EditReceiptRecord" ? <EditReceiptRecord setClicked={ setClicked} /> : null
+                        : clicked === "ViewReceiptRecord" ? <ViewReceiptRecord setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "EditReceiptRecord" ? <EditReceiptRecord setClicked={ setClicked} />
+                       
+                        // ##### profile and notification #####
+                        : clicked === "MyProfile" ? <MyProfile setClicked={setClicked} /> : null
           }
         </div>
 

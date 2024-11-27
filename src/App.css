@@ -164,6 +164,20 @@ background: #F6F6F6;
   background: rgba(236, 236, 236, 0.47);
 }
 
+.border-choose-left{
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+}
+
+.border-choose-right{
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+
 
 /* ##### MOBILE ##### */
 @media screen and (max-width: 490px){

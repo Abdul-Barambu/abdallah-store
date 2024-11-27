@@ -98,6 +98,7 @@ export const listOfStocks = [
         date: '2024-10-12',
         amountPaid: '5000',
         outstanding: '2000',
+        buyer: 'Abdulkadir Umar',
         status: 'On credit',
         remaining: '25'
     },
@@ -117,6 +118,7 @@ export const listOfStocks = [
         date: '2024-10-12',
         amountPaid: '5000',
         outstanding: '2000',
+        buyer: 'Abdulkadir Umar',
         status: 'On credit',
         remaining: '15'
     },
@@ -136,6 +138,7 @@ export const listOfStocks = [
         date: '2024-10-12',
         amountPaid: '5000',
         outstanding: '2000',
+        buyer: 'Abdulkadir Umar',
         status: 'Fully Paid',
         remaining: '10'
     },
@@ -155,6 +158,7 @@ export const listOfStocks = [
         date: '2024-10-12',
         amountPaid: '5000',
         outstanding: '2000',
+        buyer: 'Abdulkadir Umar',
         status: 'On credit',
         remaining: '0'
     },
@@ -174,6 +178,7 @@ export const listOfStocks = [
         date: '2024-10-12',
         amountPaid: '5000',
         outstanding: '2000',
+        buyer: 'Abdulkadir Umar',
         status: 'On credit',
         remaining: '2'
     },
@@ -193,6 +198,7 @@ export const listOfStocks = [
         date: '2024-10-12',
         amountPaid: '5000',
         outstanding: '2000',
+        buyer: 'Abdulkadir Umar',
         status: 'Fully Paid',
         remaining: '0'
     },
@@ -212,6 +218,7 @@ export const listOfStocks = [
         date: '2024-10-12',
         amountPaid: '5000',
         outstanding: '2000',
+        buyer: 'Abdulkadir Umar',
         status: 'On credit',
         remaining: '30'
     },

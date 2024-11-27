@@ -1,11 +1,20 @@
 import React from 'react'
 import { FaMoneyBills } from "react-icons/fa6";
 import { RiArrowUpFill } from "react-icons/ri";
+import { GoArrowLeft } from "react-icons/go";
 import { listOfStocks } from '../../../../../data';
 
 const ViewSupplierSales = ({ setClicked }) => {
     return (
         <div className='bg-color-full'>
+            {/* Back Button */}
+            <div
+                className='mt-4 mx-4 sm:mx-0 flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer'
+                onClick={() => setClicked('SupplierManagement')}
+            >
+                <GoArrowLeft className='text-xs sm:text-sm lg:text-xl' />
+                <span className='font-mont font-medium text-xs sm:text-sm lg:text-base'>Back</span>
+            </div>
             <div className='bg-white mt-4 rounded-xl py-5'>
                 {/* text and cards */}
                 <div className='text-center'>

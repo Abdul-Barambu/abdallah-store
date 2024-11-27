@@ -21,6 +21,12 @@ import AddExisting from '../../../components/manager/more/supplier/addStock/AddE
 import EditStockDetails from '../../../components/manager/more/supplier/edit/EditStockDetails'
 import ViewSupplierDetails from '../../../components/manager/more/supplier/view/ViewSupplierDetails'
 import ViewSupplierSales from '../../../components/manager/more/supplier/view/ViewSupplierSales'
+import CustomerPurchase from '../../../components/manager/more/customer/CustomerPurchase'
+import CustomerPurchaseReceipt from '../../../components/manager/more/customer/CustomerPurchaseReceipt'
+import ReceiptRecord from '../../../components/manager/more/receipt/ReceiptRecord'
+import AddNewReceiptRecord from '../../../components/manager/more/receipt/AddNewReceiptRecord'
+import ViewReceiptRecord from '../../../components/manager/more/receipt/ViewReceiptRecord'
+import EditReceiptRecord from '../../../components/manager/more/receipt/EditReceiptRecord'
 
 const ManagerDashboard = () => {
   const [clicked, setClicked] = useState('ManagerDashboard')
@@ -112,8 +118,8 @@ const ManagerDashboard = () => {
                         Supplier Management
                       </p>
                       <p
-                        className={`${clicked === 'CustomerPurchases' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-base py-3 text-center px-5 rounded-3xl mb-5 cursor-pointer`}
-                        onClick={() => { setClicked('CustomerPurchases'); setNav(false) }}
+                        className={`${clicked === 'CustomerPurchase' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-base py-3 text-center px-5 rounded-3xl mb-5 cursor-pointer`}
+                        onClick={() => { setClicked('CustomerPurchase'); setNav(false) }}
                       >
                         Customer Purchases
                       </p>
@@ -218,8 +224,8 @@ const ManagerDashboard = () => {
                         Supplier Management
                       </p>
                       <p
-                        className={`${clicked === 'CustomerPurchases' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-[10px] py-2 px-5 rounded-xl mb-5 cursor-pointer`}
-                        onClick={() => setClicked('CustomerPurchases')}
+                        className={`${clicked === 'CustomerPurchase' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-[10px] py-2 px-5 rounded-xl mb-5 cursor-pointer`}
+                        onClick={() => setClicked('CustomerPurchase')}
                       >
                         Customer Purchases
                       </p>
@@ -286,7 +292,9 @@ const ManagerDashboard = () => {
               : clicked === "Inventory" ? <Inventory setClicked={setClicked} /> : clicked === "ListOfStocks" ? <ListOfStocks setClicked={setClicked} /> : clicked === 'ViewStock' ? <ViewStock setClicked={setClicked} /> : clicked === "EditStock" ? <EditStock setClicked={setClicked} />
                 : clicked === "StockStatus" ? <StockStatus setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "Reports" ? <Reports setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "SupplierManagement" ? <SupplierManagement setClicked={setClicked} />
                   : clicked === "AddStock" ? <AddStock setClicked={setClicked} /> : clicked === "AddNewStock" ? <AddNewStock setClicked={setClicked} /> : clicked === "AddExistingStock" ? <AddExistingStock setClicked={setClicked} /> : clicked === "AddExisting" ? <AddExisting setClicked={setClicked} />
-                    : clicked === "EditStockDetails" ? <EditStockDetails setClicked={setClicked} /> : clicked === "ViewSupplierDetails" ? <ViewSupplierDetails setClicked={setClicked} /> : clicked === "ViewSupplierSales" ? <ViewSupplierSales setClicked={setClicked} /> : null
+                    : clicked === "EditStockDetails" ? <EditStockDetails setClicked={setClicked} /> : clicked === "ViewSupplierDetails" ? <ViewSupplierDetails setClicked={setClicked} /> : clicked === "ViewSupplierSales" ? <ViewSupplierSales setClicked={setClicked} /> : clicked === "CustomerPurchase" ? <CustomerPurchase setClicked={setClicked} />
+                      : clicked === "CustomerPurchaseReceipt" ? <CustomerPurchaseReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "ReceiptsRecords" ? <ReceiptRecord setClicked={setClicked} /> : clicked === "AddNewReceiptRecord" ? <AddNewReceiptRecord setClicked={setClicked} />
+                        : clicked === "ViewReceiptRecord" ? <ViewReceiptRecord setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "EditReceiptRecord" ? <EditReceiptRecord setClicked={ setClicked} /> : null
           }
         </div>
 

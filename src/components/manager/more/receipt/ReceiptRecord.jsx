@@ -6,14 +6,13 @@ import { MdEditSquare } from "react-icons/md";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { listOfStocks } from '../../../../data';
 
-const SupplierManagement = ({ setClicked }) => {
-
+const ReceiptRecord = ({setClicked}) => {
     const [searchValue, setSearchValue] = useState('');
     const [filter, setFilter] = useState(false)
     const [selectedFilter, setSelectedFilter] = useState('All');
 
     const filteredDues = listOfStocks.filter((list) => {
-        const matchesSearch = list.name.toLowerCase().includes(searchValue.toLowerCase())
+        const matchesSearch = list.supplier.toLowerCase().includes(searchValue.toLowerCase())
         const matchesFilter = selectedFilter === 'All' || list.status.toLowerCase() === selectedFilter.toLowerCase();
 
         return matchesSearch && matchesFilter;
@@ -66,8 +65,8 @@ const SupplierManagement = ({ setClicked }) => {
                     )}
                 </div>
                 {/* button */}
-                <div className='bg-black py-3 sm:py-2 rounded-xl w-full sm:w-1/4 text-center cursor-pointer' onClick={() => setClicked("AddStock")}>
-                    <button className='font-mont font-medium text-sm text-white'>Add Stock</button>
+                <div className='bg-black py-3 sm:py-2 rounded-xl w-full sm:w-1/4 text-center cursor-pointer' onClick={() => setClicked("AddNewReceiptRecord")}>
+                    <button className='font-mont font-medium text-sm text-white'>Add New Receipt</button>
                 </div>
             </div>
 
@@ -76,10 +75,9 @@ const SupplierManagement = ({ setClicked }) => {
                 {/* Wrapper for horizontal scroll */}
                 <div className='min-w-[600px]'>
                     {/* Head */}
-                    <div className='grid grid-cols-6 bg-white py-3 text-center mb-1'>
-                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Stock Name</span>
-                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Supplier</span>
-                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Qty</span>
+                    <div className='grid grid-cols-5 bg-white py-3 text-center mb-1'>
+                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Supplier's Name</span>
+                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Date of Purchase</span>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Price</span>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Payment Status</span>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Action</span>
@@ -89,17 +87,16 @@ const SupplierManagement = ({ setClicked }) => {
                     <div className='h-96 overflow-y-scroll'>
                         {
                             filteredDues.map((list) => (
-                                <div key={list.id} className='grid grid-cols-6 my-0.5 text-center'>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.name}</span>
+                                <div key={list.id} className='grid grid-cols-5 my-0.5 text-center'>
                                     <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.supplier}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.qty}</span>
+                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.date}</span>
                                     <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{list.price}</span>
                                     <div className='bg-white/[0.47] py-5'>
                                         <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${list.status === 'Fully Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{list.status}</span>
                                     </div>
                                     <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
-                                        <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewSupplierDetails"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
-                                        <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditStockDetails"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
+                                        <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewReceiptRecord"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
+                                        <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditReceiptRecord"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
                                         <RiDeleteBin6Fill className='cursor-pointer icon-red' />
                                     </div>
                                 </div>
@@ -112,4 +109,4 @@ const SupplierManagement = ({ setClicked }) => {
     )
 }
 
-export default SupplierManagement
+export default ReceiptRecord

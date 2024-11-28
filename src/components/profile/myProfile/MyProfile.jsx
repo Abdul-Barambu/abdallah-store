@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { GoArrowLeft } from "react-icons/go";
 
 const MyProfile = ({ setClicked }) => {
 
@@ -8,15 +7,6 @@ const MyProfile = ({ setClicked }) => {
 
     return (
         <div className='bg-color'>
-            {/* back */}
-            {/* <div
-                className={`mt-4 mb-2 flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer block`}
-                onClick={() => setClicked('CustomerPurchase')}
-            >
-                <GoArrowLeft className='text-xs sm:text-sm lg:text-xl' />
-                <span className='font-mont font-medium text-xs sm:text-sm lg:text-base'>Back</span>
-            </div> */}
-
             <div className='bg-white mt-14 pt-4 pb-7 px-5 sm:px-10 mx-0 sm:mx-20 h-screen sm:h-1/2'>
                 <p className='mb-7 font-mont font-semibold'>My Profile</p>
                 {/* inputs */}

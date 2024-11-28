@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaCaretDown } from 'react-icons/fa'
 import { IoNotifications } from 'react-icons/io5'
 import { FaUser } from 'react-icons/fa'
@@ -31,11 +31,13 @@ import MyProfile from '../../../components/profile/myProfile/MyProfile'
 import Settings from '../../../components/profile/setting/Settings'
 import ChangePassword from '../../../components/profile/setting/ChangePassword'
 import Notification from '../../../components/notification/Notification'
+import Alert from '../../../components/alert/Alert'
 
 const ManagerDashboard = () => {
   const [clicked, setClicked] = useState('ManagerDashboard')
   const [nav, setNav] = useState(false)
   const [button, setButton] = useState(false)
+  const [alert, setAlert] = useState(false)
 
   const handleNavBar = () => {
     setNav(!nav)
@@ -48,6 +50,10 @@ const ManagerDashboard = () => {
       setButton(false)
     }, 100)
   }
+
+  useEffect(() => {
+    setAlert(true); // Always show alert on page load
+  }, []);
 
   return (
     <div className={`${(clicked === 'More' || clicked === 'Profile' || nav) ? 'bg-color-dash' : 'bg-color-full-dash'} pt-3 pb-0 sm:pb-5`}>
@@ -288,6 +294,19 @@ const ManagerDashboard = () => {
             </div>
           </div>
         </div>
+
+
+        {/* alert model */}
+        {
+          alert && (
+            <div className='center-proceed'>
+              <div className="is-proceed"></div>
+              <div className="center-content-proceed">
+                <Alert setAlert={setAlert} setClicked={setClicked} />
+              </div>
+            </div>
+          )
+        }
 
         {/* components */}
         <div className={`${button ? 'mx-0' : 'mx-0 sm:mx-4'} ${nav ? 'hidden' : 'visible'}`}>

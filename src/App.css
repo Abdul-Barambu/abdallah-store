@@ -179,6 +179,142 @@ background: #F6F6F6;
 }
 
 
+
+
+
+/* alert modal start */
+
+/* alert */
+.center-proceed,
+.is-proceed {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+}
+
+.is-proceed {
+    background: rgba(49, 49, 49, 0.8);
+}
+
+.center-content-proceed {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    min-width: 100%;
+}
+
+
+div.cancel-proceed-icon {
+    position: absolute;
+    left: 61%;
+    top: 25%;
+}
+
+.cancel-proceed {
+    font-size: 4.5rem;
+    color: #249DF5;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+div.proceed-container {
+    /* border-radius: 30px; */
+    margin-top: 10%;
+    margin-bottom: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2rem;
+    width: 30%;
+    height: 100%;
+    background: white;
+}
+
+h1.payment-method {
+    font-size: 1.5rem;
+    text-align: center;
+    font-family: 'Poppins';
+    font-weight: 700;
+}
+
+p.select-payment-method {
+    text-align: center;
+    font-size: 1rem;
+    font-family: 'Poppins';
+}
+
+div.payment-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+button.card-btn {
+    border: 1px solid #249DF5;
+    background: transparent;
+    border-radius: 15px;
+    font-size: .9rem;
+    font-weight: bold;
+    color: #249DF5;
+    padding: .4rem 2rem;
+    font-family: 'Poppins';
+}
+
+button.card-btn:hover {
+    background: #249DF5;
+    color: white;
+}
+
+button.wallet-btn {
+    border: 1px solid #249DF5;
+    background: transparent;
+    border-radius: 15px;
+    font-size: .9rem;
+    font-weight: bold;
+    color: #249DF5;
+    padding: .4rem 2rem;
+    font-family: 'Poppins';
+}
+
+button.wallet-btn:hover {
+    background: #249DF5;
+    color: white;
+}
+
+a.proceed-btn {
+    background-color: transparent;
+    border: 1px solid #249DF5;
+    border-radius: 10px;
+    color: black;
+    padding: .7rem 0;
+    width: 45%;
+    font-family: 'Poppins';
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+a.proceed-btn:hover {
+    background: #249DF5;
+    color: white;
+}
+
+.margin-phone-receipt {
+    margin-top: 9px;
+}
+
+
+
 /* ##### MOBILE ##### */
 @media screen and (max-width: 490px){
   .bg-color{
@@ -198,4 +334,17 @@ background: #F6F6F6;
   .on-credit{
     padding: 6px 17px;
     }
+
+    div.proceed-container {
+      /* border-radius: 30px; */
+      margin-top: 50%;
+      margin-bottom: 1rem;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 2rem;
+      width: 90%;
+      height: 100%;
+      background: white;
+  }
+
 }

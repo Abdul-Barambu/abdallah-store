@@ -8,6 +8,12 @@ import Alert from '../../../components/alert/Alert'
 import WholesaleCards from '../../../components/wholesale/dashboard/cards/WholesaleCards'
 import WholesaleDueView from '../../../components/wholesale/dashboard/view/WholesaleDueView'
 import WholesaleViewReceipt from '../../../components/wholesale/dashboard/view/WholesaleViewReceipt'
+import AddNewPurchase from '../../../components/wholesale/dashboard/add/AddNewPurchase'
+import PurchaseReceipt from '../../../components/wholesale/dashboard/add/PurchaseReceipt'
+import RequestStock from '../../../components/wholesale/dashboard/request/RequestStock'
+import SalesRecord from '../../../components/wholesale/salesRecord/SalesRecord'
+import SalesReceipt from '../../../components/wholesale/salesRecord/SalesReceipt'
+import EditSales from '../../../components/wholesale/salesRecord/EditSales'
 
 const WholesaleDashboard = () => {
     const [clicked, setClicked] = useState('WholesaleDashboard')
@@ -67,13 +73,13 @@ const WholesaleDashboard = () => {
                                 <div>
                                     <div className={`flex flex-col gap-14 px-14 pt-10 ${clicked === 'More' ? 'pb-5' : 'pb-10'}`}>
                                         <span
-                                            className={`${(clicked === 'WholesaleDashboard' || clicked === "WholesaleDueView" || clicked === "WholesaleViewReceipt") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
+                                            className={`${(clicked === 'WholesaleDashboard' || clicked === "WholesaleDueView" || clicked === "WholesaleViewReceipt" || clicked === "AddNewPurchase" || clicked === "RequestStock") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
                                             onClick={() => { setClicked('WholesaleDashboard'); setNav(false) }}
                                         >
                                             Dashboard
                                         </span>
                                         <span
-                                            className={`${(clicked === 'SalesRecord') ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
+                                            className={`${(clicked === 'SalesRecord' || clicked === "SalesReceipt" || clicked === "EditSales") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
                                             onClick={() => { setClicked('SalesRecord'); setNav(false) }}
                                         >
                                             Sales Record
@@ -148,13 +154,13 @@ const WholesaleDashboard = () => {
                                 {/* menu */}
                                 <div className='flex sm:gap-4 lg:gap-7'>
                                     <span
-                                        className={`${(clicked === 'WholesaleDashboard' || clicked === "WholesaleDueView" || clicked === "WholesaleViewReceipt") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
+                                        className={`${(clicked === 'WholesaleDashboard' || clicked === "WholesaleDueView" || clicked === "WholesaleViewReceipt" || clicked === "AddNewPurchase" || clicked === "RequestStock") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
                                         onClick={() => setClicked('WholesaleDashboard')}
                                     >
                                         Dashboard
                                     </span>
                                     <span
-                                        className={`${(clicked === 'SalesRecord') ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
+                                        className={`${(clicked === 'SalesRecord' || clicked === "SalesReceipt" || clicked === "EditSales") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
                                         onClick={() => setClicked('SalesRecord')}
                                     >
                                         Sales Record
@@ -237,7 +243,9 @@ const WholesaleDashboard = () => {
                 {/* components */}
                 <div className={`${button ? 'mx-0' : 'mx-0 sm:mx-4'} ${nav ? 'hidden' : 'visible'}`}>
                     {
-                        clicked === "WholesaleDashboard" ? <WholesaleCards setClicked={setClicked} /> : clicked === "WholesaleDueView" ? <WholesaleDueView setClicked={setClicked} /> : clicked === "WholesaleViewReceipt" ? <WholesaleViewReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} /> : null
+                        clicked === "WholesaleDashboard" ? <WholesaleCards setClicked={setClicked} /> : clicked === "WholesaleDueView" ? <WholesaleDueView setClicked={setClicked} /> : clicked === "WholesaleViewReceipt" ? <WholesaleViewReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} />
+                            : clicked === "AddNewPurchase" ? <AddNewPurchase setClicked={setClicked} /> : clicked === "PurchaseReceipt" ? <PurchaseReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "RequestStock" ? <RequestStock setClicked={setClicked} />
+                                : clicked === "SalesRecord" ? <SalesRecord setClicked={setClicked} /> : clicked === "SalesReceipt" ? <SalesReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "EditSales" ? <EditSales setClicked={setClicked} /> : null
                     }
                 </div>
 

@@ -30,7 +30,7 @@ const Reports = ({ setClicked, handlePrint, button }) => {
                 <div className='flex justify-center bg-light-gray p-2 rounded-xl w-10'>
                   <FaMoneyBills size={20} />
                 </div>
-                <p className='mt-3 font-medium font-mont sm:text-[10px] lg:text-sm xl:text-lg'>Total Sales</p>
+                <p className='mt-3 font-medium font-mont sm:text-[10px] lg:text-sm xl:text-base'>Total Sales</p>
               </div>
               <div className='flex-grow bg-white px-5 py-5 rounded-3xl'>
                 <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg'>₦12,000,000</p>
@@ -46,7 +46,7 @@ const Reports = ({ setClicked, handlePrint, button }) => {
                 <div className='flex justify-center bg-light-gray p-2 rounded-xl w-10'>
                   <FaChartSimple size={20} />
                 </div>
-                <p className='mt-3 font-medium font-mont sm:text-[10px] lg:text-sm xl:text-lg'>Total Profits</p>
+                <p className='mt-3 font-medium font-mont sm:text-[10px] lg:text-sm xl:text-base'>Total Profits</p>
               </div>
               <div className='flex-grow bg-white px-6 py-6 rounded-3xl'>
                 <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg'>₦12,000,000</p>

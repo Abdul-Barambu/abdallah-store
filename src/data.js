@@ -228,109 +228,133 @@ export const soldProducts = [
     {
         id: 1,
         name: 'Nivea body spray',
-        Category: 'Wholesale',
+        type: 'Wholesale',
         qty: '3',
         price: '30000',
         date: '2024-11-21',
-        status: 'Fully Paid'
+        status: 'Fully Paid',
+        total: '12000000',
+        sku: 'N001',
+        category: 'Perfumes'
     },
     {
         id: 2,
         name: 'Sure spray',
-        Category: 'Wholesale',
+        type: 'Wholesale',
         qty: '6',
         price: '45000',
         date: '2024-11-21',
-        status: 'Fully Paid'
+        status: 'Fully Paid',
+        total: '12000000',
+        sku: 'N001',
+        category: 'Perfumes'
     },
     {
         id: 3,
         name: 'Body cream',
-        Category: 'Retail',
+        type: 'Retail',
         qty: '10',
         price: '16000',
         date: '2024-11-21',
-        status: 'Fully Paid'
+        status: 'Fully Paid',
+        total: '12000000',
+        sku: 'N001',
+        category: 'Perfumes'
     },
     {
         id: 4,
         name: 'Dummy Vaseline',
-        Category: 'Retail',
+        type: 'Retail',
         qty: '2',
         price: '1400',
         date: '2024-11-21',
-        status: 'On Credit'
+        status: 'On Credit',
+        total: '12000000',
+        sku: 'N001',
+        category: 'Perfumes'
     },
     {
         id: 5,
         name: 'Nivea body spray',
-        Category: 'Retail',
+        type: 'Retail',
         qty: '1',
         price: '1450',
         date: '2024-11-21',
-        status: 'Fully Paid'
+        status: 'Fully Paid',
+        total: '12000000',
+        sku: 'N001',
+        category: 'Perfumes'
     },
     {
         id: 6,
         name: 'Oud Perfume',
-        Category: 'Wholesale',
+        type: 'Wholesale',
         qty: '8',
         price: '80000',
         date: '2024-11-21',
-        status: 'On Credit'
+        status: 'On Credit',
+        total: '12000000',
+        sku: 'N001',
+        category: 'Perfumes'
     },
     {
         id: 7,
         name: 'Hair cream',
-        Category: 'Wholesale',
+        type: 'Wholesale',
         qty: '1',
         price: '12500',
         date: '2024-11-21',
-        status: 'Fully Paid'
+        status: 'Fully Paid',
+        total: '12000000',
+        sku: 'N001',
+        category: 'Perfumes'
     },
     {
         id: 8,
         name: 'Sure spray',
-        Category: 'Wholesale',
+        type: 'Wholesale',
         qty: '12',
         price: '98000',
         date: '2024-11-21',
-        status: 'On Credit'
+        status: 'On Credit',
+        total: '12000000',
+        sku: 'N001',
+        category: 'Perfumes'
     },
     {
         id: 9,
         name: 'Chapet',
-        Category: 'Retail',
+        type: 'Retail',
         qty: '1',
         price: '420',
         date: '2024-11-21',
-        status: 'Fully Paid'
+        status: 'Fully Paid',
+        total: '12000000',
+        sku: 'N001',
+        category: 'Perfumes'
     },
     {
         id: 10,
         name: 'Nivea body spray',
-        Category: 'Wholesale',
+        type: 'Wholesale',
         qty: '50',
         price: '30000',
         date: '2024-11-21',
-        status: 'Fully Paid'
+        status: 'Fully Paid',
+        total: '12000000',
+        sku: 'N001',
+        category: 'Perfumes'
     },
     {
         id: 11,
         name: 'Nivea body spray',
-        Category: 'Wholesale',
+        type: 'Wholesale',
         qty: '50',
         price: '30000',
         date: '2024-11-21',
-        status: 'Fully Paid'
-    },
-    {
-        id: 12,
-        name: 'Chapet',
-        Category: 'Retail',
-        qty: '6',
-        price: '2360',
-        date: '2024-11-21',
-        status: 'Fully Paid'
-    },
+        status: 'Fully Paid',
+        total: '12000000',
+        sku: 'N001',
+        category: 'Perfumes'
+    }
 ]

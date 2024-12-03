@@ -14,6 +14,14 @@ import RequestStock from '../../../components/wholesale/dashboard/request/Reques
 import SalesRecord from '../../../components/wholesale/salesRecord/SalesRecord'
 import SalesReceipt from '../../../components/wholesale/salesRecord/SalesReceipt'
 import EditSales from '../../../components/wholesale/salesRecord/EditSales'
+import Status from '../../../components/wholesale/status/Status'
+import Notification from '../../../components/notification/Notification'
+import MyProfile from '../../../components/profile/myProfile/MyProfile'
+import Settings from '../../../components/profile/setting/Settings'
+import ChangePassword from '../../../components/profile/setting/ChangePassword'
+import { click } from '@testing-library/user-event/dist/click'
+import WholesaleReport from '../../../components/wholesale/reports/WholesaleReport'
+import ViewWholesaleReport from '../../../components/wholesale/reports/ViewWholesaleReport'
 
 const WholesaleDashboard = () => {
     const [clicked, setClicked] = useState('WholesaleDashboard')
@@ -85,7 +93,7 @@ const WholesaleDashboard = () => {
                                             Sales Record
                                         </span>
                                         <span
-                                            className={`${clicked === 'Reports' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
+                                            className={`${(clicked === 'Reports' || clicked === "ViewWholesaleReport") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
                                             onClick={() => { setClicked('Reports'); setNav(false) }}
                                         >
                                             Reports
@@ -166,7 +174,7 @@ const WholesaleDashboard = () => {
                                         Sales Record
                                     </span>
                                     <span
-                                        className={`${clicked === 'Reports' ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
+                                        className={`${(clicked === 'Reports' || clicked === "ViewWholesaleReport") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
                                         onClick={() => setClicked('Reports')}
                                     >
                                         Reports
@@ -245,7 +253,13 @@ const WholesaleDashboard = () => {
                     {
                         clicked === "WholesaleDashboard" ? <WholesaleCards setClicked={setClicked} /> : clicked === "WholesaleDueView" ? <WholesaleDueView setClicked={setClicked} /> : clicked === "WholesaleViewReceipt" ? <WholesaleViewReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} />
                             : clicked === "AddNewPurchase" ? <AddNewPurchase setClicked={setClicked} /> : clicked === "PurchaseReceipt" ? <PurchaseReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "RequestStock" ? <RequestStock setClicked={setClicked} />
-                                : clicked === "SalesRecord" ? <SalesRecord setClicked={setClicked} /> : clicked === "SalesReceipt" ? <SalesReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "EditSales" ? <EditSales setClicked={setClicked} /> : null
+                                : clicked === "SalesRecord" ? <SalesRecord setClicked={setClicked} /> : clicked === "SalesReceipt" ? <SalesReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "EditSales" ? <EditSales setClicked={setClicked} />
+                                    : clicked === "Status" ? <Status setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "Reports" ? <WholesaleReport setClicked={setClicked} /> : clicked === "ViewWholesaleReport" ? <ViewWholesaleReport setClicked={setClicked} />
+
+                                        // ##### profile and notification #####
+
+                                        // ##### profile and notification #####
+                                        : clicked === "MyProfile" ? <MyProfile setClicked={setClicked} /> : clicked === "Settings" ? <Settings setClicked={setClicked} /> : clicked === "ChangePassword" ? <ChangePassword setClicked={setClicked} /> : clicked === "Notification" ? <Notification setClicked={setClicked} /> : null
                     }
                 </div>
 

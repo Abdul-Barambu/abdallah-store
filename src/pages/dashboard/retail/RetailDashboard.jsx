@@ -4,25 +4,8 @@ import { IoNotifications } from 'react-icons/io5'
 import { FaUser } from 'react-icons/fa'
 import { HiMenuAlt2 } from 'react-icons/hi'
 import { FaTimes } from "react-icons/fa";
-import Alert from '../../../components/alert/Alert'
-import WholesaleCards from '../../../components/wholesale/dashboard/cards/WholesaleCards'
-import WholesaleDueView from '../../../components/wholesale/dashboard/view/WholesaleDueView'
-import WholesaleViewReceipt from '../../../components/wholesale/dashboard/view/WholesaleViewReceipt'
-import AddNewPurchase from '../../../components/wholesale/dashboard/add/AddNewPurchase'
-import PurchaseReceipt from '../../../components/wholesale/dashboard/add/PurchaseReceipt'
-import RequestStock from '../../../components/wholesale/dashboard/request/RequestStock'
-import SalesRecord from '../../../components/wholesale/salesRecord/SalesRecord'
-import SalesReceipt from '../../../components/wholesale/salesRecord/SalesReceipt'
-import EditSales from '../../../components/wholesale/salesRecord/EditSales'
-import Status from '../../../components/wholesale/status/Status'
-import Notification from '../../../components/notification/Notification'
-import MyProfile from '../../../components/profile/myProfile/MyProfile'
-import Settings from '../../../components/profile/setting/Settings'
-import ChangePassword from '../../../components/profile/setting/ChangePassword'
-import WholesaleReport from '../../../components/wholesale/reports/WholesaleReport'
-import ViewWholesaleReport from '../../../components/wholesale/reports/ViewWholesaleReport'
 
-const WholesaleDashboard = () => {
+const RetailDashboard = () => {
     const [clicked, setClicked] = useState('WholesaleDashboard')
     const [nav, setNav] = useState(false)
     const [button, setButton] = useState(false)
@@ -236,7 +219,7 @@ const WholesaleDashboard = () => {
 
 
                 {/* alert model */}
-                {
+                {/* {
                     alert && (
                         <div className='center-proceed'>
                             <div className="is-proceed"></div>
@@ -245,21 +228,11 @@ const WholesaleDashboard = () => {
                             </div>
                         </div>
                     )
-                }
+                } */}
 
                 {/* components */}
                 <div className={`${button ? 'mx-0' : 'mx-0 sm:mx-4'} ${nav ? 'hidden' : 'visible'}`}>
-                    {
-                        clicked === "WholesaleDashboard" ? <WholesaleCards setClicked={setClicked} /> : clicked === "WholesaleDueView" ? <WholesaleDueView setClicked={setClicked} /> : clicked === "WholesaleViewReceipt" ? <WholesaleViewReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} />
-                            : clicked === "AddNewPurchase" ? <AddNewPurchase setClicked={setClicked} /> : clicked === "PurchaseReceipt" ? <PurchaseReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "RequestStock" ? <RequestStock setClicked={setClicked} />
-                                : clicked === "SalesRecord" ? <SalesRecord setClicked={setClicked} /> : clicked === "SalesReceipt" ? <SalesReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "EditSales" ? <EditSales setClicked={setClicked} />
-                                    : clicked === "Status" ? <Status setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "Reports" ? <WholesaleReport setClicked={setClicked} /> : clicked === "ViewWholesaleReport" ? <ViewWholesaleReport setClicked={setClicked} />
 
-                                        // ##### profile and notification #####
-
-                                        // ##### profile and notification #####
-                                        : clicked === "MyProfile" ? <MyProfile setClicked={setClicked} /> : clicked === "Settings" ? <Settings setClicked={setClicked} /> : clicked === "ChangePassword" ? <ChangePassword setClicked={setClicked} /> : clicked === "Notification" ? <Notification setClicked={setClicked} /> : null
-                    }
                 </div>
 
             </div >
@@ -267,4 +240,5 @@ const WholesaleDashboard = () => {
     )
 }
 
-export default WholesaleDashboard
+
+export default RetailDashboard

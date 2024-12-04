@@ -8,6 +8,7 @@ import ForgotPassword from './pages/auth/forgotPassword/ForgotPassword';
 import ResetPassword from './pages/auth/forgotPassword/ResetPassword';
 import ManagerDashboard from './pages/dashboard/manager/ManagerDashboard';
 import WholesaleDashboard from './pages/dashboard/wholesale/WholesaleDashboard';
+import RetailDashboard from './pages/dashboard/retail/RetailDashboard';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         {/* dashboards */}
         <Route path='/manager-dashboard' component={ManagerDashboard} />
         <Route path='/wholesale-dashboard' component={WholesaleDashboard} />
+        <Route path='/retail-dashboard' component={RetailDashboard} />
       </Switch>
     </div>
   );

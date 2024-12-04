@@ -7,7 +7,7 @@ const EditSales = ({setClicked}) => {
     const [name, setName] = useState('Isa Musa')
     const [phone, setPhone] = useState('09098765432')
     const [rows, setRows] = useState([
-        { id: 1, stockName: '', stockPrice: 10000, qty: 10, totalPrice: 10000 }
+        { id: 1, stockName: '', stockPrice: 10000, qty: 10, discount: 0, totalPrice: 10000 }
     ]);
 
     // const handleAlert = () => {
@@ -20,6 +20,7 @@ const EditSales = ({setClicked}) => {
             stockName: '',
             stockPrice: 10000,
             qty: 0,
+            discount: 0,
             totalPrice: 10000
         };
         setRows([...rows, newRow]);
@@ -61,6 +62,7 @@ const EditSales = ({setClicked}) => {
                         <span className='font-mont font-semibold text-xs sm:text-sm'>Stock Name</span>
                         <span className='font-mont font-semibold text-xs sm:text-sm'>Stock Price</span>
                         <span className='font-mont font-semibold text-xs sm:text-sm'>Stock Qty</span>
+                        <span className='font-mont font-semibold text-xs sm:text-sm'>Discount</span>
                         <span className='font-mont font-semibold text-xs sm:text-sm'>Price</span>
                         <span className='font-mont font-semibold text-xs sm:text-sm'></span>
                     </div>
@@ -84,6 +86,13 @@ const EditSales = ({setClicked}) => {
                                 <input
                                     type="number"
                                     value={row.qty}
+                                    className='bg-white px-2 text-center text-xs sm:text-sm w-full py-3 outline-none rounded-md sm:rounded-lg'
+                                />
+                            </span>
+                            <span className='text-xs sm:text-sm font-mont py-2'>
+                                <input
+                                    type="number"
+                                    value={row.discount}
                                     className='bg-white px-2 text-center text-xs sm:text-sm w-full py-3 outline-none rounded-md sm:rounded-lg'
                                 />
                             </span>

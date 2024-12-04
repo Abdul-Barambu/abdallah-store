@@ -4,6 +4,7 @@ import { RiArrowUpFill } from "react-icons/ri";
 import { FaChartSimple } from "react-icons/fa6";
 import { IoEye } from "react-icons/io5";
 import { soldProducts } from '../../../data';
+import WholesaleCharts from './WholesaleCharts';
 
 const WholesaleReport = ({ setClicked }) => {
 
@@ -13,13 +14,10 @@ const WholesaleReport = ({ setClicked }) => {
 
     return (
         <div className='bg-color-full'>
-            <div className='bg-white mt-4 rounded-xl py-5'>
+            <div className='bg-white mt-6 sm:mt-4 sm:rounded-xl py-5'>
+                <WholesaleCharts />
                 {/* text and cards */}
                 <div className='text-center'>
-                    {/* text */}
-                    <div className='mb-9'>
-                        <h1 className='font-mont font-semibold text-base sm:text-2xl'>Daily Report ( {currentDate} )</h1>
-                    </div>
                     {/* cards */}
                     <div className='flex sm:flex-row flex-col justify-between items-center gap-5 mx-4 sm:mx-32 lg:mx-40 xl:mx-60'>
                         {/* card */}

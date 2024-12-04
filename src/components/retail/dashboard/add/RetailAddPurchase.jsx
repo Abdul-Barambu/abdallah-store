@@ -3,8 +3,7 @@ import { GoArrowLeft } from "react-icons/go";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import SuccessAlert from './SuccessAlert';
 
-const AddNewPurchase = ({ setClicked }) => {
-
+const RetailAddPurchase = ({setClicked}) => {
     const [alert, setAlert] = useState(false);
     const [name, setName] = useState('')
     const [phone, setPhone] = useState('')
@@ -37,7 +36,7 @@ const AddNewPurchase = ({ setClicked }) => {
             {/* Back Button */}
             <div
                 className='mt-4 flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer'
-                onClick={() => setClicked('WholesaleDashboard')}
+                onClick={() => setClicked('RetailDashboard')}
             >
                 <GoArrowLeft className='text-xs sm:text-sm lg:text-xl' />
                 <span className='font-mont font-medium text-xs sm:text-sm lg:text-base'>Back</span>
@@ -59,7 +58,7 @@ const AddNewPurchase = ({ setClicked }) => {
             <div className='mt-6 overflow-x-auto'>
                 <div className='min-w-[600px]'>
                     {/* Header */}
-                    <div className='flex justify-between gap-2 bg-white py-3 px-5 mb-1'>
+                    <div className='flex justify-between bg-white py-3 px-5 mb-1'>
                         <span className='font-mont font-semibold text-xs sm:text-sm'>S/N</span>
                         <span className='font-mont font-semibold text-xs sm:text-sm'>Stock Name</span>
                         <span className='font-mont font-semibold text-xs sm:text-sm'>Stock Price</span>
@@ -71,7 +70,7 @@ const AddNewPurchase = ({ setClicked }) => {
 
                     {/* Rows */}
                     {rows.map((row) => (
-                        <div key={row.id} className='flex justify-between my-1 bg-white/[0.47]'>
+                        <div key={row.id} className='flex justify-between gap-2 my-1 bg-white/[0.47]'>
                             <span className='text-xs sm:text-sm font-mont py-4 px-5'>{row.id}</span>
                             <span className='py-2 px-4'>
                                 <select
@@ -172,4 +171,4 @@ const AddNewPurchase = ({ setClicked }) => {
     )
 }
 
-export default AddNewPurchase
+export default RetailAddPurchase

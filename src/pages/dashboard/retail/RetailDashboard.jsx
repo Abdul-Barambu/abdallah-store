@@ -4,9 +4,15 @@ import { IoNotifications } from 'react-icons/io5'
 import { FaUser } from 'react-icons/fa'
 import { HiMenuAlt2 } from 'react-icons/hi'
 import { FaTimes } from "react-icons/fa";
+import RetailCards from '../../../components/retail/dashboard/cards/RetailCards'
+import RetailAddPurchase from '../../../components/retail/dashboard/add/RetailAddPurchase'
+import PurchaseReceipt from '../../../components/retail/dashboard/add/PurchaseReceipt'
+import RetailSalesRecord from '../../../components/retail/salesRecord/RetailSalesRecord'
+import ViewRetailRecord from '../../../components/retail/salesRecord/ViewRetailRecord'
+import EditRecord from '../../../components/retail/salesRecord/EditRecord'
 
 const RetailDashboard = () => {
-    const [clicked, setClicked] = useState('WholesaleDashboard')
+    const [clicked, setClicked] = useState('RetailDashboard')
     const [nav, setNav] = useState(false)
     const [button, setButton] = useState(false)
     const [alert, setAlert] = useState(false)
@@ -63,13 +69,13 @@ const RetailDashboard = () => {
                                 <div>
                                     <div className={`flex flex-col gap-14 px-14 pt-10 ${clicked === 'More' ? 'pb-5' : 'pb-10'}`}>
                                         <span
-                                            className={`${(clicked === 'WholesaleDashboard' || clicked === "WholesaleDueView" || clicked === "WholesaleViewReceipt" || clicked === "AddNewPurchase" || clicked === "RequestStock") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
-                                            onClick={() => { setClicked('WholesaleDashboard'); setNav(false) }}
+                                            className={`${(clicked === 'RetailDashboard' || clicked === "RetailAddPurchase" || clicked === "PurchaseReceipt") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
+                                            onClick={() => { setClicked('RetailDashboard'); setNav(false) }}
                                         >
                                             Dashboard
                                         </span>
                                         <span
-                                            className={`${(clicked === 'SalesRecord' || clicked === "SalesReceipt" || clicked === "EditSales") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
+                                            className={`${(clicked === 'SalesRecord' || clicked === "ViewRetailRecord" || clicked === "EditRecord") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
                                             onClick={() => { setClicked('SalesRecord'); setNav(false) }}
                                         >
                                             Sales Record
@@ -144,13 +150,13 @@ const RetailDashboard = () => {
                                 {/* menu */}
                                 <div className='flex sm:gap-4 lg:gap-7'>
                                     <span
-                                        className={`${(clicked === 'WholesaleDashboard' || clicked === "WholesaleDueView" || clicked === "WholesaleViewReceipt" || clicked === "AddNewPurchase" || clicked === "RequestStock") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
-                                        onClick={() => setClicked('WholesaleDashboard')}
+                                        className={`${(clicked === 'RetailDashboard' || clicked === "RetailAddPurchase") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
+                                        onClick={() => setClicked('RetailDashboard')}
                                     >
                                         Dashboard
                                     </span>
                                     <span
-                                        className={`${(clicked === 'SalesRecord' || clicked === "SalesReceipt" || clicked === "EditSales") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
+                                        className={`${(clicked === 'SalesRecord' || clicked === "ViewRetailRecord" || clicked === "EditRecord") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
                                         onClick={() => setClicked('SalesRecord')}
                                     >
                                         Sales Record
@@ -232,7 +238,10 @@ const RetailDashboard = () => {
 
                 {/* components */}
                 <div className={`${button ? 'mx-0' : 'mx-0 sm:mx-4'} ${nav ? 'hidden' : 'visible'}`}>
-
+                    {
+                        clicked === "RetailDashboard" ? <RetailCards setClicked={setClicked} /> : clicked === "RetailAddPurchase" ? <RetailAddPurchase setClicked={setClicked} /> : clicked === "PurchaseReceipt" ? <PurchaseReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} />
+                            : clicked === "SalesRecord" ? <RetailSalesRecord setClicked={setClicked} /> : clicked === "ViewRetailRecord" ? <ViewRetailRecord setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "EditRecord" ? <EditRecord setClicked={setClicked} /> : null
+                    }
                 </div>
 
             </div >

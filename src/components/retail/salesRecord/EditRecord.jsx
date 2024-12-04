@@ -1,20 +1,18 @@
 import React, { useState } from 'react'
 import { GoArrowLeft } from "react-icons/go";
 import { RiDeleteBin6Fill } from "react-icons/ri";
-import SuccessAlert from './SuccessAlert';
 
-const AddNewPurchase = ({ setClicked }) => {
-
+const EditRecord = ({setClicked}) => {
     const [alert, setAlert] = useState(false);
-    const [name, setName] = useState('')
-    const [phone, setPhone] = useState('')
+    const [name, setName] = useState('Isa Musa')
+    const [phone, setPhone] = useState('09098765432')
     const [rows, setRows] = useState([
-        { id: 1, stockName: '', stockPrice: 10000, qty: 0, discount: 0, totalPrice: 10000 }
+        { id: 1, stockName: '', stockPrice: 10000, qty: 10, discount: 0, totalPrice: 10000 }
     ]);
 
-    const handleAlert = () => {
-        setAlert(!alert);
-    };
+    // const handleAlert = () => {
+    //     setAlert(!alert);
+    // };
 
     const handleAddRow = () => {
         const newRow = {
@@ -59,7 +57,7 @@ const AddNewPurchase = ({ setClicked }) => {
             <div className='mt-6 overflow-x-auto'>
                 <div className='min-w-[600px]'>
                     {/* Header */}
-                    <div className='flex justify-between gap-2 bg-white py-3 px-5 mb-1'>
+                    <div className='flex justify-between bg-white py-3 px-5 mb-1'>
                         <span className='font-mont font-semibold text-xs sm:text-sm'>S/N</span>
                         <span className='font-mont font-semibold text-xs sm:text-sm'>Stock Name</span>
                         <span className='font-mont font-semibold text-xs sm:text-sm'>Stock Price</span>
@@ -151,13 +149,13 @@ const AddNewPurchase = ({ setClicked }) => {
             <div className='flex justify-end'>
                 <div className='black-bg mx-0.5 p-1 my-10 w-full sm:w-1/2 cursor-pointer' onClick={() => setAlert(true)}>
                     <div className='border-receipt text-center py-3'>
-                        <p className='text-white font-mont text-[11px] sm:text-base font-medium'>Add Purchase</p>
+                        <p className='text-white font-mont text-[11px] sm:text-base font-medium'>Save & Update</p>
                     </div>
                 </div>
             </div>
 
             {/* alert model */}
-            {
+            {/* {
                 alert && (
                     <div className='center-proceed'>
                         <div className="is-proceed"></div>
@@ -166,10 +164,10 @@ const AddNewPurchase = ({ setClicked }) => {
                         </div>
                     </div>
                 )
-            }
+            } */}
 
         </div>
     )
 }
 
-export default AddNewPurchase
+export default EditRecord

@@ -358,3 +358,27 @@ export const soldProducts = [
         category: 'Perfumes'
     }
 ]
+
+export const requestStock = [
+    {
+        id: 1,
+        name: 'Dummy Vaseline',
+        sku: 'D001',
+        category: 'Cream',
+        qty: '40'
+    },
+    {
+        id: 2,
+        name: 'Mascolino Body Spray',
+        sku: 'M001',
+        category: 'Perfume',
+        qty: '20'
+    },
+    {
+        id: 3,
+        name: 'Face Powder',
+        sku: 'F001',
+        category: 'Cosmetics',
+        qty: '60'
+    },
+]

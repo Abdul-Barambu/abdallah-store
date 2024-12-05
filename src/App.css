@@ -313,6 +313,21 @@ a.proceed-btn:hover {
     margin-top: 9px;
 }
 
+/* request approval buttons */
+.approve-button{
+border-radius: 8px;
+border: 1px solid #1E1E1E;
+background: rgba(30, 30, 30, 0.08);
+padding: 7px 22px 9px 23px
+}
+
+.approved-button{
+  border-radius: 8px;
+  border: 1px solid #00940A;
+  background: #00940A;
+  padding: 7px 50px 9px 51px;
+}
+
 
 
 /* ##### MOBILE ##### */
@@ -345,6 +360,21 @@ a.proceed-btn:hover {
       width: 90%;
       height: 100%;
       background: white;
+  }
+
+  /* request approval buttons */
+.approve-button{
+  border-radius: 8px;
+  border: 1px solid #1E1E1E;
+  background: rgba(30, 30, 30, 0.08);
+  padding: 1px 12px 7px 13px
+  }
+  
+  .approved-button{
+    border-radius: 8px;
+    border: 1px solid #00940A;
+    background: #00940A;
+    padding: 1px 30px 7px 31px;
   }
 
 }

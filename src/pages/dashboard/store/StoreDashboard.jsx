@@ -4,23 +4,17 @@ import { IoNotifications } from 'react-icons/io5'
 import { FaUser } from 'react-icons/fa'
 import { HiMenuAlt2 } from 'react-icons/hi'
 import { FaTimes } from "react-icons/fa";
-import RetailCards from '../../../components/retail/dashboard/cards/RetailCards'
-import RetailAddPurchase from '../../../components/retail/dashboard/add/RetailAddPurchase'
-import PurchaseReceipt from '../../../components/retail/dashboard/add/PurchaseReceipt'
-import RetailSalesRecord from '../../../components/retail/salesRecord/RetailSalesRecord'
-import ViewRetailRecord from '../../../components/retail/salesRecord/ViewRetailRecord'
-import EditRecord from '../../../components/retail/salesRecord/EditRecord'
-import RetailReport from '../../../components/retail/reports/RetailReport'
-import ViewRetailReport from '../../../components/retail/reports/ViewRetailReport'
-import RetailStatus from '../../../components/retail/status/RetailStatus'
 import MyProfile from '../../../components/profile/myProfile/MyProfile'
 import Settings from '../../../components/profile/setting/Settings'
 import ChangePassword from '../../../components/profile/setting/ChangePassword'
 import Notification from '../../../components/notification/Notification'
 import Alert from '../../../components/alert/Alert'
+import DashboardStatus from '../../../components/store/dashboard/DashboardStatus'
+import StockRequest from '../../../components/store/reuqest/StockRequest'
+import HistoryRecord from '../../../components/store/history/HistoryRecord'
 
-const RetailDashboard = () => {
-    const [clicked, setClicked] = useState('RetailDashboard')
+const StoreDashboard = () => {
+    const [clicked, setClicked] = useState('StoreDashboard')
     const [nav, setNav] = useState(false)
     const [button, setButton] = useState(false)
     const [alert, setAlert] = useState(false)
@@ -77,28 +71,22 @@ const RetailDashboard = () => {
                                 <div>
                                     <div className={`flex flex-col gap-14 px-14 pt-10 ${clicked === 'More' ? 'pb-5' : 'pb-10'}`}>
                                         <span
-                                            className={`${(clicked === 'RetailDashboard' || clicked === "RetailAddPurchase" || clicked === "PurchaseReceipt") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
-                                            onClick={() => { setClicked('RetailDashboard'); setNav(false) }}
+                                            className={`${(clicked === 'StoreDashboard') ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
+                                            onClick={() => { setClicked('StoreDashboard'); setNav(false) }}
                                         >
                                             Dashboard
                                         </span>
                                         <span
-                                            className={`${(clicked === 'SalesRecord' || clicked === "ViewRetailRecord" || clicked === "EditRecord") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
-                                            onClick={() => { setClicked('SalesRecord'); setNav(false) }}
+                                            className={`${(clicked === 'StockRequest') ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
+                                            onClick={() => { setClicked('StockRequest'); setNav(false) }}
                                         >
-                                            Sales Record
+                                            Stock Request
                                         </span>
                                         <span
-                                            className={`${(clicked === 'RetailReports' || clicked === "ViewRetailReport") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
-                                            onClick={() => { setClicked('RetailReports'); setNav(false) }}
+                                            className={`${(clicked === 'HistoryRecord') ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
+                                            onClick={() => { setClicked('HistoryRecord'); setNav(false) }}
                                         >
-                                            Reports
-                                        </span>
-                                        <span
-                                            className={`${clicked === 'Status' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
-                                            onClick={() => { setClicked('Status'); setNav(false) }}
-                                        >
-                                            Status
+                                            History Record
                                         </span>
                                     </div>
                                     {/* profile */}
@@ -158,30 +146,22 @@ const RetailDashboard = () => {
                                 {/* menu */}
                                 <div className='flex sm:gap-4 lg:gap-7'>
                                     <span
-                                        className={`${(clicked === 'RetailDashboard' || clicked === "RetailAddPurchase") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
-                                        onClick={() => setClicked('RetailDashboard')}
+                                        className={`${(clicked === 'StoreDashboard' || clicked === "RetailAddPurchase") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
+                                        onClick={() => setClicked('StoreDashboard')}
                                     >
                                         Dashboard
                                     </span>
                                     <span
-                                        className={`${(clicked === 'SalesRecord' || clicked === "ViewRetailRecord" || clicked === "EditRecord") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
-                                        onClick={() => setClicked('SalesRecord')}
+                                        className={`${(clicked === 'StockRequest' || clicked === "ViewRetailRecord" || clicked === "EditRecord") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
+                                        onClick={() => setClicked('StockRequest')}
                                     >
-                                        Sales Record
+                                        Stock Request
                                     </span>
                                     <span
-                                        className={`${(clicked === 'RetailReports' || clicked === "ViewRetailReport") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
-                                        onClick={() => setClicked('RetailReports')}
+                                        className={`${(clicked === 'HistoryRecord' || clicked === "ViewRetailReport") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
+                                        onClick={() => setClicked('HistoryRecord')}
                                     >
-                                        Reports
-                                    </span>
-                                    <span
-                                        className={`flex items-center gap-1 ${clicked === 'Status' ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
-                                        onClick={() => setClicked('Status')}
-                                    >
-                                        <span className='font-medium font-mont sm:text-[9.5px] xl:text-sm lg:text-xs'>
-                                            Status
-                                        </span>
+                                        History Record
                                     </span>
                                 </div>
                                 {/* profile */}
@@ -233,7 +213,7 @@ const RetailDashboard = () => {
 
 
                 {/* alert model */}
-                {
+                {/* {
                     alert && (
                         <div className='center-proceed'>
                             <div className="is-proceed"></div>
@@ -242,17 +222,15 @@ const RetailDashboard = () => {
                             </div>
                         </div>
                     )
-                }
+                } */}
 
                 {/* components */}
                 <div className={`${button ? 'mx-0' : 'mx-0 sm:mx-4'} ${nav ? 'hidden' : 'visible'}`}>
                     {
-                        clicked === "RetailDashboard" ? <RetailCards setClicked={setClicked} /> : clicked === "RetailAddPurchase" ? <RetailAddPurchase setClicked={setClicked} /> : clicked === "PurchaseReceipt" ? <PurchaseReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} />
-                            : clicked === "SalesRecord" ? <RetailSalesRecord setClicked={setClicked} /> : clicked === "ViewRetailRecord" ? <ViewRetailRecord setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "EditRecord" ? <EditRecord setClicked={setClicked} />
-                                : clicked === "RetailReports" ? <RetailReport setClicked={setClicked} /> : clicked === "ViewRetailReport" ? <ViewRetailReport setClicked={setClicked} /> : clicked === "Status" ? <RetailStatus setClicked={setClicked} handlePrint={handlePrint} button={button} />
+                        clicked === "StoreDashboard" ? <DashboardStatus handlePrint={handlePrint} button={button} /> : clicked === "StockRequest" ? <StockRequest /> : clicked === "HistoryRecord" ? <HistoryRecord />
 
-                                    // ##### profile and notification #####
-                                    : clicked === "MyProfile" ? <MyProfile setClicked={setClicked} /> : clicked === "Settings" ? <Settings setClicked={setClicked} /> : clicked === "ChangePassword" ? <ChangePassword setClicked={setClicked} /> : clicked === "Notification" ? <Notification setClicked={setClicked} /> : null
+                            // ##### profile and notification #####
+                            : clicked === "MyProfile" ? <MyProfile setClicked={setClicked} /> : clicked === "Settings" ? <Settings setClicked={setClicked} /> : clicked === "ChangePassword" ? <ChangePassword setClicked={setClicked} /> : clicked === "Notification" ? <Notification setClicked={setClicked} /> : null
                     }
                 </div>
 
@@ -262,4 +240,4 @@ const RetailDashboard = () => {
 }
 
 
-export default RetailDashboard
+export default StoreDashboard

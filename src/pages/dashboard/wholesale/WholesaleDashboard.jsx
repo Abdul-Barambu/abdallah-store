@@ -256,8 +256,6 @@ const WholesaleDashboard = () => {
                                     : clicked === "Status" ? <Status setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "Reports" ? <WholesaleReport setClicked={setClicked} /> : clicked === "ViewWholesaleReport" ? <ViewWholesaleReport setClicked={setClicked} />
 
                                         // ##### profile and notification #####
-
-                                        // ##### profile and notification #####
                                         : clicked === "MyProfile" ? <MyProfile setClicked={setClicked} /> : clicked === "Settings" ? <Settings setClicked={setClicked} /> : clicked === "ChangePassword" ? <ChangePassword setClicked={setClicked} /> : clicked === "Notification" ? <Notification setClicked={setClicked} /> : null
                     }
                 </div>

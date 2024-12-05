@@ -18,7 +18,7 @@ ChartJS.register(
     Legend
 );
 
-const WholesaleCharts = () => {
+const RetailChart = () => {
     const chartRef = useRef(null);
 
     // Full dataset
@@ -162,7 +162,7 @@ const WholesaleCharts = () => {
 
 
     return (
-        <div className='rounded-3xl mt-4 mx-4 sm:-mx-[1px]'>
+        <div className='rounded-3xl mt-4 mx-4 mb-10 sm:-mx-[1px]'>
             <div className='pt-4 px-6 flex justify-between'>
                 <span className='font-mont font-medium text-xs sm:text-lg'>Sales & Profits</span>
                 <select name="chart" className='font-mont font-medium text-[10px] sm:text-sm month-gray py-2 px-3 rounded-lg outline-none'>
@@ -216,4 +216,4 @@ const WholesaleCharts = () => {
     );
 };
 
-export default WholesaleCharts
+export default RetailChart

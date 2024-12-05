@@ -35,7 +35,7 @@ const EditRecord = ({setClicked}) => {
             {/* Back Button */}
             <div
                 className='mt-4 flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer'
-                onClick={() => setClicked('WholesaleDashboard')}
+                onClick={() => setClicked('SalesRecord')}
             >
                 <GoArrowLeft className='text-xs sm:text-sm lg:text-xl' />
                 <span className='font-mont font-medium text-xs sm:text-sm lg:text-base'>Back</span>

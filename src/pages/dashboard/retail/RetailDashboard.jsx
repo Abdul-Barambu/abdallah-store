@@ -10,6 +10,13 @@ import PurchaseReceipt from '../../../components/retail/dashboard/add/PurchaseRe
 import RetailSalesRecord from '../../../components/retail/salesRecord/RetailSalesRecord'
 import ViewRetailRecord from '../../../components/retail/salesRecord/ViewRetailRecord'
 import EditRecord from '../../../components/retail/salesRecord/EditRecord'
+import RetailReport from '../../../components/retail/reports/RetailReport'
+import ViewRetailReport from '../../../components/retail/reports/ViewRetailReport'
+import RetailStatus from '../../../components/retail/status/RetailStatus'
+import MyProfile from '../../../components/profile/myProfile/MyProfile'
+import Settings from '../../../components/profile/setting/Settings'
+import ChangePassword from '../../../components/profile/setting/ChangePassword'
+import Notification from '../../../components/notification/Notification'
 
 const RetailDashboard = () => {
     const [clicked, setClicked] = useState('RetailDashboard')
@@ -81,8 +88,8 @@ const RetailDashboard = () => {
                                             Sales Record
                                         </span>
                                         <span
-                                            className={`${(clicked === 'Reports' || clicked === "ViewWholesaleReport") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
-                                            onClick={() => { setClicked('Reports'); setNav(false) }}
+                                            className={`${(clicked === 'RetailReports' || clicked === "ViewRetailReport") ? 'black-bg text-white' : 'bg-light-gray black-text'} font-mont font-medium text-center py-4 rounded-3xl text-[15px] cursor-pointer`}
+                                            onClick={() => { setClicked('RetailReports'); setNav(false) }}
                                         >
                                             Reports
                                         </span>
@@ -162,8 +169,8 @@ const RetailDashboard = () => {
                                         Sales Record
                                     </span>
                                     <span
-                                        className={`${(clicked === 'Reports' || clicked === "ViewWholesaleReport") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
-                                        onClick={() => setClicked('Reports')}
+                                        className={`${(clicked === 'RetailReports' || clicked === "ViewRetailReport") ? 'black-bg text-white' : 'bg-light-gray black-text'} sm:text-[9.5px] lg:text-xs xl:text-sm font-mont font-medium sm:px-6 lg:px-8 xl:px-10 pt-2 pb-[7px] sm:rounded-xl lg:rounded-2xl cursor-pointer`}
+                                        onClick={() => setClicked('RetailReports')}
                                     >
                                         Reports
                                     </span>
@@ -240,7 +247,11 @@ const RetailDashboard = () => {
                 <div className={`${button ? 'mx-0' : 'mx-0 sm:mx-4'} ${nav ? 'hidden' : 'visible'}`}>
                     {
                         clicked === "RetailDashboard" ? <RetailCards setClicked={setClicked} /> : clicked === "RetailAddPurchase" ? <RetailAddPurchase setClicked={setClicked} /> : clicked === "PurchaseReceipt" ? <PurchaseReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} />
-                            : clicked === "SalesRecord" ? <RetailSalesRecord setClicked={setClicked} /> : clicked === "ViewRetailRecord" ? <ViewRetailRecord setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "EditRecord" ? <EditRecord setClicked={setClicked} /> : null
+                            : clicked === "SalesRecord" ? <RetailSalesRecord setClicked={setClicked} /> : clicked === "ViewRetailRecord" ? <ViewRetailRecord setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "EditRecord" ? <EditRecord setClicked={setClicked} />
+                                : clicked === "RetailReports" ? <RetailReport setClicked={setClicked} /> : clicked === "ViewRetailReport" ? <ViewRetailReport setClicked={setClicked} /> : clicked === "Status" ? <RetailStatus setClicked={setClicked} handlePrint={handlePrint} button={button} />
+
+                                    // ##### profile and notification #####
+                                    : clicked === "MyProfile" ? <MyProfile setClicked={setClicked} /> : clicked === "Settings" ? <Settings setClicked={setClicked} /> : clicked === "ChangePassword" ? <ChangePassword setClicked={setClicked} /> : clicked === "Notification" ? <Notification setClicked={setClicked} /> : null
                     }
                 </div>
 

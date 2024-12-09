@@ -382,3 +382,30 @@ export const requestStock = [
         qty: '60'
     },
 ]
+
+export const companyName = [
+    {
+        id: 1,
+        name: 'Franame'
+    },
+    {
+        id: 2,
+        name: 'Mascolino'
+    },
+    {
+        id: 3,
+        name: 'Nivea perfume'
+    },
+    {
+        id: 4,
+        name: 'Saudi oud'
+    },
+    {
+        id: 5,
+        name: 'Mousouf'
+    },
+    {
+        id: 6,
+        name: 'Vaseline cream'
+    },
+]

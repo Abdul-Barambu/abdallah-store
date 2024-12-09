@@ -9,7 +9,7 @@ const RetailCards = ({ setClicked }) => {
     return (
         <div className='bg-color mt-4 mx-4 sm:mx-0 pb-10 sm:pb-0'>
             {/* cards */}
-            <div className='flex sm:flex-row flex-col justify-between items-center gap-5 mx-56'>
+            <div className='flex sm:flex-row flex-col justify-between items-center gap-5 mx-0 sm:mx-32 lg:mx-44 xl:mx-56'>
                 {/* card */}
                 <div className='flex gap-6 sm:gap-4 lg:gap-5 xl:gap-10 bg-white px-5 lg:px-8 py-6 rounded-3xl w-full h-[160px] sm:h-[150px] lg:h-[180px]'>
                     <div>

@@ -10,6 +10,7 @@ import ManagerDashboard from './pages/dashboard/manager/ManagerDashboard';
 import WholesaleDashboard from './pages/dashboard/wholesale/WholesaleDashboard';
 import RetailDashboard from './pages/dashboard/retail/RetailDashboard';
 import StoreDashboard from './pages/dashboard/store/StoreDashboard';
+import AbdallahDashboard from './pages/dashboard/company/abdallah/AbdallahDashboard';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path='/wholesale-dashboard' component={WholesaleDashboard} />
         <Route path='/retail-dashboard' component={RetailDashboard} />
         <Route path='/store-dashboard' component={StoreDashboard} />
+        <Route path='/abdallah-dashboard' component={AbdallahDashboard} />
       </Switch>
     </div>
   );

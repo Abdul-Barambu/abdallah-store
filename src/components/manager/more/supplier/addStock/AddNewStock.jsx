@@ -87,6 +87,16 @@ const AddNewStock = ({ setClicked }) => {
                         </div>
                         {/* input */}
                         <div className='mb-7'>
+                            <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Wholesale Price</p>
+                            <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} placeholder='Price' className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
+                        </div>
+                        {/* input */}
+                        <div className='mb-7'>
+                            <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Retail Price</p>
+                            <input type="text" value={outstanding} onChange={(e) => setOutstanding(e.target.value)} placeholder='Outstanding' className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
+                        </div>
+                        {/* input */}
+                        <div className='mb-7'>
                             <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Amount Paid</p>
                             <input type="text" value={amountPaid} onChange={(e) => setAmountPaid(e.target.value)} placeholder='Amount Paid' className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
                         </div>

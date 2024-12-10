@@ -5,9 +5,9 @@ import { IoEye } from "react-icons/io5";
 import { FaFilter } from "react-icons/fa";
 import { MdEditSquare } from "react-icons/md";
 import { RiDeleteBin6Fill } from "react-icons/ri";
-import { listOfStocks } from '../../../data';
+import { listOfStocks } from '../../../../data';
 
-const SalesRecord = ({ setClicked }) => {
+const CompanySalesRecord = ({ setClicked }) => {
 
     const [searchValue, setSearchValue] = useState('');
 
@@ -46,11 +46,11 @@ const SalesRecord = ({ setClicked }) => {
                 <div className='min-w-[600px]'>
                     {/* Head */}
                     <div className='grid grid-cols-6 bg-white py-3 text-center mb-1'>
-                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Wholesaler's Name</span>
+                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Stock Name</span>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Date of Purchase</span>
-                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Description</span>
-                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Price</span>
-                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Payment Status</span>
+                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>QTY</span>
+                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Amount Paid</span>
+                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>AAS Commission</span>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Action</span>
                     </div>
 
@@ -59,16 +59,14 @@ const SalesRecord = ({ setClicked }) => {
                         {
                             filteredDues.map((list) => (
                                 <div key={list.id} className='grid grid-cols-6 my-0.5 text-center'>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.buyer}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.date}</span>
                                     <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.name}</span>
+                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.date}</span>
+                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.qty}</span>
                                     <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{list.price}</span>
-                                    <div className='bg-white/[0.47] py-5'>
-                                        <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${list.status === 'Fully Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{list.status}</span>
-                                    </div>
+                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{list.wholesale}</span>
                                     <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
-                                        <IoEye className='cursor-pointer' onClick={() => { setClicked("SalesReceipt"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
-                                        <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditSales"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
+                                        <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewCompanySalesRecord"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
+                                        <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditCompanySale"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
                                         <RiDeleteBin6Fill className='cursor-pointer icon-red' />
                                     </div>
                                 </div>
@@ -81,4 +79,4 @@ const SalesRecord = ({ setClicked }) => {
     )
 }
 
-export default SalesRecord
+export default CompanySalesRecord

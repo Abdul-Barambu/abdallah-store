@@ -1,9 +1,43 @@
+import axios from 'axios'
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom'
+import Swal from 'sweetalert2'
 
 const ResetPassword = () => {
 
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [btn, setBtn] = useState(false)
+    const history = useHistory()
+
+    const resetPasswordToken = localStorage.getItem('reset-password-token')
+    const resetPasswordUid = localStorage.getItem('reset-password-uid')
+
+    const handleResetPassword = () => {
+        setBtn(true)
+        axios.post(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/userauths/password-reset-confirm/${resetPasswordUid}/${resetPasswordToken}/`, {
+            new_password: password,
+            confirm_password: confirmPassword
+        }).then(response => {
+            console.log(response)
+            Swal.fire({
+                icon: 'success',
+                title: 'SUCCESS',
+                text: 'Password reset successfully, Please proceed to login'
+            }).then(() => {
+                history.push('/')
+            })
+            setBtn(false)
+        }).catch(error => {
+            console.log(error)
+            Swal.fire({
+                icon: 'error',
+                title: 'ERROR',
+                text: 'Something went wrong, Please try again'
+            })
+            setBtn(false)
+        })
+    }
 
     return (
         <div className='bg-color sm:flex items-center justify-center'>
@@ -26,8 +60,10 @@ const ResetPassword = () => {
                         </div>
                     </div>
                     {/* button */}
-                    <div className='black-bg mt-8 text-center py-4 sm:py-3 rounded-xl cursor-pointer'>
-                        <button className='text-white font-mont font-medium'>Reset</button>
+                    <div className='black-bg mt-8 text-center py-4 sm:py-3 rounded-xl cursor-pointer' onClick={handleResetPassword}>
+                        <button className='text-white font-mont font-medium'>
+                            {btn ? (<div className='loader-btn'></div>) : 'Reset'}
+                        </button>
                     </div>
                 </div>
             </div>

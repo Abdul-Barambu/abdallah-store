@@ -1,14 +1,56 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom'
+import Swal from 'sweetalert2'
 
 const Login = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [btn, setBtn] = useState(false)
     const history = useHistory()
 
     const handleForgotPassword = () => {
         history.push("/forgot-password")
+    }
+
+    const handleLogin = () => {
+        setBtn(true)
+        axios.post("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/userauths/login/", {
+            email: email,
+            password: password
+        }).then(response => {
+            console.log(response)
+            localStorage.setItem('access-token', response.data.access)
+            localStorage.setItem('refresh-token', response.data.refresh)
+
+            // roles
+            if (response.data.role === 'manager') {
+                history.push("/manager-dashboard")
+            } else if (response.data.role === 'wholesaler') {
+                history.push('wholesale-dashboard')
+            } else if (response.data.role === 'retailer') {
+                history.push('retail-dashboard')
+            } else if (response.data.role === 'storekeeper') {
+                history.push('store-dashboard')
+            } else if (response.data.role === 'company') {
+                history.push('comapny-dashboard')
+            } else if (response.data.role === 'representative') {
+                history.push('abdallah-dashboard')
+            }else{
+                console.log('Role not found')
+            }
+
+            setBtn(false)
+        }).catch(error => {
+            console.log(error)
+            Swal.fire({
+                icon: 'error',
+                title: 'ERROR',
+                text: 'Invalid Email or Password'
+            })
+            setBtn(false)
+        })
     }
 
     return (
@@ -36,8 +78,10 @@ const Login = () => {
                         <p className='text-black font-mont font-semibold text-right cursor-pointer'>Forgot Password?</p>
                     </div>
                     {/* button */}
-                    <div className='black-bg mt-8 text-center py-4 sm:py-3 rounded-xl cursor-pointer'>
-                        <button className='text-white font-mont font-medium'>Login</button>
+                    <div className='black-bg mt-8 text-center py-4 sm:py-3 rounded-xl cursor-pointer' onClick={handleLogin}>
+                        <button className='text-white font-mont font-medium'>
+                            {btn ? (<div className='loader-btn'></div>) : 'Login'}
+                        </button>
                     </div>
                 </div>
             </div>

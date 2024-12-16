@@ -1,4 +1,6 @@
+import axios from 'axios'
 import React, { useState } from 'react'
+import Swal from 'sweetalert2'
 
 const RegisterComapny = () => {
 
@@ -7,6 +9,36 @@ const RegisterComapny = () => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [address, setAddress] = useState('')
+    const role = 'company'
+    const [btn, setBtn] = useState(false)
+
+    const handleResgisterCompany = () => {
+        setBtn(true)
+        axios.post("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/userauths/register/", {
+            full_name: name,
+            email: email,
+            password: password,
+            confirm_password: confirmPassword,
+            company_address: address,
+            role: role
+        }).then(response => {
+            console.log(response)
+            Swal.fire({
+                icon: 'success',
+                title: 'SUCCESS',
+                text: 'Registration Successfully'
+            })
+            setBtn(false)
+        }).catch(error => {
+            console.log(error)
+            Swal.fire({
+                icon: 'error',
+                title: 'ERROR',
+                text: 'Something went wrong please try again'
+            })
+            setBtn(false)
+        })
+    }
 
     return (
         <div className='bg-color-full py-10'>
@@ -41,8 +73,10 @@ const RegisterComapny = () => {
                         </div>
                     </div>
                     {/* button */}
-                    <div className='black-bg mt-8 text-center py-4 sm:py-3 rounded-xl cursor-pointer'>
-                        <button className='text-white font-mont font-medium'>Register</button>
+                    <div className='black-bg mt-8 text-center py-4 sm:py-3 rounded-xl cursor-pointer' onClick={handleResgisterCompany}>
+                        <button className='text-white font-mont font-medium'>
+                            {btn ? (<div className='loader-btn'></div>) : 'Register'}
+                        </button>
                     </div>
                 </div>
             </div>

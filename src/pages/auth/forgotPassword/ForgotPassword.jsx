@@ -1,15 +1,34 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import Swal from 'sweetalert2'
 
 const ForgotPassword = () => {
 
     const [email, setEmail] = useState('')
+    const [btn, setBtn] = useState(false)
 
     const handleSendEmail = () => {
-        Swal.fire({
-            icon: 'success',
-            title: 'SUCCESS',
-            text: 'Reset password link has been sent to your email'
+        setBtn(true)
+        axios.post("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/userauths/password-reset/", {
+            email: email
+        }).then(response => {
+            console.log(response)
+            localStorage.setItem('reset-password-token', response.data.token)
+            localStorage.setItem('reset-password-uid', response.data.uidb64)
+            Swal.fire({
+                icon: 'success',
+                title: 'SUCCESS',
+                text: 'A reset link has been sent to your email, follow the procedure to reset your password.'
+            })
+            setBtn(false)
+        }).catch(error => {
+            console.log(error)
+            Swal.fire({
+                icon: 'error',
+                title: 'ERROR',
+                text: 'Email Not Found'
+            })
+            setBtn(false)
         })
     }
 
@@ -31,7 +50,9 @@ const ForgotPassword = () => {
                     </div>
                     {/* button */}
                     <div className='black-bg mt-8 text-center py-4 sm:py-3 rounded-xl cursor-pointer' onClick={handleSendEmail}>
-                        <button className='text-white font-mont font-medium'>Send</button>
+                        <button className='text-white font-mont font-medium'>
+                            {btn ? (<div className='loader-btn'></div>) : 'Send'}
+                        </button>
                     </div>
                 </div>
             </div>

@@ -236,7 +236,7 @@ const WholesaleDashboard = () => {
 
 
                 {/* alert model */}
-                {
+                {/* {
                     alert && (
                         <div className='center-proceed'>
                             <div className="is-proceed"></div>
@@ -245,7 +245,7 @@ const WholesaleDashboard = () => {
                             </div>
                         </div>
                     )
-                }
+                } */}
 
                 {/* components */}
                 <div className={`${button ? 'mx-0' : 'mx-0 sm:mx-4'} ${nav ? 'hidden' : 'visible'}`}>

@@ -43,7 +43,7 @@ const RetailAddPurchase = ({setClicked}) => {
             </div>
 
             {/* Inputs */}
-            <div className='mt-10 grid grid-cols-1 sm:grid-cols-3 gap-8'>
+            {/* <div className='mt-10 grid grid-cols-1 sm:grid-cols-3 gap-8'>
                 <div>
                     <p className='font-mont text-sm font-normal mb-2'>Wholesaler's Name</p>
                     <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder='Name' className='bg-white py-2 px-5 w-full font-mont text-sm rounded-lg outline-none font-medium' />
@@ -52,7 +52,7 @@ const RetailAddPurchase = ({setClicked}) => {
                     <p className='font-mont text-sm font-normal mb-2'>Phone Number</p>
                     <input type="number" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder='Phone Number' className='bg-white py-2 px-5 w-full font-mont text-sm rounded-lg outline-none font-medium' />
                 </div>
-            </div>
+            </div> */}
 
             {/* Stock List */}
             <div className='mt-6 overflow-x-auto'>

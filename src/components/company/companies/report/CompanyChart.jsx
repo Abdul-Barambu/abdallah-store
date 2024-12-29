@@ -24,7 +24,6 @@ const CompanyChart = () => {
     // Full dataset
     const allLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const allSalesData = [3, 6, 9, 10, 5, 5, 3, 4, 2, 1, 6, 7];
-    const allProfitsData = [3, 3, 3, 9, 11, 5, 6, 7, 6, 9, 10, 5];
 
     // State to manage the number of months to show
     const [currentMonthIndex, setCurrentMonthIndex] = useState(0);
@@ -51,10 +50,10 @@ const CompanyChart = () => {
     // Slice the data for the current view
     const currentLabels = allLabels.slice(currentMonthIndex, currentMonthIndex + monthsToShow);
     const currentSalesData = allSalesData.slice(currentMonthIndex, currentMonthIndex + monthsToShow);
-    const currentProfitsData = allProfitsData.slice(currentMonthIndex, currentMonthIndex + monthsToShow);
 
     const borderRadius = window.innerWidth < 640 ? 6 : window.innerWidth < 1024 ? 10 : 15;
     const labelFontSize = window.innerWidth < 640 ? 11 : window.innerWidth < 1024 ? 14 : 14;
+    const labelBarSize = window.innerWidth < 640 ? 30 : window.innerWidth < 1024 ? 40 : 50;
 
     // Data for the chart
     const data = {
@@ -65,12 +64,7 @@ const CompanyChart = () => {
                 data: currentSalesData,
                 backgroundColor: 'black',
                 borderRadius: borderRadius,
-            },
-            {
-                label: 'Profits',
-                data: currentProfitsData,
-                backgroundColor: 'lightgray',
-                borderRadius: borderRadius,
+                barThickness: labelBarSize,
             },
         ],
     };

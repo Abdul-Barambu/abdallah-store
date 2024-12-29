@@ -6,7 +6,7 @@ const AddNewStock = ({ setClicked }) => {
     const [stockName, setStockName] = useState("")
     const [supplier, setSupplier] = useState("")
     const [category, setCategory] = useState("")
-    const [quantity, setQUantity] = useState("")
+    const [quantity, setQuantity] = useState("")
     const [sku, setSku] = useState("")
     const [date, setDate] = useState("")
     const [price, setPrice] = useState("")
@@ -15,6 +15,8 @@ const AddNewStock = ({ setClicked }) => {
     const [status, setStatus] = useState("")
     const [wholesale, setWholesale] = useState("")
     const [wholesaleCap, setWholesaleCap] = useState("")
+    const [wholesalePrice, setWholesalePrice] = useState("")
+    const [retailPrice, setRetailPrice] = useState("")
     const [retail, setRetail] = useState("")
     const [retailCap, setRetailCap] = useState("")
     const [lowStock, setLowStock] = useState("")
@@ -63,7 +65,7 @@ const AddNewStock = ({ setClicked }) => {
                         {/* input */}
                         <div className='mb-7'>
                             <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Quantity</p>
-                            <input type="text" value={quantity} onChange={(e) => setQUantity(e.target.value)} placeholder='QUantity' className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
+                            <input type="text" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder='QUantity' className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
                         </div>
                         {/* input */}
                         <div className='mb-7'>
@@ -88,12 +90,12 @@ const AddNewStock = ({ setClicked }) => {
                         {/* input */}
                         <div className='mb-7'>
                             <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Wholesale Price</p>
-                            <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} placeholder='Price' className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
+                            <input type="text" value={wholesalePrice} onChange={(e) => setWholesalePrice(e.target.value)} placeholder='Wholesale Price' className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
                         </div>
                         {/* input */}
                         <div className='mb-7'>
                             <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Retail Price</p>
-                            <input type="text" value={outstanding} onChange={(e) => setOutstanding(e.target.value)} placeholder='Outstanding' className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
+                            <input type="text" value={retailPrice} onChange={(e) => setRetailPrice(e.target.value)} placeholder='Retail Price' className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
                         </div>
                         {/* input */}
                         <div className='mb-7'>

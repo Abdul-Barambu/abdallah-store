@@ -34,7 +34,7 @@ const Login = () => {
             } else if (response.data.role === 'storekeeper') {
                 history.push('store-dashboard')
             } else if (response.data.role === 'company') {
-                history.push('comapny-dashboard')
+                history.push('company-dashboard')
             } else if (response.data.role === 'representative') {
                 history.push('abdallah-dashboard')
             }else{

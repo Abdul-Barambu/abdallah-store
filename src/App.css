@@ -349,6 +349,26 @@ padding: 7px 22px 9px 23px
   100%   {box-shadow: 60px 15px, 60px 15px,60px 15px}
 }
 
+/* css loading loader */
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  padding: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  margin: 30px auto;
+  background: #1E1E1E;
+  --_m: 
+    conic-gradient(#0000 10%,#000),
+    linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+          mask: var(--_m);
+  -webkit-mask-composite: source-out;
+          mask-composite: subtract;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {to{transform: rotate(1turn)}}
+
 
 /* ##### MOBILE ##### */
 @media screen and (max-width: 490px){

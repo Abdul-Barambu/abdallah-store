@@ -4,11 +4,16 @@ import { GoArrowLeft } from "react-icons/go";
 import { CiSearch } from "react-icons/ci";
 import { FaFilter } from "react-icons/fa";
 import { listOfStocks } from '../../../data';
+import { useEffect } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const DashboardStatus = ({ handlePrint, button }) => {
     const [searchValue, setSearchValue] = useState('');
     const [filter, setFilter] = useState(false)
     const [selectedFilter, setSelectedFilter] = useState('All');
+    const [stockStatus, setStockStatus] = useState([])
+    const [loading, setLoading] = useState(false)
 
     const filteredDues = listOfStocks.filter((stock) => {
         const matchesSearch = stock.name.toLowerCase().includes(searchValue.toLowerCase());
@@ -28,6 +33,34 @@ const DashboardStatus = ({ handlePrint, button }) => {
     ];
 
     const totalValue = data.reduce((sum, entry) => sum + entry.value, 0);
+
+    // headers
+    const Access = localStorage.getItem("access-token")
+    const Refresh = localStorage.getItem("refresh-token")
+
+    const headers = {
+        Authorization: `Bearer ${Access}`
+    }
+
+
+    // stock status
+    useEffect(() => {
+        setLoading(true)
+        axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/", { headers })
+            .then(response => {
+                console.log(response)
+                setStockStatus(response.data)
+                setLoading(false)
+            }).catch(error => {
+                console.log(error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ERROR',
+                    text: 'Something went wrong, please try again.'
+                })
+                setLoading(false)
+            })
+    }, [])
 
     return (
         <div className='bg-color-full'>

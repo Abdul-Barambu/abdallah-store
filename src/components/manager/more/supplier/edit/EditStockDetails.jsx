@@ -14,6 +14,9 @@ const EditStockDetails = ({ setClicked }) => {
   const [price, setPrice] = useState(list.price)
   const [amountPaid, setAmountPaid] = useState(list.amountPaid)
   const [status, setStatus] = useState(list.status)
+  const [outstanding, setOutstanding] = useState("")
+  const [wholesalePrice, setWholesalePrice] = useState("")
+  const [retailPrice, setRetailPrice] = useState("")
   const [wholesale, setWholesale] = useState(list.wholesale)
   const [wholesaleCap, setWholesaleCap] = useState(list.wholesaleCap)
   const [retail, setRetail] = useState(list.retail)
@@ -74,6 +77,21 @@ const EditStockDetails = ({ setClicked }) => {
             <div className='mb-7'>
               <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Price</p>
               <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
+            </div>
+            {/* input */}
+            <div className='mb-7'>
+              <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Outstanding</p>
+              <input type="text" value={outstanding} onChange={(e) => setOutstanding(e.target.value)} placeholder='Outstanding' className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
+            </div>
+            {/* input */}
+            <div className='mb-7'>
+              <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Wholesale Price</p>
+              <input type="text" value={wholesalePrice} onChange={(e) => setWholesalePrice(e.target.value)} placeholder='Wholesale Price' className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
+            </div>
+            {/* input */}
+            <div className='mb-7'>
+              <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Retail Price</p>
+              <input type="text" value={retailPrice} onChange={(e) => setRetailPrice(e.target.value)} placeholder='Retail Price' className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
             </div>
             {/* input */}
             <div className='mb-7'>

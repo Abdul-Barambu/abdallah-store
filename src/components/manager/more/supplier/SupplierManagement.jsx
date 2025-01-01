@@ -1,23 +1,91 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CiSearch } from "react-icons/ci";
 import { IoEye } from "react-icons/io5";
 import { FaFilter } from "react-icons/fa";
 import { MdEditSquare } from "react-icons/md";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { listOfStocks } from '../../../../data';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const SupplierManagement = ({ setClicked }) => {
 
     const [searchValue, setSearchValue] = useState('');
     const [filter, setFilter] = useState(false)
     const [selectedFilter, setSelectedFilter] = useState('All');
+    const [listOfStocks, setListOfStocks] = useState([])
+    const [loading, setLoading] = useState(false)
 
     const filteredDues = listOfStocks.filter((list) => {
-        const matchesSearch = list.name.toLowerCase().includes(searchValue.toLowerCase())
-        const matchesFilter = selectedFilter === 'All' || list.status.toLowerCase() === selectedFilter.toLowerCase();
+        const matchesSearch = list.stock_name.toLowerCase().includes(searchValue.toLowerCase())
+        const matchesFilter = selectedFilter === 'All' || list.payment_status.toLowerCase() === selectedFilter.toLowerCase();
 
         return matchesSearch && matchesFilter;
     });
+
+    // header
+    const accessToken = localStorage.getItem('access-token')
+    const refreshToken = localStorage.getItem('refresh-token')
+
+    const headers = {
+        Authorization: `Bearer ${accessToken}`
+    }
+
+    // get all stocks
+    useEffect(() => {
+        setLoading(true)
+        axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/", { headers })
+            .then(response => {
+                console.log(response)
+                setListOfStocks(response.data)
+                setLoading(false)
+            }).catch(error => {
+                console.log(error)
+                setLoading(false)
+            })
+    }, [])
+
+
+  // delete stock
+  const handleDeleteStock = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Call the delete API after confirmation
+        axios
+          .delete(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/${id}/`, { headers })
+          .then((response) => {
+            // After successful deletion, update the state
+            setListOfStocks((prevStock) =>
+              prevStock.filter((list) => list.id !== id)
+            );
+
+            // Show success alert
+            Swal.fire({
+              title: "Deleted!",
+              text: "The Stock has been deleted.",
+              icon: "success",
+            });
+          })
+          .catch((error) => {
+            // Handle error and show error alert if deletion fails
+            Swal.fire({
+              title: "Error!",
+              text: "There was a problem deleting the expense.",
+              icon: "error",
+            });
+            console.error("Error deleting expense:", error);
+          });
+      }
+    });
+  };
 
 
     return (
@@ -86,26 +154,30 @@ const SupplierManagement = ({ setClicked }) => {
                     </div>
 
                     {/* Data */}
-                    <div className='h-96 overflow-y-scroll'>
-                        {
-                            filteredDues.map((list) => (
-                                <div key={list.id} className='grid grid-cols-6 my-0.5 text-center'>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.name}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.supplier}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.qty}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{list.price}</span>
-                                    <div className='bg-white/[0.47] py-5'>
-                                        <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${list.status === 'Fully Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{list.status}</span>
-                                    </div>
-                                    <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
-                                        <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewSupplierDetails"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
-                                        <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditStockDetails"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
-                                        <RiDeleteBin6Fill className='cursor-pointer icon-red' />
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div>
+                    {
+                        loading ? (<div className='loader'></div>) : (
+                            <div className='h-96 overflow-y-scroll'>
+                                {
+                                    filteredDues.map((list) => (
+                                        <div key={list.id} className='grid grid-cols-6 my-0.5 text-center'>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.stock_name}</span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.supplier_name}</span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.quantity}</span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(list.price).toLocaleString()}.00</span>
+                                            <div className='bg-white/[0.47] py-5'>
+                                                <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${list.status === 'Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{list.payment_status}</span>
+                                            </div>
+                                            <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
+                                                <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewSupplierDetails"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
+                                                <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditStockDetails"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
+                                                <RiDeleteBin6Fill className='cursor-pointer icon-red' onClick={() => handleDeleteStock(list.id)} />
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

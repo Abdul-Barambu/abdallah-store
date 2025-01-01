@@ -14,6 +14,9 @@ const StockStatus = ({ setClicked, handlePrint, button }) => {
     const [filter, setFilter] = useState(false)
     const [selectedFilter, setSelectedFilter] = useState('All');
     const [stockStatus, setStockStatus] = useState([])
+    const [healthy, setHealthy] = useState('')
+    const [low, setLow] = useState('')
+    const [out, setOut] = useState('')
     const [loading, setLoading] = useState(false)
 
     const filteredDues = stockStatus.filter((stock) => {
@@ -22,15 +25,15 @@ const StockStatus = ({ setClicked, handlePrint, button }) => {
             selectedFilter === 'All' ||
             (selectedFilter === 'Healthy Stock' && stock.quantity > stock.low_stock_threshold) ||
             (selectedFilter === 'Low Stock' && stock.quantity <= stock.low_stock_threshold && stock.quantity > stock.out_of_stock_threshold) ||
-            (selectedFilter === 'Out of Stock' && stock.remaining <= stock.out_of_stock_threshold);
+            (selectedFilter === 'Out of Stock' && stock.quantity <= stock.out_of_stock_threshold);
         return matchesSearch && matchesFilter;
     });
 
 
     const data = [
-        { name: 'Healthy Stock', value: 10, color: '#0AE418' },
-        { name: 'Low Stock', value: 5, color: '#E3D322' },
-        { name: 'Out of Stock', value: 5, color: '#F10000' }
+        { name: 'Healthy Stock', value: healthy, color: '#0AE418' },
+        { name: 'Low Stock', value: low, color: '#E3D322' },
+        { name: 'Out of Stock', value: out, color: '#F10000' }
     ];
 
     const totalValue = data.reduce((sum, entry) => sum + entry.value, 0);
@@ -44,7 +47,7 @@ const StockStatus = ({ setClicked, handlePrint, button }) => {
     }
 
 
-    // stock status
+    // stock status list
     useEffect(() => {
         setLoading(true)
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/", { headers })
@@ -61,6 +64,20 @@ const StockStatus = ({ setClicked, handlePrint, button }) => {
                 })
                 setLoading(false)
             })
+    }, [])
+
+
+    // num of stocks
+    useEffect(() => {
+        axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/health-status/", {headers})
+        .then(response => {
+            console.log(response)
+            setHealthy(response.data.total_healthy_stock)
+            setLow(response.data.total_low_stock)
+            setOut(response.data.total_out_of_stock)
+        }).catch(error => {
+            console.log(error)
+        })
     }, [])
 
     return (
@@ -128,7 +145,7 @@ const StockStatus = ({ setClicked, handlePrint, button }) => {
                             <div className='green-box'></div>
                             <span className='font-mont font-semibold text-xs'>Healthy Stock</span>
                         </div>
-                        <p className='font-mont font-bold mt-2 text-sm'>10</p>
+                        <p className='font-mont font-bold mt-2 text-sm'>{healthy}</p>
                     </div>
                     {/* low */}
                     <div className='box w-full sm:w-[18%] lg:w-[15%] xl:w-[13%] rounded-xl py-3 text-center'>
@@ -136,7 +153,7 @@ const StockStatus = ({ setClicked, handlePrint, button }) => {
                             <div className='yellow-box'></div>
                             <span className='font-mont font-semibold text-xs'>Low Stock</span>
                         </div>
-                        <p className='font-mont font-bold mt-2 text-sm'>5</p>
+                        <p className='font-mont font-bold mt-2 text-sm'>{low}</p>
                     </div>
                     {/* out */}
                     <div className='box w-full sm:w-[18%] lg:w-[15%] xl:w-[13%] rounded-xl py-3 text-center'>
@@ -144,7 +161,7 @@ const StockStatus = ({ setClicked, handlePrint, button }) => {
                             <div className='red-box'></div>
                             <span className='font-mont font-semibold text-xs'>Out of Stock</span>
                         </div>
-                        <p className='font-mont font-bold mt-2 text-sm'>5</p>
+                        <p className='font-mont font-bold mt-2 text-sm'>{out}</p>
                     </div>
                 </div>
                 {/* searh and filter and print */}
@@ -226,8 +243,8 @@ const StockStatus = ({ setClicked, handlePrint, button }) => {
                                     <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.sku}</span>
                                     <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.quantity}</span>
                                     <div className='flex flex-row gap-2  lg:gap-4 justify-start items-center bg-table sm:pl-1 lg:pl-8 xl:pl-14'>
-                                        <div className={`${stock.quantity > stock.low_stock_threshold ? 'green-box' : stock.quantity <= stock.low_stock_threshold && stock.quantity > stock.out_of_stock_threshold ? 'yellow-box' : stock.quantity < stock.out_of_stock_threshold ? 'red-box' : null}`}></div>
-                                        <span className='font-mont font-semibold text-[7px] sm:text-xs'>{stock.quantity > stock.low_stock_threshold ? 'Healthy Stock' : stock.quantity <= stock.low_stock_threshold && stock.quantity > stock.out_of_stock_threshold ? 'Low Stock' : stock.quantity < stock.out_of_stock_threshold ? 'Out of Stock' : null}</span>
+                                        <div className={`${stock.quantity > stock.low_stock_threshold ? 'green-box' : stock.quantity <= stock.low_stock_threshold && stock.quantity > stock.out_of_stock_threshold ? 'yellow-box' : stock.quantity <= stock.out_of_stock_threshold ? 'red-box' : null}`}></div>
+                                        <span className='font-mont font-semibold text-[7px] sm:text-xs'>{stock.quantity > stock.low_stock_threshold ? 'Healthy Stock' : stock.quantity <= stock.low_stock_threshold && stock.quantity > stock.out_of_stock_threshold ? 'Low Stock' : stock.quantity <= stock.out_of_stock_threshold ? 'Out of Stock' : null}</span>
                                     </div>
                                 </div>
                             ))

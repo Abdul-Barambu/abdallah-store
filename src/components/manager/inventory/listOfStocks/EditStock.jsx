@@ -1,27 +1,89 @@
+import axios from 'axios';
 import React, { useState } from 'react'
 import { GoArrowLeft } from "react-icons/go";
+import { toast, ToastContainer } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const EditStock = ({ setClicked }) => {
 
     const list = JSON.parse(localStorage.getItem('ListOfStocks'))
 
-    const [stockName, setStockName] = useState(list.name)
-    const [supplier, setSupplier] = useState(list.supplier)
+    const [stockName, setStockName] = useState(list.stock_name)
+    const [supplier, setSupplier] = useState(list.supplier_name)
     const [category, setCategory] = useState(list.category)
-    const [quantity, setQUantity] = useState(list.qty)
+    const [quantity, setQUantity] = useState(list.quantity)
     const [sku, setSku] = useState(list.sku)
-    const [date, setDate] = useState(list.date)
+    const [date, setDate] = useState(list.date_of_purchase)
     const [price, setPrice] = useState(list.price)
-    const [amountPaid, setAmountPaid] = useState(list.amountPaid)
-    const [status, setStatus] = useState(list.status)
-    const [wholesale, setWholesale] = useState(list.wholesale)
-    const [wholesaleCap, setWholesaleCap] = useState(list.wholesaleCap)
-    const [retail, setRetail] = useState(list.retail)
-    const [retailCap, setRetailCap] = useState(list.retailCap)
-    const [lowStock, setLowStock] = useState(list.lowStock)
+    const [outstanding, setOutstanding] = useState(list.outstanding_balance)
+    const [amountPaid, setAmountPaid] = useState(list.amount_paid)
+    const [status, setStatus] = useState(list.payment_status)
+    const [wholesaleActual, setWholesaleActual] = useState(list.wholesale_actual_price)
+    const [wholesale, setWholesale] = useState(list.wholesale_price)
+    const [wholesaleCap, setWholesaleCap] = useState(list.wholesale_cap_price)
+    const [retailActual, setRetailActual] = useState(list.retail_actual_price)
+    const [retail, setRetail] = useState(list.retail_price)
+    const [retailCap, setRetailCap] = useState(list.retail_cap_price)
+    const [lowStock, setLowStock] = useState(list.low_stock_threshold)
+    const [outStock, setOutStock] = useState(list.out_of_stock_threshold)
+
+    const [btn, setBtn] = useState(false)
+
+    const handleStatus = (e) => {
+        const selectedValue = e.target.value;
+        setStatus(selectedValue);
+    }
+
+    const stock_id = list.id
+
+    // header
+    const accessToken = localStorage.getItem('access-token')
+    const refreshToken = localStorage.getItem('refresh-token')
+
+    const headers = {
+        Authorization: `Bearer ${accessToken}`
+    }
+
+    const handleUpdateStock = () => {
+        setBtn(true)
+        axios.put(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/${stock_id}/`, {
+            stock_name: stockName,
+            supplier_name: supplier,
+            sku: sku,
+            quantity: quantity,
+            category: category,
+            price: price,
+            payment_status: status,
+            amount_paid: amountPaid,
+            outstanding_balance: outstanding,
+            wholesale_actual_price: wholesaleActual,
+            wholesale_price: wholesale,
+            wholesale_cap_price: wholesaleCap,
+            retail_actual_price: retailActual,
+            retail_price: retail,
+            retail_cap_price: retailCap,
+            date_of_purchase: date,
+            low_stock_threshold: lowStock,
+            out_of_stock_threshold: outStock
+        }, { headers })
+            .then(response => {
+                console.log(response)
+                toast.success('Updated Successfully')
+                setBtn(false)
+            }).catch(error => {
+                console.log(error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ERROR',
+                    text: 'Something went wrong, please try again'
+                })
+                setBtn(false)
+            })
+    }
 
     return (
         <div className='bg-color-full'>
+            <ToastContainer />
             {/* Back Button */}
             <div
                 className='mt-4 mx-4 sm:mx-0 flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer'
@@ -82,12 +144,27 @@ const EditStock = ({ setClicked }) => {
                         </div>
                         {/* input */}
                         <div className='mb-7'>
+                            <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Outstanding Balance</p>
+                            <input type="text" value={outstanding} onChange={(e) => setOutstanding(e.target.value)} className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
+                        </div>
+                        {/* input */}
+                        <div className='mb-7'>
                             <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Payment Status</p>
-                            <select name="paymentStatus" className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4'>
+                            <select name="paymentStatus" onChange={handleStatus} className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4'>
                                 <option value="">{status}</option>
-                                <option value="credit">On Credit</option>
-                                <option value="full">Fully Paid</option>
+                                <option value="On Credit">On Credit</option>
+                                <option value="Paid">Fully Paid</option>
                             </select>
+                        </div>
+                        {/* input */}
+                        <div className='mb-7'>
+                            <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Wholesale Actual Price</p>
+                            <input type="text" value={wholesaleActual} onChange={(e) => setWholesaleActual(e.target.value)} className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
+                        </div>
+                        {/* input */}
+                        <div className='mb-7'>
+                            <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Retail Actual Price</p>
+                            <input type="text" value={retailActual} onChange={(e) => setRetailActual(e.target.value)} className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
                         </div>
                     </div>
                     {/* prices */}
@@ -122,11 +199,18 @@ const EditStock = ({ setClicked }) => {
                             <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Low Stock</p>
                             <input type="text" value={lowStock} onChange={(e) => setLowStock(e.target.value)} className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
                         </div>
+                        {/* input */}
+                        <div className='mb-7'>
+                            <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Out of Stock</p>
+                            <input type="text" value={outStock} onChange={(e) => setOutStock(e.target.value)} className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
+                        </div>
                     </div>
                 </div>
                 {/* button */}
-                <div className='grid grid-cols-1 sm:grid-cols-2 py-3'>
-                    <button className="black-bg text-white w-full sm:w-3/4 text-xs font-mont font-semibold py-3 rounded-lg">Save & Update</button>
+                <div className='black-bg mt-8 text-center py-2.5 rounded-xl cursor-pointer' onClick={handleUpdateStock}>
+                    <button className='text-white text-sm font-mont font-medium'>
+                        {btn ? (<div className='loader-btn'></div>) : 'Save & Update'}
+                    </button>
                 </div>
             </div>
         </div>

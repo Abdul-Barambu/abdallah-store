@@ -1,21 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GoArrowLeft } from "react-icons/go";
 import { CiSearch } from "react-icons/ci";
 import { IoEye } from "react-icons/io5";
 import { FaFilter } from "react-icons/fa";
 import { MdEditSquare } from "react-icons/md";
-import { listOfStocks } from '../../../../data';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
 
 const ListOfStocks = ({ setClicked }) => {
 
     const [searchValue, setSearchValue] = useState('');
+    const [listOfStocks, setListOfStocks] = useState([])
+    const [loading, setLoading] = useState(false)
+    const errorMessage = 'Something went wrong...'
 
     const filteredDues = listOfStocks.filter((list) =>
-        list.name.toLowerCase().includes(searchValue.toLowerCase())
+        list.stock_name.toLowerCase().includes(searchValue.toLowerCase())
     );
+
+    // header
+    const accessToken = localStorage.getItem('access-token')
+    const refreshToken = localStorage.getItem('refresh-token')
+
+    const headers = {
+        Authorization: `Bearer ${accessToken}`
+    }
+
+    useEffect(() => {
+        setLoading(true)
+        axios.get('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/', { headers })
+            .then(response => {
+                console.log(response)
+                setListOfStocks(response.data)
+                setLoading(false)
+            }).catch(error => {
+                console.log(error)
+                toast.error('Something went wrong...')
+                setLoading(false)
+            })
+    }, [])
 
     return (
         <div className='bg-color-dash mx-4 sm:mx-0'>
+            <ToastContainer />
             {/* Top Section */}
             <div className='mt-5'>
                 {/* Back Button */}
@@ -61,22 +88,26 @@ const ListOfStocks = ({ setClicked }) => {
                     </div>
 
                     {/* Data */}
-                    <div className='h-96 overflow-y-scroll'>
+                    {
+                        loading ? (<div className='loader'></div>) : (
+                            <div className='h-96 overflow-y-scroll'>
                         {
                             filteredDues.map((list) => (
                                 <div key={list.id} className='grid grid-cols-5 my-0.5 text-center'>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.name}</span>
+                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.stock_name}</span>
                                     <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.category}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.supplier}</span>
+                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.supplier_name}</span>
                                     <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.sku}</span>
                                     <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
-                                        <IoEye className='cursor-pointer' onClick={() => {setClicked("ViewStock"); localStorage.setItem("ListOfStocks", JSON.stringify(list))}} />
-                                        <MdEditSquare className='cursor-pointer icon-blue'onClick={() => {setClicked("EditStock"); localStorage.setItem("ListOfStocks", JSON.stringify(list))}} />
+                                        <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewStock"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
+                                        {/* <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditStock"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} /> */}
                                     </div>
                                 </div>
                             ))
                         }
                     </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

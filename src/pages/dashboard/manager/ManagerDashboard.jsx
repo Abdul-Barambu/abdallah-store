@@ -32,12 +32,16 @@ import Settings from '../../../components/profile/setting/Settings'
 import ChangePassword from '../../../components/profile/setting/ChangePassword'
 import Notification from '../../../components/notification/Notification'
 import Alert from '../../../components/alert/Alert'
+import CustomerRetailReceipt from '../../../components/manager/more/customer/CustomerRetailReceipt'
+import Swal from 'sweetalert2'
+import { useHistory } from 'react-router-dom'
 
 const ManagerDashboard = () => {
   const [clicked, setClicked] = useState('ManagerDashboard')
   const [nav, setNav] = useState(false)
   const [button, setButton] = useState(false)
   const [alert, setAlert] = useState(false)
+  const history = useHistory()
 
   const handleNavBar = () => {
     setNav(!nav)
@@ -54,6 +58,36 @@ const ManagerDashboard = () => {
   useEffect(() => {
     setAlert(true); // Always show alert on page load
   }, []);
+
+  // logout
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Logout"
+    }).then((result) => {
+      localStorage.removeItem('ListOfStocks')
+      localStorage.removeItem('RetailPurchases')
+      localStorage.removeItem('access-token')
+      localStorage.removeItem('due')
+      localStorage.removeItem('email')
+      localStorage.removeItem('full-name')
+      localStorage.removeItem('refresh-token')
+      localStorage.removeItem('reset-password-token')
+      localStorage.removeItem('reset-password-uid')
+      localStorage.removeItem('retailPurchases')
+      localStorage.removeItem('soldStocks')
+      localStorage.removeItem('stockId')
+      localStorage.removeItem('wholesalePurchases')
+      if (result.isConfirmed) {
+        history.push('/')
+      }
+    });
+  }
 
   return (
     <div className={`${(clicked === 'More' || clicked === 'Profile' || nav) ? 'bg-color-dash' : 'bg-color-full-dash'} pt-3 pb-0 sm:pb-5`}>
@@ -169,7 +203,7 @@ const ManagerDashboard = () => {
                       </p>
                       <p
                         className={`${clicked === 'Logout' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-base py-3 text-center px-5 rounded-3xl mb-5 cursor-pointer`}
-                        onClick={() => { setNav(false) }}
+                        onClick={() => { setNav(false); handleLogout() }}
                       >
                         Logout
                       </p>
@@ -283,7 +317,7 @@ const ManagerDashboard = () => {
                       </p>
                       <p
                         className={`${clicked === 'Logout' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-[10px] py-2 px-16 rounded-xl mb-5 cursor-pointer`}
-                        onClick={() => { }}
+                        onClick={() => { handleLogout() }}
                       >
                         Logout
                       </p>
@@ -317,7 +351,7 @@ const ManagerDashboard = () => {
                   : clicked === "AddStock" ? <AddStock setClicked={setClicked} /> : clicked === "AddNewStock" ? <AddNewStock setClicked={setClicked} /> : clicked === "AddExistingStock" ? <AddExistingStock setClicked={setClicked} /> : clicked === "AddExisting" ? <AddExisting setClicked={setClicked} />
                     : clicked === "EditStockDetails" ? <EditStockDetails setClicked={setClicked} /> : clicked === "ViewSupplierDetails" ? <ViewSupplierDetails setClicked={setClicked} /> : clicked === "ViewSupplierSales" ? <ViewSupplierSales setClicked={setClicked} /> : clicked === "CustomerPurchase" ? <CustomerPurchase setClicked={setClicked} />
                       : clicked === "CustomerPurchaseReceipt" ? <CustomerPurchaseReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "ReceiptsRecords" ? <ReceiptRecord setClicked={setClicked} /> : clicked === "AddNewReceiptRecord" ? <AddNewReceiptRecord setClicked={setClicked} />
-                        : clicked === "ViewReceiptRecord" ? <ViewReceiptRecord setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "EditReceiptRecord" ? <EditReceiptRecord setClicked={setClicked} />
+                        : clicked === "ViewReceiptRecord" ? <ViewReceiptRecord setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "EditReceiptRecord" ? <EditReceiptRecord setClicked={setClicked} /> : clicked === "CustomerRetailReceipt" ? <CustomerRetailReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} />
 
                           // ##### profile and notification #####
                           : clicked === "MyProfile" ? <MyProfile setClicked={setClicked} /> : clicked === "Settings" ? <Settings setClicked={setClicked} /> : clicked === "ChangePassword" ? <ChangePassword setClicked={setClicked} /> : clicked === "Notification" ? <Notification setClicked={setClicked} /> : null

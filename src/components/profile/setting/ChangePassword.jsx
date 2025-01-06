@@ -1,14 +1,45 @@
+import axios from 'axios';
 import React, { useState } from 'react'
 import { GoArrowLeft } from "react-icons/go";
+import { toast, ToastContainer } from 'react-toastify';
 
 const ChangePassword = ({ setClicked }) => {
 
     const [currentPassword, setCurrentPassword] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [btn, setBtn] = useState(false)
+
+    // header
+    const accessToken = localStorage.getItem('access-token')
+    const refreshToken = localStorage.getItem('refresh-token')
+
+    const headers = {
+        Authorization: `Bearer ${accessToken}`
+    }
+
+
+    const handleChangePassword = () => {
+        setBtn(true)
+        axios.post('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/userauths/change-password/', {
+            old_password: currentPassword,
+            new_password: password,
+            confirm_password: confirmPassword
+        }, { headers })
+            .then(response => {
+                console.log(response)
+                toast.success('Password Changed Successfully')
+                setBtn(false)
+            }).catch(error => {
+                console.log(error)
+                toast.error('Error occured, please try again')
+                setBtn(false)
+            })
+    }
 
     return (
-        <div className='bg-color-full '>
+        <div className='bg-color-full'>
+            <ToastContainer />
             {/* back */}
             <div
                 className={`mt-4 mb-4 mx-4 sm:mx-0 flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer`}
@@ -40,8 +71,8 @@ const ChangePassword = ({ setClicked }) => {
                         </div>
                     </div>
                     {/* button */}
-                    <div className='black-bg mt-8 text-center py-4 sm:py-3 rounded-xl cursor-pointer'>
-                        <button className='text-white font-mont font-medium'>Change Password</button>
+                    <div className='black-bg mt-8 text-center py-4 sm:py-3 rounded-xl cursor-pointer' onClick={handleChangePassword}>
+                        <button className='text-white font-mont font-medium'>{btn ? (<div className='loader-btn'></div>) : 'Change Password'}</button>
                     </div>
                 </div>
             </div>

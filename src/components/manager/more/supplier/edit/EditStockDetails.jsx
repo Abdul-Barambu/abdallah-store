@@ -158,7 +158,7 @@ const EditStockDetails = ({ setClicked }) => {
               <select name="paymentStatus" onChange={handleStatus} className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4'>
                 <option value="">{status}</option>
                 <option value="On Credit">On Credit</option>
-                <option value="Paid">Fully Paid</option>
+                <option value="Fully Paid">Fully Paid</option>
               </select>
             </div>
             {/* input */}

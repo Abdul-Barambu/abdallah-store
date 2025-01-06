@@ -1,9 +1,9 @@
 import React from 'react'
 import { GoArrowLeft } from "react-icons/go";
 
-const CustomerPurchaseReceipt = ({ setClicked, handlePrint, button }) => {
+const CustomerRetailReceipt = ({ setClicked, handlePrint, button }) => {
 
-    const list = JSON.parse(localStorage.getItem('wholesalePurchases'));
+    const list = JSON.parse(localStorage.getItem('RetailPurchases'));
 
     return (
         <div className={`${button ? 'bg-white' : 'bg-color-full'} mx-4 sm:mx-0 pb-10 sm:pb-0`}>
@@ -28,9 +28,7 @@ const CustomerPurchaseReceipt = ({ setClicked, handlePrint, button }) => {
                 <div className='mt-3'>
                     {/* top */}
                     <div className='mx-5 sm:mx-10'>
-                        <p className='font-mont text-[11px] sm:text-base font-semibold mb-1'>Wholesaler's Name: {list.buyer_name}</p>
-                        <p className='font-mont text-[9px] sm:text-sm font-medium mb-1'>Phone number: {list.buyer_phone}</p>
-                        <p className='font-mont text-[8px] sm:text-xs black-text font-medium'>Date of Purchase: {list.date_of_purchase}</p>
+                        <p className='font-mont text-sm sm:text-base black-text font-bold'>Date of Purchase: {list.date_of_purchase}</p>
                     </div>
                     {/* middle */}
                     <div>
@@ -51,7 +49,7 @@ const CustomerPurchaseReceipt = ({ setClicked, handlePrint, button }) => {
                                         <span className='font-mont text-[9px] sm:text-xs font-medium'>{item.stock_name}</span>
                                         <span className='font-mont text-[9px] sm:text-xs font-medium'>₦{Number(item.price).toLocaleString()}</span>
                                         <span className='font-mont text-[9px] sm:text-xs font-medium'>{item.quantity}</span>
-                                        <span className='font-mont text-[9px] sm:text-xs font-medium'>₦{Number(item.item_total).toLocaleString()}</span>
+                                        <span className='font-mont text-[9px] sm:text-xs font-medium'>₦{Number(item.price*item.quantity).toLocaleString()}</span>
                                     </div>
                                 ))
                             }
@@ -88,4 +86,4 @@ const CustomerPurchaseReceipt = ({ setClicked, handlePrint, button }) => {
     )
 }
 
-export default CustomerPurchaseReceipt
+export default CustomerRetailReceipt

@@ -4,7 +4,6 @@ import { IoEye } from "react-icons/io5";
 import { FaFilter } from "react-icons/fa";
 import { MdEditSquare } from "react-icons/md";
 import { RiDeleteBin6Fill } from "react-icons/ri";
-import { listOfStocks } from '../../../../data';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
@@ -165,7 +164,7 @@ const SupplierManagement = ({ setClicked }) => {
                                             <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.quantity}</span>
                                             <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(list.price).toLocaleString()}.00</span>
                                             <div className='bg-white/[0.47] py-5'>
-                                                <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${list.status === 'Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{list.payment_status}</span>
+                                                <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${list.payment_status === 'Fully Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{list.payment_status}</span>
                                             </div>
                                             <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
                                                 <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewSupplierDetails"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />

@@ -23,6 +23,8 @@ const Login = () => {
             console.log(response)
             localStorage.setItem('access-token', response.data.access)
             localStorage.setItem('refresh-token', response.data.refresh)
+            localStorage.setItem('full-name', response.data.full_name)
+            localStorage.setItem('email', response.data.email)
 
             // roles
             if (response.data.role === 'manager') {

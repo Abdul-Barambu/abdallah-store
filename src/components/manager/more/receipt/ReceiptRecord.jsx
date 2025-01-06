@@ -1,22 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CiSearch } from "react-icons/ci";
 import { IoEye } from "react-icons/io5";
 import { FaFilter } from "react-icons/fa";
 import { MdEditSquare } from "react-icons/md";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { listOfStocks } from '../../../../data';
+import axios from 'axios';
 
-const ReceiptRecord = ({setClicked}) => {
+const ReceiptRecord = ({ setClicked }) => {
     const [searchValue, setSearchValue] = useState('');
     const [filter, setFilter] = useState(false)
     const [selectedFilter, setSelectedFilter] = useState('All');
+    const [receipts, setReceipts] = useState([])
+    const [loading, setLoading] = useState(false)
 
-    const filteredDues = listOfStocks.filter((list) => {
-        const matchesSearch = list.supplier.toLowerCase().includes(searchValue.toLowerCase())
-        const matchesFilter = selectedFilter === 'All' || list.status.toLowerCase() === selectedFilter.toLowerCase();
+    const filteredReceipts = receipts.filter((receipt) => {
+        const matchesSearch = receipt.payment_status.toLowerCase().includes(searchValue.toLowerCase())
+        const matchesFilter = selectedFilter === 'All' || receipt.payment_status.toLowerCase() === selectedFilter.toLowerCase();
 
         return matchesSearch && matchesFilter;
     });
+
+    // header
+    const accessToken = localStorage.getItem('access-token')
+    const refreshToken = localStorage.getItem('refresh-token')
+
+    const headers = {
+        Authorization: `Bearer ${accessToken}`
+    }
+
+    useEffect(() => {
+        setLoading(true)
+        axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/receipts/", { headers })
+            .then(response => {
+                console.log(response)
+                setReceipts(response.data)
+                setLoading(false)
+            }).catch(error => {
+                console.log(error)
+                setLoading(false)
+            })
+    }, [])
 
 
     return (
@@ -75,34 +99,63 @@ const ReceiptRecord = ({setClicked}) => {
                 {/* Wrapper for horizontal scroll */}
                 <div className='min-w-[600px]'>
                     {/* Head */}
-                    <div className='grid grid-cols-5 bg-white py-3 text-center mb-1'>
+                    <div className='grid grid-cols-9 bg-white py-3 text-center mb-1'>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Supplier's Name</span>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Date of Purchase</span>
+                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Stock Name</span>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Price</span>
+                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Qty</span>
+                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Total Price</span>
+                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Amount Paid</span>
+                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Outstanding</span>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Payment Status</span>
-                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Action</span>
                     </div>
 
                     {/* Data */}
-                    <div className='h-96 overflow-y-scroll'>
-                        {
-                            filteredDues.map((list) => (
-                                <div key={list.id} className='grid grid-cols-5 my-0.5 text-center'>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.supplier}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.date}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{list.price}</span>
-                                    <div className='bg-white/[0.47] py-5'>
-                                        <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${list.status === 'Fully Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{list.status}</span>
-                                    </div>
-                                    <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
-                                        <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewReceiptRecord"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
-                                        <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditReceiptRecord"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
-                                        <RiDeleteBin6Fill className='cursor-pointer icon-red' />
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div>
+                    {
+                        loading ? (<div className='loader'></div>) : (
+                            <div className='h-96 overflow-y-scroll'>
+                                {
+                                    filteredReceipts.map((receipt) => (
+                                        <div key={receipt.id} className='grid grid-cols-9 my-0.5 text-center'>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{receipt.supplier_name}</span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
+                                                {receipt.items.map((item, index) => (
+                                                    <span key={index} className='flex flex-col'>{item.date}</span>
+                                                ))}
+                                            </span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
+                                                {receipt.items.map((item, index) => (
+                                                    <span key={index} className='flex flex-col'>{item.stock_name}</span>
+                                                ))}
+                                            </span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
+                                                {receipt.items.map((item, index) => (
+                                                    <span key={index} className='flex flex-col'>₦{Number(item.price).toLocaleString()}.00</span>
+                                                ))}
+                                            </span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
+                                                {receipt.items.map((item, index) => (
+                                                    <span key={index} className='flex flex-col'>{item.quantity}</span>
+                                                ))}
+                                            </span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(receipt.total).toLocaleString()}.00</span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(receipt.amount_paid).toLocaleString()}.00</span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(receipt.outstanding).toLocaleString()}.00</span>
+                                            <div className='bg-white/[0.47] py-5'>
+                                                <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${receipt.payment_status === 'Fully Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{receipt.payment_status}</span>
+                                            </div>
+                                            {/* <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
+                                            <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewReceiptRecord"); localStorage.setItem("ListOfStocks", JSON.stringify(receipt)) }} />
+                                            <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditReceiptRecord"); localStorage.setItem("ReceiptsRecord", JSON.stringify(receipt)) }} />
+                                            <RiDeleteBin6Fill className='cursor-pointer icon-red' />
+                                        </div> */}
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

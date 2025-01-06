@@ -73,25 +73,20 @@ const Receipt = ({ setClicked, handlePrint, button }) => {
       </div>
 
       {/* receipt */}
-    <div className={`bg-white ${button ? 'w-full' : 'w-full sm:w-2/3 lg:w-3/6 xl:w-2/5'} mx-auto pt-0.5 pb-2`}>
+      <div className={`bg-white ${button ? 'w-full' : 'w-full sm:w-2/3 lg:w-3/6 xl:w-2/5'} mx-auto pt-0.5 pb-2`}>
         {/* header */}
         <div className='black-bg mx-0.5 p-1'>
           <div className='border-receipt text-center py-2'>
             <p className='text-white font-mont text-[11px] sm:text-base font-semibold'>Receipt from Abdallah Abdallah Store</p>
-            <span className='text-white font-mont text-[8px] sm:text-sm font-medium'>Sales rep: Mustapha Danladi</span>
           </div>
         </div>
         {/* body */}
         <div className='mt-3'>
           {/* top */}
           <div className='mx-5 sm:mx-10'>
-            <p className='font-mont text-[11px] sm:text-base font-semibold mb-1'>Wholesaler's Name: {due.name}</p>
-            <p className='font-mont text-[9px] sm:text-sm font-medium mb-1'>Phone number: 08123456789</p>
-            <p className='font-mont text-[8px] sm:text-xs gray-text font-medium mb-1'>Invoice #123456</p>
-            <span className='flex justify-between items-center'>
-              <p className='font-mont text-[8px] sm:text-xs gray-text font-medium'>Receipt #123456</p>
-              <p className='font-mont text-[8px] sm:text-xs black-text font-medium'>Date of Purchase: {due.date}</p>
-            </span>
+            <p className='font-mont text-[11px] sm:text-base font-semibold mb-1'>Wholesaler's Name: {due.buyer_name}</p>
+            <p className='font-mont text-[9px] sm:text-sm font-medium mb-1'>Phone number: {due.buyer_phone}</p>
+            <p className='font-mont text-[8px] sm:text-xs black-text font-medium'>Date of Purchase: {due.date_of_purchase}</p>
           </div>
           {/* middle */}
           <div>
@@ -107,28 +102,28 @@ const Receipt = ({ setClicked, handlePrint, button }) => {
             {/* data */}
             <div className='mx-3 sm:mx-10'>
               {
-                receiptProducts.map((product, index) => (
+                due.items.map((item, index) => (
                   <div key={index} className='grid grid-cols-4 text-center py-4'>
-                    <span className='font-mont text-[9px] sm:text-xs font-medium'>{product.description}</span>
-                    <span className='font-mont text-[9px] sm:text-xs font-medium'>₦{product.price}</span>
-                    <span className='font-mont text-[9px] sm:text-xs font-medium'>{product.qty}</span>
-                    <span className='font-mont text-[9px] sm:text-xs font-medium'>₦{product.amount}</span>
+                    <span className='font-mont text-[9px] sm:text-xs font-medium'>{item.stock_name}</span>
+                    <span className='font-mont text-[9px] sm:text-xs font-medium'>₦{Number(item.price).toLocaleString()}</span>
+                    <span className='font-mont text-[9px] sm:text-xs font-medium'>{item.quantity}</span>
+                    <span className='font-mont text-[9px] sm:text-xs font-medium'>₦{Number(item.item_total).toLocaleString()}</span>
                   </div>
                 ))
               }
               {/* total */}
-              <p className='text-right text-xs sm:text-sm font-mont font-bold'>Total: ₦45000</p>
+              <p className='text-right text-xs sm:text-sm font-mont font-bold'>Total: ₦{Number(due.total_price).toLocaleString()}</p>
             </div>
             <p className='font-mont gray-text font-medium mt-10 sm:mt-14 text-center text-xs sm:text-base'>Thank You For Trusting Our Store</p>
             {/* bottom */}
             <div className='mt-10 sm:mt-14 mx-5 sm:mx-10'>
               <div className='flex items-center justify-between mb-4 sm:mb-5'>
                 <p className='text-[10px] sm:text-sm font-mont font-medium'>Outstanding:</p>
-                <p className='text-[10px] sm:text-sm font-mont font-medium'>₦{due.price}</p>
+                <p className='text-[10px] sm:text-sm font-mont font-medium'>₦{Number(due.outstanding_balance).toLocaleString()}</p>
               </div>
               <div className='flex items-center justify-between mb-5'>
                 <p className='text-[10px] sm:text-sm font-mont font-bold'>Amount Paid:</p>
-                <p className='text-[10px] sm:text-sm font-mont font-bold'>₦15000</p>
+                <p className='text-[10px] sm:text-sm font-mont font-bold'>₦{Number(due.amount_paid).toLocaleString()}</p>
               </div>
             </div>
           </div>

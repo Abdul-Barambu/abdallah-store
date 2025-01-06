@@ -82,7 +82,7 @@ const Reports = ({ setClicked, handlePrint, button }) => {
                 <p className='mt-3 font-medium font-mont sm:text-[10px] lg:text-sm xl:text-base'>Total Sales</p>
               </div>
               <div className='flex-grow bg-white px-5 py-5 rounded-3xl'>
-                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg'>₦{Number(sales).toLocaleString}.00</p>
+                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg'>₦{Number(sales).toLocaleString()}.00</p>
                 <div className='flex flex-row items-center mt-4 px-1 sm:px-1 lg:px-2 sm:py-0 lg:py-1 increase'>
                   <RiArrowUpFill size={20} className='font-semibold green-text' />
                   <p className='font-semibold text-[13px] sm:text-[9px] lg:text-[10px] xl:text-xs green-text'>26%</p>
@@ -98,7 +98,7 @@ const Reports = ({ setClicked, handlePrint, button }) => {
                 <p className='mt-3 font-medium font-mont sm:text-[10px] lg:text-sm xl:text-base'>Total Profits</p>
               </div>
               <div className='flex-grow bg-white px-6 py-6 rounded-3xl'>
-                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg'>₦{Number(profits).toLocaleString}.00</p>
+                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg'>₦{Number(profits).toLocaleString()}.00</p>
                 <div className='flex flex-row items-center mt-4 px-1 sm:px-1 lg:px-2 sm:py-0 lg:py-1 increase'>
                   <RiArrowUpFill size={20} className='font-semibold green-text' />
                   <p className='font-semibold text-[13px] sm:text-[9px] lg:text-[10px] xl:text-xs green-text'>26%</p>
@@ -136,7 +136,7 @@ const Reports = ({ setClicked, handlePrint, button }) => {
                     <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.stock_name}</span>
                     <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.purchase_type}</span>
                     <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.quantity}</span>
-                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{product.total_price}</span>
+                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.total_price).toLocaleString()}.00</span>
                     <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.purchased_at}</span>
                     <div className='bg-table py-5'>
                       <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${product.status === 'Fully Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{product.status}</span>

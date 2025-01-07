@@ -35,12 +35,14 @@ import Alert from '../../../components/alert/Alert'
 import CustomerRetailReceipt from '../../../components/manager/more/customer/CustomerRetailReceipt'
 import Swal from 'sweetalert2'
 import { useHistory } from 'react-router-dom'
+import axios from 'axios'
 
 const ManagerDashboard = () => {
   const [clicked, setClicked] = useState('ManagerDashboard')
   const [nav, setNav] = useState(false)
   const [button, setButton] = useState(false)
   const [alert, setAlert] = useState(false)
+  const [outOfStock, setOutOfStock] = useState([])
   const history = useHistory()
 
   const handleNavBar = () => {
@@ -55,9 +57,29 @@ const ManagerDashboard = () => {
     }, 100)
   }
 
+  // alert
   useEffect(() => {
     setAlert(true); // Always show alert on page load
   }, []);
+
+
+  // header
+  const accessToken = localStorage.getItem('access-token')
+  const refreshToken = localStorage.getItem('refresh-token')
+
+  const headers = {
+    Authorization: `Bearer ${accessToken}`
+  }
+
+  useEffect(() => {
+    axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/health-status/", { headers })
+      .then(response => {
+        console.log(response)
+        setOutOfStock(response.data.out_of_stock_stocks)
+      }).catch(error => {
+        console.log(error)
+      })
+  }, [])
 
   // logout
   const handleLogout = () => {
@@ -332,14 +354,16 @@ const ManagerDashboard = () => {
 
         {/* alert model */}
         {
-          alert && (
-            <div className='center-proceed'>
-              <div className="is-proceed"></div>
-              <div className="center-content-proceed">
-                <Alert setAlert={setAlert} setClicked={setClicked} />
+          outOfStock.length > 0 ? (
+            alert && (
+              <div className='center-proceed'>
+                <div className="is-proceed"></div>
+                <div className="center-content-proceed">
+                  <Alert setAlert={setAlert} setClicked={setClicked} outOfStock={outOfStock} />
+                </div>
               </div>
-            </div>
-          )
+            )
+          ) : ''
         }
 
         {/* components */}

@@ -1,16 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GoArrowLeft } from "react-icons/go";
 import { CiSearch } from "react-icons/ci";
 import { IoEye } from "react-icons/io5";
 import { FaFilter } from "react-icons/fa";
-import { dues } from '../../../../data';
+import axios from 'axios';
 
 const WholesaleDueView = ({ setClicked }) => {
-    const [searchValue, setSearchValue] = useState('');
 
-    const filteredDues = dues.filter((due) =>
-        due.name.toLowerCase().includes(searchValue.toLowerCase())
+    const [searchValue, setSearchValue] = useState('');
+    const [onCredit, setOnCredit] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    const filteredDues = onCredit.filter((purchase) =>
+        purchase.buyer_name.toLowerCase().includes(searchValue.toLowerCase())
     );
+
+    // header
+    const accessToken = localStorage.getItem('access-token')
+    const refreshToken = localStorage.getItem('refresh-token')
+
+    const headers = {
+        Authorization: `Bearer ${accessToken}`
+    }
+
+    useEffect(() => {
+        setLoading(true)
+        axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/purchases/on-credit/", { headers })
+            .then(response => {
+                console.log(response)
+                setOnCredit(response.data.purchases)
+                setLoading(false)
+            }).catch(error => {
+                console.log(error)
+                setLoading(false)
+            })
+    }, [])
 
     return (
         <div className='bg-color-dash mx-4 sm:mx-0'>
@@ -60,28 +84,36 @@ const WholesaleDueView = ({ setClicked }) => {
                     </div>
 
                     {/* Data */}
-                    <div className='h-96 overflow-y-scroll'>
-                        {
-                            filteredDues.map((due) => (
-                                <div key={due.id} className='grid grid-cols-6 my-0.5 text-center'>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{due.name}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{due.date}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{due.description}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{due.price}</span>
-                                    <div className='bg-white/[0.47] py-5'>
-                                        <span className='font-mont text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-medium icon-red on-credit truncate'>{due.status}</span>
-                                    </div>
-                                    <div className='flex flex-row gap-1 justify-center items-center bg-white/[0.47]'>
-                                        <IoEye className='cursor-pointer' onClick={() => { setClicked("WholesaleViewReceipt"); localStorage.setItem('due', JSON.stringify(due)) }} />
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div>
+                    {
+                        loading ? (<div className='loader'></div>) : (
+                            <div className='h-96 overflow-y-scroll'>
+                                {
+                                    filteredDues.map((purchase) => (
+                                        <div key={purchase.id} className='grid grid-cols-6 my-0.5 text-center'>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{purchase.buyer_name}</span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{purchase.date_of_purchase}</span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
+                                                {purchase.items.map((item) => (
+                                                    <span>{item.stock_name}</span>
+                                                ))}
+                                            </span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(purchase.total_price).toLocaleString()}.00</span>
+                                            <div className='bg-white/[0.47] py-5'>
+                                                <span className='font-mont text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-medium icon-red on-credit truncate'>{purchase.payment_status}</span>
+                                            </div>
+                                            <div className='flex flex-row gap-1 justify-center items-center bg-white/[0.47]'>
+                                                <IoEye className='cursor-pointer' onClick={() => { setClicked("WholesaleViewReceipt"); localStorage.setItem('due', JSON.stringify(purchase)) }} />
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>
     );
 }
 
-export default WholesaleDueView
+export default WholesaleDueView;

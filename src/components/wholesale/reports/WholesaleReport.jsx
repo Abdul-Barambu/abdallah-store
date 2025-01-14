@@ -1,16 +1,68 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaMoneyBills } from "react-icons/fa6";
 import { RiArrowUpFill } from "react-icons/ri";
 import { FaChartSimple } from "react-icons/fa6";
 import { IoEye } from "react-icons/io5";
 import { soldProducts } from '../../../data';
 import WholesaleCharts from './WholesaleCharts';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const WholesaleReport = ({ setClicked }) => {
 
-    const date = new Date()
+    const [sales, setSales] = useState('')
+    const [profit, setProfit] = useState('')
+    const [topSellingProducts, setTopSellingProducts] = useState([])
+    const [loading, setLoading] = useState(false)
 
-    const currentDate = date.toISOString().split('T')[0]
+    // headers
+    const Access = localStorage.getItem("access-token")
+    const Refresh = localStorage.getItem("refresh-token")
+
+    const headers = {
+        Authorization: `Bearer ${Access}`
+    }
+
+    // total sales
+    useEffect(() => {
+        axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/wholesale/total-sales/", { headers })
+            .then(response => {
+                console.log(response)
+                setSales(response.data.total_sales)
+            }).catch(error => {
+                console.log(error)
+            })
+    }, [])
+
+    // total sales
+    useEffect(() => {
+        axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/wholesale/total-profits/", { headers })
+            .then(response => {
+                console.log(response)
+                setProfit(response.data.total_profit)
+            }).catch(error => {
+                console.log(error)
+            })
+    }, [])
+
+    // top selling products
+    useEffect(() => {
+        setLoading(true)
+        axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/wholesale/top-selling-products/", { headers })
+            .then(response => {
+                console.log(response)
+                setTopSellingProducts(response.data)
+                setLoading(false)
+            }).catch(error => {
+                console.log(error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ERROR',
+                    text: 'Something went wrong, please try again'
+                })
+                setLoading(false)
+            })
+    }, [])
 
     return (
         <div className='bg-color-full'>
@@ -29,7 +81,7 @@ const WholesaleReport = ({ setClicked }) => {
                                 <p className='mt-3 font-medium font-mont sm:text-[10px] lg:text-sm xl:text-lg'>Total Sales</p>
                             </div>
                             <div className='flex-grow bg-white px-5 py-5 rounded-3xl'>
-                                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-base'>₦12,000,000</p>
+                                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-base'>₦{Number(sales).toLocaleString()}.00</p>
                                 <div className='flex flex-row items-center mt-4 px-1 sm:px-1 lg:px-2 sm:py-0 lg:py-1 increase'>
                                     <RiArrowUpFill size={20} className='font-semibold green-text' />
                                     <p className='font-semibold text-[13px] sm:text-[9px] lg:text-[10px] xl:text-xs green-text'>26%</p>
@@ -45,7 +97,7 @@ const WholesaleReport = ({ setClicked }) => {
                                 <p className='mt-3 font-medium font-mont sm:text-[10px] lg:text-sm xl:text-base'>Total Profits</p>
                             </div>
                             <div className='flex-grow bg-white px-6 py-6 rounded-3xl'>
-                                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg'>₦12,000,000</p>
+                                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg'>₦{Number(profit).toLocaleString()}.00</p>
                                 <div className='flex flex-row items-center mt-4 px-1 sm:px-1 lg:px-2 sm:py-0 lg:py-1 increase'>
                                     <RiArrowUpFill size={20} className='font-semibold green-text' />
                                     <p className='font-semibold text-[13px] sm:text-[9px] lg:text-[10px] xl:text-xs green-text'>26%</p>
@@ -64,28 +116,28 @@ const WholesaleReport = ({ setClicked }) => {
                         {/* Wrapper for horizontal scroll */}
                         <div className={`min-w-[600px]`}>
                             {/* Head */}
-                            <div className='grid grid-cols-6 bg-light-gray py-3 text-center mb-1'>
+                            <div className='grid grid-cols-5 bg-light-gray py-3 text-center mb-1'>
                                 <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Stock Name</span>
                                 <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>SKU</span>
-                                <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Selling Price</span>
+                                <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Total Cost</span>
                                 <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Qty Sold</span>
-                                <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Total Sales</span>
-                                <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Action</span>
+                                <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Total Revenue</span>
+                                {/* <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Action</span> */}
                             </div>
 
                             {/* Data */}
                             <div className={`h-[500px] overflow-y-scroll`}>
                                 {
-                                    soldProducts.map((product) => (
-                                        <div key={product.id} className='grid grid-cols-6 my-0.5 text-center'>
-                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.name}</span>
+                                    topSellingProducts.map((product) => (
+                                        <div key={product.id} className='grid grid-cols-5 my-0.5 text-center'>
+                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.stock_name}</span>
                                             <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.sku}</span>
-                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{product.price}</span>
-                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.qty}</span>
-                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{product.total}</span>
-                                            <div className='bg-table flex flex-row gap-4 justify-center items-center'>
-                                                <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewWholesaleReport"); localStorage.setItem("soldStocks", JSON.stringify(product)) }} />
-                                            </div>
+                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.total_cost).toLocaleString()}.00</span>
+                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.total_quantity_sold}</span>
+                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.total_revenue).toLocaleString()}.00</span>
+                                            {/* <div className='bg-table flex flex-row gap-4 justify-center items-center'>
+                                                <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewWholesaleReport"); localStorage.setItem("topSellingProducts", JSON.stringify(product)) }} />
+                                            </div> */}
                                         </div>
                                     ))
                                 }

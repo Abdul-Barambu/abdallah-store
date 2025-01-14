@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { FaMoneyBills, FaChartSimple, FaCaretLeft, FaCaretRight } from "react-icons/fa6";
 import { companyName } from '../../../../data';
 import RegisterButton from './RegisterButton';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const DashboardCards = ({ setClicked }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -25,6 +27,25 @@ const DashboardCards = ({ setClicked }) => {
     const handleCompanyClick = (index) => {
         setSelectedIndex(index); // Update selected company index
     };
+
+    // headers
+    const Access = localStorage.getItem("access-token")
+    const Refresh = localStorage.getItem("refresh-token")
+
+    const headers = {
+        Authorization: `Bearer ${Access}`
+    }
+
+
+    // companies
+    useEffect(() => {
+        axios.get('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/userauths/users/', { headers })
+            .then(response => {
+                console.log(response)
+            }).catch(error => {
+                console.log(error)
+            })
+    }, [])
 
     return (
         <div className="bg-color mt-4 mx-4 sm:mx-0 pb-10 sm:pb-0 relative">

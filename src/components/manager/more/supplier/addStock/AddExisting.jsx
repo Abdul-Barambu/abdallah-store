@@ -41,7 +41,7 @@ const AddExisting = ({ setClicked }) => {
     const handleAddExistingStock = () => {
         setBtn(true)
         axios.post(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/${stockId}/restock/`, {
-            quantity: quantity,
+            quantity: parseInt(quantity),
             price: price,
             payment_status: status,
             amount_paid: amountPaid,
@@ -52,8 +52,8 @@ const AddExisting = ({ setClicked }) => {
             retail_price: retail,
             retail_cap_price: retailCap,
             date_of_purchase: date,
-            low_stock_threshold: lowStock,
-            out_of_stock_threshold: outOfStock
+            low_stock_threshold: parseInt(lowStock),
+            out_of_stock_threshold: parseInt(outOfStock)
         }, { headers })
             .then(response => {
                 console.log(response)
@@ -97,7 +97,7 @@ const AddExisting = ({ setClicked }) => {
                         </div>
                         {/* input */}
                         <div className='mb-7'>
-                            <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Date Of Purchase</p>
+                            <p className='mb-1 font-mont text-xs sm:text-sm font-medium'>Date Of Restock</p>
                             <input type="date" value={date} onChange={(e) => setDate(e.target.value)} placeholder='Date' className='bg-gray-view px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal gray-text outline-none w-full sm:w-3/4' />
                         </div>
                         {/* input */}

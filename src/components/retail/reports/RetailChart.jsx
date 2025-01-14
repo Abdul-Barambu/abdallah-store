@@ -9,6 +9,7 @@ import {
     Legend
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import axios from 'axios';
 
 ChartJS.register(
     BarElement,
@@ -23,20 +24,46 @@ const RetailChart = () => {
 
     // Full dataset
     const allLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const allSalesData = [3, 6, 9, 10, 5, 5, 3, 4, 2, 1, 6, 7];
-    const allProfitsData = [3, 3, 3, 9, 11, 5, 6, 7, 6, 9, 10, 5];
+    const [jan, setJan] = useState('')
+    const [feb, setFeb] = useState('')
+    const [mar, setMar] = useState('')
+    const [apr, setApr] = useState('')
+    const [may, setMay] = useState('')
+    const [jun, setJun] = useState('')
+    const [jul, setJul] = useState('')
+    const [aug, setAug] = useState('')
+    const [sep, setSep] = useState('')
+    const [oct, setOct] = useState('')
+    const [nov, setNov] = useState('')
+    const [dec, setDec] = useState('')
+    const allSales = [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec];
 
-    // State to manage the number of months to show
+    const [janP, setJanP] = useState('')
+    const [febP, setFebP] = useState('')
+    const [marP, setMarP] = useState('')
+    const [aprP, setAprP] = useState('')
+    const [mayP, setMayP] = useState('')
+    const [junP, setJunP] = useState('')
+    const [julP, setJulP] = useState('')
+    const [augP, setAugP] = useState('')
+    const [sepP, setSepP] = useState('')
+    const [octP, setOctP] = useState('')
+    const [novP, setNovP] = useState('')
+    const [decP, setDecP] = useState('')
+    const allProfits = [janP, febP, marP, aprP, mayP, junP, julP, augP, sepP, octP, novP, decP];
+
     const [currentMonthIndex, setCurrentMonthIndex] = useState(0);
     const [monthsToShow, setMonthsToShow] = useState(8);
 
-    // Update the number of months to show based on screen width
+    // State to store the selected year
+    const [selectedYear, setSelectedYear] = useState("");
+
     useEffect(() => {
         const updateMonthsToShow = () => {
             if (window.innerWidth < 768) {
-                setMonthsToShow(4); // Mobile view
+                setMonthsToShow(4);
             } else {
-                setMonthsToShow(8); // Desktop view
+                setMonthsToShow(8);
             }
         };
 
@@ -48,15 +75,13 @@ const RetailChart = () => {
         };
     }, []);
 
-    // Slice the data for the current view
     const currentLabels = allLabels.slice(currentMonthIndex, currentMonthIndex + monthsToShow);
-    const currentSalesData = allSalesData.slice(currentMonthIndex, currentMonthIndex + monthsToShow);
-    const currentProfitsData = allProfitsData.slice(currentMonthIndex, currentMonthIndex + monthsToShow);
+    const currentSalesData = allSales.slice(currentMonthIndex, currentMonthIndex + monthsToShow);
+    const currentProfitsData = allProfits.slice(currentMonthIndex, currentMonthIndex + monthsToShow);
 
     const borderRadius = window.innerWidth < 640 ? 6 : window.innerWidth < 1024 ? 10 : 15;
     const labelFontSize = window.innerWidth < 640 ? 11 : window.innerWidth < 1024 ? 14 : 14;
 
-    // Data for the chart
     const data = {
         labels: currentLabels,
         datasets: [
@@ -75,7 +100,6 @@ const RetailChart = () => {
         ],
     };
 
-    // Chart options
     const options = {
         responsive: true,
         maintainAspectRatio: false,
@@ -113,7 +137,6 @@ const RetailChart = () => {
         },
     };
 
-    // Next and Previous buttons handlers
     const handleNext = () => {
         if (currentMonthIndex + monthsToShow < allLabels.length) {
             setCurrentMonthIndex(currentMonthIndex + 1);
@@ -126,7 +149,6 @@ const RetailChart = () => {
         }
     };
 
-    // Resize listener to update chart
     useEffect(() => {
         const handleResize = () => {
             if (chartRef.current) {
@@ -140,32 +162,106 @@ const RetailChart = () => {
         };
     }, []);
 
-    const generateYears = (startYear, numberOfYears) => {
-        const currentYear = new Date().getFullYear(); // Get the current year
-        const start = Math.max(startYear, currentYear); // Start with the current year or the specified year, whichever is greater
+    const generateYears = (startYear) => {
+        const currentYear = new Date().getFullYear();
         const years = [];
-
-        for (let i = 0; i < numberOfYears; i++) {
-            const year = start + i;
+        for (let year = startYear; year <= currentYear; year++) {
             years.push({
-                id: i + 1,
+                id: year - startYear + 1,
                 value: `${year}`,
                 name: `${year}`
             });
         }
-
         return years;
     };
 
-    // Usage example
-    const years = generateYears(2024, 10);
+    const years = generateYears(2022);
+
+    const handleYearChange = (e) => {
+        const selectedValue = e.target.value;
+        setSelectedYear(selectedValue);
+        // console.log(selectedValue); // Log the selected year
+    };
+
+    console.log(selectedYear)
+
+
+    // header
+    const accessToken = localStorage.getItem('access-token')
+    const refreshToken = localStorage.getItem('refresh-token')
+
+    const headers = {
+        Authorization: `Bearer ${accessToken}`
+    }
+
+    // all profits and sales
+    useEffect(() => {
+        if (selectedYear) {
+            const allSales = () => axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/retail/sales-by-year/", {
+                params: {
+                    year: selectedYear
+                },
+                headers: headers
+            })
+                .then(response => {
+                    console.log(response)
+                    setJan(response.data[0].January)
+                    setFeb(response.data[0].February)
+                    setMar(response.data[0].March)
+                    setApr(response.data[0].April)
+                    setMay(response.data[0].May)
+                    setJun(response.data[0].June)
+                    setJul(response.data[0].July)
+                    setAug(response.data[0].August)
+                    setSep(response.data[0].September)
+                    setOct(response.data[0].October)
+                    setNov(response.data[0].November)
+                    setDec(response.data[0].December)
+                    
+                }).catch(error => {
+                    console.log(error)
+                })
+
+            const allProfits = () => axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/retail/profit-for-yer/", {
+                params: {
+                    year: selectedYear
+                },
+                headers: headers
+            })
+                .then(response => {
+                    console.log(response)
+                    setJanP(response.data.monthly_profits.monthly_profits.January)
+                    setFebP(response.data.monthly_profits.monthly_profits.February)
+                    setMarP(response.data.monthly_profits.monthly_profits.March)
+                    setAprP(response.data.monthly_profits.monthly_profits.April)
+                    setMayP(response.data.monthly_profits.monthly_profits.May)
+                    setJunP(response.data.monthly_profits.monthly_profits.June)
+                    setJulP(response.data.monthly_profits.monthly_profits.July)
+                    setAugP(response.data.monthly_profits.monthly_profits.August)
+                    setSepP(response.data.monthly_profits.monthly_profits.September)
+                    setOctP(response.data.monthly_profits.monthly_profits.October)
+                    setNovP(response.data.monthly_profits.monthly_profits.November)
+                    setDecP(response.data.monthly_profits.monthly_profits.December)
+                }).catch(error => {
+                    console.log(error)
+                })
+
+            allSales();
+            allProfits();
+        }
+    }, [selectedYear])
 
 
     return (
-        <div className='rounded-3xl mt-4 mx-4 mb-10 sm:-mx-[1px]'>
+        <div className='bg-white rounded-3xl mt-4'>
             <div className='pt-4 px-6 flex justify-between'>
                 <span className='font-mont font-medium text-xs sm:text-lg'>Sales & Profits</span>
-                <select name="chart" className='font-mont font-medium text-[10px] sm:text-sm month-gray py-2 px-3 rounded-lg outline-none'>
+                <select
+                    name="chart"
+                    value={selectedYear} // Bind the state value
+                    className='font-mont font-medium text-[10px] sm:text-sm month-gray py-2 px-3 rounded-lg outline-none'
+                    onChange={handleYearChange} // Handle change event
+                >
                     {
                         years.map((year, index) => {
                             return (
@@ -196,7 +292,6 @@ const RetailChart = () => {
                     <Bar ref={chartRef} data={data} options={options} />
                 </div>
 
-
                 <button
                     onClick={handleNext}
                     disabled={currentMonthIndex + monthsToShow >= allLabels.length}
@@ -216,4 +311,4 @@ const RetailChart = () => {
     );
 };
 
-export default RetailChart
+export default RetailChart;

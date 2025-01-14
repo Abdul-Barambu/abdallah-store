@@ -1,15 +1,45 @@
 import React, { useState } from 'react'
 import { CiSearch } from "react-icons/ci";
 import { FaFilter } from "react-icons/fa";
-import { listOfStocks } from '../../../data';
+import { useEffect } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const HistoryRecord = () => {
 
     const [searchValue, setSearchValue] = useState('');
+    const [listofApproved, setListOfApproved] = useState([])
+    const [loading, setLoading] = useState(false)
 
-    const filteredDues = listOfStocks.filter((list) =>
-        list.name.toLowerCase().includes(searchValue.toLowerCase())
+    const filteredList = listofApproved.filter((list) =>
+        list.stock_name.toLowerCase().includes(searchValue.toLowerCase())
     );
+
+    // header
+    const accessToken = localStorage.getItem('access-token')
+    const refreshToken = localStorage.getItem('refresh-token')
+
+    const headers = {
+        Authorization: `Bearer ${accessToken}`
+    }
+
+
+    useEffect(() => {
+        setLoading(true)
+        axios.get('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/store/requests/approved/', { headers })
+            .then(response => {
+                console.log(response)
+                setListOfApproved(response.data)
+                setLoading(false)
+            }).catch(error => {
+                console.log(error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ERROR',
+                    text: 'Something went wrong, Please try again'
+                })
+            })
+    }, [])
 
     return (
         <div className='bg-color-dash mx-4 sm:mx-0'>
@@ -45,28 +75,28 @@ const HistoryRecord = () => {
                 {/* Wrapper for horizontal scroll */}
                 <div className='min-w-[600px]'>
                     {/* Head */}
-                    <div className='grid grid-cols-5 bg-white py-3 text-center mb-1'>
+                    <div className='grid grid-cols-3 bg-white py-3 text-center mb-1'>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Stock Name</span>
-                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>SKU</span>
-                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Category</span>
-                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Qty</span>
+                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Quantity</span>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Date</span>
                     </div>
 
                     {/* Data */}
-                    <div className='h-96 overflow-y-scroll'>
-                        {
-                            filteredDues.map((list) => (
-                                <div key={list.id} className='grid grid-cols-5 my-0.5 text-center'>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.name}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.sku}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.category}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.qty}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.date}</span>
-                                </div>
-                            ))
-                        }
-                    </div>
+                    {
+                        loading ? (<div className='loader'></div>) : (
+                            <div className='h-96 overflow-y-scroll'>
+                                {
+                                    filteredList.map((list) => (
+                                        <div key={list.id} className='grid grid-cols-3 my-0.5 text-center'>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.stock_name}</span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.quantity}</span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.date_requested}</span>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

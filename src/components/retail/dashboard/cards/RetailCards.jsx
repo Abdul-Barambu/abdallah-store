@@ -1,11 +1,45 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaMoneyBills } from "react-icons/fa6";
 import { RiArrowUpFill } from "react-icons/ri";
 import { FaChartSimple } from "react-icons/fa6";
-import { FaMoneyBill } from "react-icons/fa";
 import RetailButton from './RetailButton';
+import axios from 'axios';
 
 const RetailCards = ({ setClicked }) => {
+
+    const [sales, setSales] = useState('')
+    const [profit, setProfit] = useState('')
+
+    // headers
+    const Access = localStorage.getItem("access-token")
+    const Refresh = localStorage.getItem("refresh-token")
+
+    const headers = {
+        Authorization: `Bearer ${Access}`
+    }
+
+    // total sales
+    useEffect(() => {
+        axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/retail/sales/daily/", { headers })
+            .then(response => {
+                console.log(response)
+                setSales(response.data.total_sales_today)
+            }).catch(error => {
+                console.log(error)
+            })
+    }, [])
+
+    // total sales
+    useEffect(() => {
+        axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/retail/todays-total-profit/", { headers })
+            .then(response => {
+                console.log(response)
+                setProfit(response.data.daily_total_profit.profit)
+            }).catch(error => {
+                console.log(error)
+            })
+    }, [])
+
     return (
         <div className='bg-color mt-4 mx-4 sm:mx-0 pb-10 sm:pb-0'>
             {/* cards */}
@@ -19,7 +53,7 @@ const RetailCards = ({ setClicked }) => {
                         <p className='mt-3 font-medium font-mont sm:text-[10px] lg:text-sm xl:text-lg'>Total Sales</p>
                     </div>
                     <div className='flex-grow bg-light-gray px-5 py-5 rounded-3xl'>
-                        <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg'>₦12,000,000</p>
+                        <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg'>₦{Number(sales).toLocaleString()}.00</p>
                         <div className='flex flex-row items-center mt-4 px-1 sm:px-1 lg:px-2 sm:py-0 lg:py-1 increase'>
                             <RiArrowUpFill size={20} className='font-semibold green-text' />
                             <p className='font-semibold text-[13px] sm:text-[9px] lg:text-[10px] xl:text-xs green-text'>26%</p>
@@ -35,7 +69,7 @@ const RetailCards = ({ setClicked }) => {
                         <p className='mt-3 font-medium font-mont sm:text-[10px] lg:text-sm xl:text-lg'>Total Profits</p>
                     </div>
                     <div className='flex-grow bg-light-gray px-6 py-6 rounded-3xl'>
-                        <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg'>₦12,000,000</p>
+                        <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg'>₦{Number(profit).toLocaleString()}.00</p>
                         <div className='flex flex-row items-center mt-4 px-1 sm:px-1 lg:px-2 sm:py-0 lg:py-1 increase'>
                             <RiArrowUpFill size={20} className='font-semibold green-text' />
                             <p className='font-semibold text-[13px] sm:text-[9px] lg:text-[10px] xl:text-xs green-text'>26%</p>

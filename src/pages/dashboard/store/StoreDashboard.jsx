@@ -12,12 +12,17 @@ import Alert from '../../../components/alert/Alert'
 import DashboardStatus from '../../../components/store/dashboard/DashboardStatus'
 import StockRequest from '../../../components/store/reuqest/StockRequest'
 import HistoryRecord from '../../../components/store/history/HistoryRecord'
+import Swal from 'sweetalert2'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom'
+import axios from 'axios'
 
 const StoreDashboard = () => {
     const [clicked, setClicked] = useState('StoreDashboard')
     const [nav, setNav] = useState(false)
     const [button, setButton] = useState(false)
     const [alert, setAlert] = useState(false)
+    const [outOfStock, setOutOfStock] = useState([])
+    const history = useHistory()
 
     const handleNavBar = () => {
         setNav(!nav)
@@ -34,6 +39,48 @@ const StoreDashboard = () => {
     useEffect(() => {
         setAlert(true); // Always show alert on page load
     }, []);
+
+    // header
+    const accessToken = localStorage.getItem('access-token')
+    const refreshToken = localStorage.getItem('refresh-token')
+
+    const headers = {
+        Authorization: `Bearer ${accessToken}`
+    }
+
+    useEffect(() => {
+        axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/health-status/", { headers })
+            .then(response => {
+                console.log(response)
+                setOutOfStock(response.data.out_of_stock_stocks)
+            }).catch(error => {
+                console.log(error)
+            })
+    }, [])
+
+
+    // logout
+    const handleLogout = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Logout"
+        }).then((result) => {
+            localStorage.removeItem('access-token')
+            localStorage.removeItem('email')
+            localStorage.removeItem('full-name')
+            localStorage.removeItem('refresh-token')
+            localStorage.removeItem('reset-password-token')
+            localStorage.removeItem('reset-password-uid')
+            if (result.isConfirmed) {
+                history.push('/')
+            }
+        });
+    }
 
     return (
         <div className={`${(clicked === 'More' || clicked === 'Profile' || nav) ? 'bg-color-dash' : 'bg-color-full-dash'} pt-3 pb-0 sm:pb-5`}>
@@ -117,7 +164,7 @@ const StoreDashboard = () => {
                                             </p>
                                             <p
                                                 className={`${clicked === 'Logout' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-base py-3 text-center px-5 rounded-3xl mb-5 cursor-pointer`}
-                                                onClick={() => { setNav(false) }}
+                                                onClick={() => { setNav(false); handleLogout() }}
                                             >
                                                 Logout
                                             </p>
@@ -199,7 +246,7 @@ const StoreDashboard = () => {
                                             </p>
                                             <p
                                                 className={`${clicked === 'Logout' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-[10px] py-2 px-16 rounded-xl mb-5 cursor-pointer`}
-                                                onClick={() => { }}
+                                                onClick={() => { handleLogout() }}
                                             >
                                                 Logout
                                             </p>
@@ -213,16 +260,18 @@ const StoreDashboard = () => {
 
 
                 {/* alert model */}
-                {/* {
-                    alert && (
-                        <div className='center-proceed'>
-                            <div className="is-proceed"></div>
-                            <div className="center-content-proceed">
-                                <Alert setAlert={setAlert} setClicked={setClicked} />
+                {
+                    outOfStock.length > 0 ? (
+                        alert && (
+                            <div className='center-proceed'>
+                                <div className="is-proceed"></div>
+                                <div className="center-content-proceed">
+                                    <Alert setAlert={setAlert} setClicked={setClicked} outOfStock={outOfStock} />
+                                </div>
                             </div>
-                        </div>
-                    )
-                } */}
+                        )
+                    ) : ''
+                }
 
                 {/* components */}
                 <div className={`${button ? 'mx-0' : 'mx-0 sm:mx-4'} ${nav ? 'hidden' : 'visible'}`}>

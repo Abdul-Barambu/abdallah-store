@@ -88,24 +88,26 @@ const WholesaleDueView = ({ setClicked }) => {
                         loading ? (<div className='loader'></div>) : (
                             <div className='h-96 overflow-y-scroll'>
                                 {
-                                    filteredDues.map((purchase) => (
-                                        <div key={purchase.id} className='grid grid-cols-6 my-0.5 text-center'>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{purchase.buyer_name}</span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{purchase.date_of_purchase}</span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
-                                                {purchase.items.map((item) => (
-                                                    <span>{item.stock_name}</span>
-                                                ))}
-                                            </span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(purchase.total_price).toLocaleString()}.00</span>
-                                            <div className='bg-white/[0.47] py-5'>
-                                                <span className='font-mont text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-medium icon-red on-credit truncate'>{purchase.payment_status}</span>
+                                    onCredit.length > 0 ? (
+                                        filteredDues.map((purchase) => (
+                                            <div key={purchase.id} className='grid grid-cols-6 my-0.5 text-center'>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{purchase.buyer_name}</span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{purchase.date_of_purchase}</span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
+                                                    {purchase.items.map((item) => (
+                                                        <span>{item.stock_name}</span>
+                                                    ))}
+                                                </span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(purchase.total_price).toLocaleString()}.00</span>
+                                                <div className='bg-white/[0.47] py-5'>
+                                                    <span className='font-mont text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-medium icon-red on-credit truncate'>{purchase.payment_status}</span>
+                                                </div>
+                                                <div className='flex flex-row gap-1 justify-center items-center bg-white/[0.47]'>
+                                                    <IoEye className='cursor-pointer' onClick={() => { setClicked("WholesaleViewReceipt"); localStorage.setItem('due', JSON.stringify(purchase)) }} />
+                                                </div>
                                             </div>
-                                            <div className='flex flex-row gap-1 justify-center items-center bg-white/[0.47]'>
-                                                <IoEye className='cursor-pointer' onClick={() => { setClicked("WholesaleViewReceipt"); localStorage.setItem('due', JSON.stringify(purchase)) }} />
-                                            </div>
-                                        </div>
-                                    ))
+                                        ))
+                                    ) : (<p className='font-mont font-medium text-center mt-4'>No Record for on credit purchase</p>)
                                 }
                             </div>
                         )

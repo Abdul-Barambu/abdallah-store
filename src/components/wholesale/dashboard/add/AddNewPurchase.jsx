@@ -12,7 +12,6 @@ const AddNewPurchase = ({ setClicked }) => {
     const [phone, setPhone] = useState('')
     const [amountPaid, setAmountPaid] = useState('')
     const [status, setStatus] = useState('')
-    const [selectedStockId, setSelectedStockId] = useState(0);
     const [stocks, setStocks] = useState([])
     const [btn, setBtn] = useState(false)
     const [rows, setRows] = useState([
@@ -66,11 +65,10 @@ const AddNewPurchase = ({ setClicked }) => {
         setRows((prevRows) =>
             prevRows.map((row) =>
                 row.id === rowId
-                    ? { ...row, stockId: stockId, stockPrice: wholesalePrice } // Assign the selected stock price to the row
+                    ? { ...row, stockId: stockId, stockPrice: wholesalePrice }
                     : row
             )
         );
-        setSelectedStockId(stockId);
     };
 
     // sum up all total
@@ -102,7 +100,7 @@ const AddNewPurchase = ({ setClicked }) => {
         setBtn(true)
         axios.post('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/wholesale/wholesale-purchase', {
             items: rows.map(row => ({
-                stock_id: selectedStockId,
+                stock_id: row.stockId,
                 quantity: row.qty,
                 discount_price: row.discount
             })),

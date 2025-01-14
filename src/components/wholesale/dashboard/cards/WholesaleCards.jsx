@@ -44,7 +44,7 @@ const WholesaleCards = ({ setClicked }) => {
             })
     }, [])
 
-    // total sales
+    // due
     useEffect(() => {
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/purchases/on-credit/", { headers })
             .then(response => {

@@ -1,8 +1,44 @@
 import React, { useState } from 'react';
 import { FaMoneyBills, FaChartSimple } from "react-icons/fa6";
 import CompanyButtons from './CompanyButtons';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const CompanyCards = ({ setClicked }) => {
+
+    const [sales, setSales] = useState(0)
+    const [commission, setCommssion] = useState(0)
+
+    // headers
+    const Access = localStorage.getItem("access-token")
+    const Refresh = localStorage.getItem("refresh-token")
+
+    const headers = {
+        Authorization: `Bearer ${Access}`
+    }
+
+    // sales
+    useEffect(() => {
+        axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/sales/total/", { headers })
+            .then(response => {
+                console.log(response)
+                setSales(response.data.total_sales)
+            }).catch(error => {
+                console.log(error)
+            })
+    }, [])
+
+    // sales
+    useEffect(() => {
+        axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/sales/total-commission/", { headers })
+            .then(response => {
+                console.log(response)
+                setCommssion(response.data.total_commission)
+            }).catch(error => {
+                console.log(error)
+            })
+    }, [])
+
     return (
         <div className="bg-color mt-4 mx-4 sm:mx-0 pb-10 sm:pb-0 relative">
             {/* Cards */}
@@ -16,7 +52,7 @@ const CompanyCards = ({ setClicked }) => {
                         <p className="mt-3 font-medium font-mont sm:text-[10px] lg:text-sm xl:text-lg">Total Sales <span className='text-white'>break</span></p>
                     </div>
                     <div className="flex-grow bg-light-gray px-5 py-5 rounded-3xl">
-                        <p className="font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg mt-7">₦12,000,000</p>
+                        <p className="font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg mt-7">₦{Number(sales).toLocaleString()}.00</p>
                     </div>
                 </div>
                 {/* Card 2 */}
@@ -28,7 +64,7 @@ const CompanyCards = ({ setClicked }) => {
                         <p className="mt-3 font-medium font-mont sm:text-[10px] lg:text-sm xl:text-lg">Total AAS Commission</p>
                     </div>
                     <div className="flex-grow bg-light-gray px-6 py-6 rounded-3xl">
-                        <p className="font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg mt-7">₦12,000,000</p>
+                        <p className="font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg mt-7">₦{Number(commission).toLocaleString()}.00</p>
                     </div>
                 </div>
             </div>

@@ -44,11 +44,11 @@ const RequestStock = ({ setClicked }) => {
         setBtn(true)
         axios.post(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/store/request-stock/`, {
             stock_id: id,
-            quantity: qty
+            quantity: parseInt(qty)
         }, { headers })
             .then(response => {
                 console.log(response)
-                toast.success('Request sent sucessfully')
+                setAlert(true)
                 setAlert(true)
                 setBtn(false)
             }).catch(error => {
@@ -105,7 +105,7 @@ const RequestStock = ({ setClicked }) => {
 
                         <span className='text-xs sm:text-sm font-mont py-2'>
                             <input
-                                type="number"
+                                type="text"
                                 value={qty}
                                 onChange={(e) => setQty(e.target.value)} // Add this onChange
                                 className='bg-white px-2 text-center text-xs sm:text-sm w-full py-3 outline-none rounded-md sm:rounded-lg'

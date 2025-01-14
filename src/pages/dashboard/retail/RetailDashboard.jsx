@@ -18,12 +18,18 @@ import Settings from '../../../components/profile/setting/Settings'
 import ChangePassword from '../../../components/profile/setting/ChangePassword'
 import Notification from '../../../components/notification/Notification'
 import Alert from '../../../components/alert/Alert'
+import Swal from 'sweetalert2'
+import axios from 'axios'
+import { useHistory } from 'react-router-dom'
+import EditPurchaseReceipt from '../../../components/retail/salesRecord/EditPurchaseReceipt'
 
 const RetailDashboard = () => {
     const [clicked, setClicked] = useState('RetailDashboard')
     const [nav, setNav] = useState(false)
     const [button, setButton] = useState(false)
     const [alert, setAlert] = useState(false)
+    const [outOfStock, setOutOfStock] = useState([])
+    const history = useHistory();
 
     const handleNavBar = () => {
         setNav(!nav)
@@ -40,6 +46,56 @@ const RetailDashboard = () => {
     useEffect(() => {
         setAlert(true); // Always show alert on page load
     }, []);
+
+
+    // header
+    const accessToken = localStorage.getItem('access-token')
+    const refreshToken = localStorage.getItem('refresh-token')
+
+    const headers = {
+        Authorization: `Bearer ${accessToken}`
+    }
+
+    useEffect(() => {
+        axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/health-status/", { headers })
+            .then(response => {
+                console.log(response)
+                setOutOfStock(response.data.out_of_stock_stocks)
+            }).catch(error => {
+                console.log(error)
+            })
+    }, [])
+
+
+    // logout
+    const handleLogout = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Logout"
+        }).then((result) => {
+            localStorage.removeItem('ListOfStocks')
+            localStorage.removeItem('stock-retail-purchase')
+            localStorage.removeItem('access-token')
+            localStorage.removeItem('edit-retail')
+            localStorage.removeItem('email')
+            localStorage.removeItem('full-name')
+            localStorage.removeItem('refresh-token')
+            localStorage.removeItem('reset-password-token')
+            localStorage.removeItem('reset-password-uid')
+            localStorage.removeItem('stock-wholesale-purchase')
+            localStorage.removeItem('soldStocks')
+            localStorage.removeItem('stockId')
+            localStorage.removeItem('retail-list')
+            if (result.isConfirmed) {
+                history.push('/')
+            }
+        });
+    }
 
     return (
         <div className={`${(clicked === 'More' || clicked === 'Profile' || nav) ? 'bg-color-dash' : 'bg-color-full-dash'} pt-3 pb-0 sm:pb-5`}>
@@ -129,7 +185,7 @@ const RetailDashboard = () => {
                                             </p>
                                             <p
                                                 className={`${clicked === 'Logout' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-base py-3 text-center px-5 rounded-3xl mb-5 cursor-pointer`}
-                                                onClick={() => { setNav(false) }}
+                                                onClick={() => { setNav(false); handleLogout() }}
                                             >
                                                 Logout
                                             </p>
@@ -219,7 +275,7 @@ const RetailDashboard = () => {
                                             </p>
                                             <p
                                                 className={`${clicked === 'Logout' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-[10px] py-2 px-16 rounded-xl mb-5 cursor-pointer`}
-                                                onClick={() => { }}
+                                                onClick={() => { handleLogout() }}
                                             >
                                                 Logout
                                             </p>
@@ -234,25 +290,27 @@ const RetailDashboard = () => {
 
                 {/* alert model */}
                 {
-                    alert && (
-                        <div className='center-proceed'>
-                            <div className="is-proceed"></div>
-                            <div className="center-content-proceed">
-                                <Alert setAlert={setAlert} setClicked={setClicked} />
+                    outOfStock.length > 0 ? (
+                        alert && (
+                            <div className='center-proceed'>
+                                <div className="is-proceed"></div>
+                                <div className="center-content-proceed">
+                                    <Alert setAlert={setAlert} setClicked={setClicked} outOfStock={outOfStock} />
+                                </div>
                             </div>
-                        </div>
-                    )
+                        )
+                    ) : ''
                 }
-
                 {/* components */}
                 <div className={`${button ? 'mx-0' : 'mx-0 sm:mx-4'} ${nav ? 'hidden' : 'visible'}`}>
                     {
                         clicked === "RetailDashboard" ? <RetailCards setClicked={setClicked} /> : clicked === "RetailAddPurchase" ? <RetailAddPurchase setClicked={setClicked} /> : clicked === "PurchaseReceipt" ? <PurchaseReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} />
                             : clicked === "SalesRecord" ? <RetailSalesRecord setClicked={setClicked} /> : clicked === "ViewRetailRecord" ? <ViewRetailRecord setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "EditRecord" ? <EditRecord setClicked={setClicked} />
                                 : clicked === "RetailReports" ? <RetailReport setClicked={setClicked} /> : clicked === "ViewRetailReport" ? <ViewRetailReport setClicked={setClicked} /> : clicked === "Status" ? <RetailStatus setClicked={setClicked} handlePrint={handlePrint} button={button} />
+                                    : clicked === "EditPurchaseReceipt" ? <EditPurchaseReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} />
 
-                                    // ##### profile and notification #####
-                                    : clicked === "MyProfile" ? <MyProfile setClicked={setClicked} /> : clicked === "Settings" ? <Settings setClicked={setClicked} /> : clicked === "ChangePassword" ? <ChangePassword setClicked={setClicked} /> : clicked === "Notification" ? <Notification setClicked={setClicked} /> : null
+                                        // ##### profile and notification #####
+                                        : clicked === "MyProfile" ? <MyProfile setClicked={setClicked} /> : clicked === "Settings" ? <Settings setClicked={setClicked} /> : clicked === "ChangePassword" ? <ChangePassword setClicked={setClicked} /> : clicked === "Notification" ? <Notification setClicked={setClicked} /> : null
                     }
                 </div>
 

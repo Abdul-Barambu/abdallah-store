@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { GoArrowLeft } from "react-icons/go";
 
-const PurchaseReceipt = ({ setClicked, handlePrint, button }) => {
+const EditPurchaseReceipt = ({ setClicked, handlePrint, button }) => {
 
-    const purchase = JSON.parse(localStorage.getItem('stock-retail-purchase'))
+    const purchase = JSON.parse(localStorage.getItem('edit-retail'))
     const [randomNumber, setRandomNumber] = useState()
 
     const userName = localStorage.getItem('full-name')
@@ -23,7 +23,7 @@ const PurchaseReceipt = ({ setClicked, handlePrint, button }) => {
                 {/* back */}
                 <div
                     className={`mt-4 mb-2 flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer ${button ? 'hidden' : 'block'}`}
-                    onClick={() => setClicked('RetailAddPurchase')}
+                    onClick={() => setClicked('EditRecord')}
                 >
                     <GoArrowLeft className='text-xs sm:text-sm lg:text-xl' />
                     <span className='font-mont font-medium text-xs sm:text-sm lg:text-base'>Back</span>
@@ -42,6 +42,8 @@ const PurchaseReceipt = ({ setClicked, handlePrint, button }) => {
                     <div className='mt-3'>
                         {/* top */}
                         <div className='mx-5 sm:mx-10'>
+                            <p className='font-mont text-[11px] sm:text-base font-semibold mb-1'>Wholesaler's Name: {purchase.buyer_name}</p>
+                            <p className='font-mont text-[9px] sm:text-sm font-medium mb-1'>Phone number: {purchase.buyer_phone}</p>
                             <span className='flex justify-between items-center'>
                                 <p className='font-mont text-[8px] sm:text-xs gray-text font-medium'>invoice #{randomNumber}</p>
                                 <p className='font-mont text-[8px] sm:text-xs black-text font-medium'>Date of Purchase: {purchase.date_of_purchase}</p>
@@ -104,4 +106,4 @@ const PurchaseReceipt = ({ setClicked, handlePrint, button }) => {
     )
 }
 
-export default PurchaseReceipt
+export default EditPurchaseReceipt

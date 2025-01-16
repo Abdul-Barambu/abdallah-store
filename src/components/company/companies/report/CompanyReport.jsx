@@ -1,12 +1,62 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaMoneyBills } from "react-icons/fa6";
 import { RiArrowUpFill } from "react-icons/ri";
 import { FaChartSimple } from "react-icons/fa6";
 import { IoEye } from "react-icons/io5";
-import { soldProducts } from '../../../../data';
 import CompanyChart from './CompanyChart';
+import axios from 'axios';
 
 const CompanyReport = ({ setClicked }) => {
+
+    const [sales, setSales] = useState('')
+    const [commission, setCommission] = useState('')
+    const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    // header
+    const accessToken = localStorage.getItem('access-token')
+    const refreshToken = localStorage.getItem('refresh-token')
+
+    const headers = {
+        Authorization: `Bearer ${accessToken}`
+    }
+
+    useEffect(() => {
+        axios.get('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/sales/total-commission/', { headers })
+            .then(response => {
+                console.log(response)
+                setCommission(response.data.total_commission)
+            }).catch(error => {
+                console.log(error)
+            })
+    }, [])
+
+    useEffect(() => {
+        setLoading(true)
+        axios.get('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/sales/total/', { headers })
+            .then(response => {
+                console.log(response)
+                setLoading(false)
+            }).catch(error => {
+                console.log(error)
+                setLoading(false)
+            })
+    }, [])
+
+    // top selling product
+    useEffect(() => {
+        axios.get('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/top-selling-products/', { headers })
+            .then(response => {
+                console.log(response)
+                setProducts(response.data)
+            }).catch(error => {
+                console.log(error)
+            })
+    }, [])
+
+
+
+
     return (
         <div className='bg-color-full'>
             <div className='bg-white mt-6 sm:mt-4 sm:rounded-xl py-5'>
@@ -24,7 +74,7 @@ const CompanyReport = ({ setClicked }) => {
                                 <p className='mt-3 font-medium font-mont text-left sm:text-[10px] lg:text-sm xl:text-lg'>Total Sales <span style={{ color: '#ECECEC' }}>break</span></p>
                             </div>
                             <div className='flex-grow bg-white px-5 py-5 rounded-3xl'>
-                                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-base'>₦12,000,000</p>
+                                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-base'>₦{Number(sales).toLocaleString()}.00</p>
                                 <div className='flex flex-row items-center mt-4 px-1 sm:px-1 lg:px-2 sm:py-0 lg:py-1 increase'>
                                     <RiArrowUpFill size={20} className='font-semibold green-text' />
                                     <p className='font-semibold text-[13px] sm:text-[9px] lg:text-[10px] xl:text-xs green-text'>26%</p>
@@ -40,7 +90,7 @@ const CompanyReport = ({ setClicked }) => {
                                 <p className='mt-3 font-medium font-mont text-left sm:text-[10px] lg:text-sm xl:text-base'>Total AAS Commission</p>
                             </div>
                             <div className='flex-grow bg-white px-6 py-6 rounded-3xl'>
-                                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg mt-7'>₦12,000,000</p>
+                                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg mt-7'>₦{Number(commission).toLocaleString()}.00</p>
                             </div>
                         </div>
                     </div>
@@ -61,26 +111,31 @@ const CompanyReport = ({ setClicked }) => {
                                 <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Qty</span>
                                 <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Amount Paid</span>
                                 <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>AAS Commission</span>
-                                <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Action</span>
+                                <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Total Revenue</span>
                             </div>
 
                             {/* Data */}
-                            <div className={`h-[500px] overflow-y-scroll`}>
-                                {
-                                    soldProducts.map((product) => (
-                                        <div key={product.id} className='grid grid-cols-6 my-0.5 text-center'>
-                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.name}</span>
-                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.category}</span>
-                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.qty}</span>
-                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{product.total}</span>
-                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{product.price}</span>
-                                            <div className='bg-table flex flex-row gap-4 justify-center items-center'>
+                            {
+                                loading ? (<div className='loader'></div>) : (
+                                    <div className={`h-[500px] overflow-y-scroll`}>
+                                        {
+                                            products.map((product) => (
+                                                <div key={product.company_stock_id} className='grid grid-cols-6 my-0.5 text-center'>
+                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.stock_name}</span>
+                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.category}</span>
+                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.total_sold_quantity}</span>
+                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.amount_paid).toLocaleString()}.00</span>
+                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.commission_made).toLocaleString()}.00</span>
+                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.total_revenue).toLocaleString()}.00</span>
+                                                    {/* <div className='bg-table flex flex-row gap-4 justify-center items-center'>
                                                 <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewCompanyReport"); localStorage.setItem("soldStocks", JSON.stringify(product)) }} />
-                                            </div>
-                                        </div>
-                                    ))
-                                }
-                            </div>
+                                            </div> */}
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
                 </div>

@@ -42,8 +42,8 @@ const CompanyPurchaseReceipt = ({ setClicked, handlePrint, button }) => {
                     <div className='mt-3'>
                         {/* top */}
                         <div className='mx-5 sm:mx-10'>
-                            <p className='font-mont text-[11px] sm:text-base font-semibold mb-1'>Wholesaler's Name: {purchase.buyer_name}</p>
-                            <p className='font-mont text-[9px] sm:text-sm font-medium mb-1'>Phone number: {purchase.buyer_phone}</p>
+                            <p className='font-mont text-[11px] sm:text-base font-semibold mb-1'>Wholesaler's Name: {purchase.customer_name}</p>
+                            <p className='font-mont text-[9px] sm:text-sm font-medium mb-1'>Phone number: {purchase.customer_phone}</p>
                             <span className='flex justify-between items-center'>
                                 <p className='font-mont text-[8px] sm:text-xs gray-text font-medium'>invoice #{randomNumber}</p>
                                 <p className='font-mont text-[8px] sm:text-xs black-text font-medium'>Date of Purchase: {purchase.date_of_purchase}</p>

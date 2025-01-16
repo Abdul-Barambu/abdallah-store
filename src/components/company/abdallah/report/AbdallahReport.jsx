@@ -1,12 +1,63 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaMoneyBills } from "react-icons/fa6";
 import { RiArrowUpFill } from "react-icons/ri";
 import { FaChartSimple } from "react-icons/fa6";
 import { IoEye } from "react-icons/io5";
 import AbdallahChart from './AbdallahChart';
 import { soldProducts } from '../../../../data';
+import axios from 'axios';
 
 const AbdallahReport = ({ setClicked }) => {
+
+    const user_id = localStorage.getItem('rep-company-id')
+
+    const [sales, setSales] = useState('')
+    const [commission, setCommission] = useState('')
+    const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    // header
+    const accessToken = localStorage.getItem('access-token')
+    const refreshToken = localStorage.getItem('refresh-token')
+
+    const headers = {
+        Authorization: `Bearer ${accessToken}`
+    }
+
+    useEffect(() => {
+        axios.get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${user_id}/total-commission/`, { headers })
+            .then(response => {
+                console.log(response)
+                setCommission(response.data.total_commission)
+            }).catch(error => {
+                console.log(error)
+            })
+    }, [])
+
+    useEffect(() => {
+        setLoading(true)
+        axios.get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${user_id}/total-sales/`, { headers })
+            .then(response => {
+                console.log(response)
+                setLoading(false)
+            }).catch(error => {
+                console.log(error)
+                setLoading(false)
+            })
+    }, [])
+
+    // top selling product
+    useEffect(() => {
+        axios.get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${user_id}/top-selling-stocks/`, { headers })
+            .then(response => {
+                console.log(response)
+                setProducts(response.data.top_selling_stocks)
+            }).catch(error => {
+                console.log(error)
+            })
+    }, [])
+
+
     return (
         <div className='bg-color-full'>
             <div className='bg-white mt-6 sm:mt-4 sm:rounded-xl py-5'>
@@ -55,32 +106,31 @@ const AbdallahReport = ({ setClicked }) => {
                         {/* Wrapper for horizontal scroll */}
                         <div className={`min-w-[600px]`}>
                             {/* Head */}
-                            <div className='grid grid-cols-6 bg-light-gray py-3 text-center mb-1'>
+                            <div className='grid grid-cols-3 bg-light-gray py-3 text-center mb-1'>
                                 <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Stock Name</span>
-                                <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>SKU</span>
-                                <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Selling Price</span>
-                                <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Qty Sold</span>
+                                <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Qty</span>
                                 <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Total Sales</span>
-                                <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Action</span>
                             </div>
 
                             {/* Data */}
-                            <div className={`h-[500px] overflow-y-scroll`}>
-                                {
-                                    soldProducts.map((product) => (
-                                        <div key={product.id} className='grid grid-cols-6 my-0.5 text-center'>
-                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.name}</span>
-                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.sku}</span>
-                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{product.price}</span>
-                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.qty}</span>
-                                            <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{product.total}</span>
-                                            <div className='bg-table flex flex-row gap-4 justify-center items-center'>
-                                                <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewAbdallahReport"); localStorage.setItem("soldStocks", JSON.stringify(product)) }} />
-                                            </div>
-                                        </div>
-                                    ))
-                                }
-                            </div>
+                            {
+                                loading ? (<div className='loader'></div>) : (
+                                    <div className={`h-[500px] overflow-y-scroll`}>
+                                        {
+                                            products.map((product) => (
+                                                <div key={product.company_stock_id} className='grid grid-cols-3 my-0.5 text-center'>
+                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.stock_name}</span>
+                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.total_quantity_sold}</span>
+                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.total_sales).toLocaleString()}.00</span>
+                                                    {/* <div className='bg-table flex flex-row gap-4 justify-center items-center'>
+                                                <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewCompanyReport"); localStorage.setItem("soldStocks", JSON.stringify(product)) }} />
+                                            </div> */}
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
                 </div>

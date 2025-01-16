@@ -8,6 +8,9 @@ import axios from 'axios';
 const DashboardCards = ({ setClicked }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedIndex, setSelectedIndex] = useState(null); // Track selected company
+    const [companies, setCompanies] = useState([]);
+    const [commission, setCommission] = useState('');
+    const [sales, setSales] = useState('');
 
     // Calculate the maximum index to prevent overflow
     const maxIndex = Math.max(0, companyName.length - 3);
@@ -24,10 +27,6 @@ const DashboardCards = ({ setClicked }) => {
         }
     };
 
-    const handleCompanyClick = (index) => {
-        setSelectedIndex(index); // Update selected company index
-    };
-
     // headers
     const Access = localStorage.getItem("access-token")
     const Refresh = localStorage.getItem("refresh-token")
@@ -36,12 +35,41 @@ const DashboardCards = ({ setClicked }) => {
         Authorization: `Bearer ${Access}`
     }
 
+    const handleCompanyClick = (index, id) => {
+        setSelectedIndex(index); // Update selected company index
+        localStorage.setItem('rep-company-id', id)
+
+        // Fetch the total commission for the selected company
+        axios
+            .get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${id}/total-commission/`, { headers })
+            .then((response) => {
+                console.log(response.data);
+                setCommission(response.data.total_commission)
+            })
+            .catch((error) => {
+                console.error('Error fetching total commission:', error);
+            });
+
+        // Fetch the total sales for the selected company
+        axios
+            .get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${id}/total-sales/`, { headers })
+            .then((response) => {
+                console.log(response.data);
+                setSales(response.data.total_sales)
+            })
+            .catch((error) => {
+                console.error('Error fetching total commission:', error);
+            });
+
+    };
+
 
     // companies
     useEffect(() => {
         axios.get('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/userauths/users/', { headers })
             .then(response => {
                 console.log(response)
+                setCompanies(response.data.users)
             }).catch(error => {
                 console.log(error)
             })
@@ -74,22 +102,24 @@ const DashboardCards = ({ setClicked }) => {
                         width: `${(companyName.length * 50) / 3}%`,
                     }}
                 >
-                    {companyName.map((name, index) => (
-                        <div
-                            key={index}
-                            className={`w-1/2 sm:w-1/3 flex-shrink-0 flex items-center justify-center`}
-                            onClick={() => handleCompanyClick(index)} // Handle company click
-                        >
+                    {companies
+                        .filter((company) => company.role === 'company') // Filter only companies with the "company" role
+                        .map((company, index) => (
                             <div
-                                className={`w-10/12 text-center py-2.5 rounded-lg sm:rounded-xl cursor-pointer hover:shadow ${selectedIndex === index ? 'bg-black text-white' : 'bg-white text-black'
-                                    }`} // Apply styles conditionally
+                                key={index}
+                                className={`w-1/2 sm:w-1/3 flex-shrink-0 flex items-center justify-center`}
+                                onClick={() => handleCompanyClick(index, company.id)} // Handle company click
                             >
-                                <p className="font-mont text-xs sm:text-base font-semibold truncate">
-                                    {name.name}
-                                </p>
+                                <div
+                                    className={`w-10/12 text-center py-2.5 rounded-lg sm:rounded-xl cursor-pointer hover:shadow ${selectedIndex === index ? 'bg-black text-white' : 'bg-white text-black'
+                                        }`} // Apply styles conditionally
+                                >
+                                    <p className="font-mont text-xs sm:text-base font-semibold truncate">
+                                        {company.full_name}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
                 </div>
             </div>
 
@@ -104,7 +134,7 @@ const DashboardCards = ({ setClicked }) => {
                         <p className="mt-3 font-medium font-mont sm:text-[10px] lg:text-sm xl:text-lg">Total Sales <span className='text-white'>break</span></p>
                     </div>
                     <div className="flex-grow bg-light-gray px-5 py-5 rounded-3xl">
-                        <p className="font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg mt-7">₦12,000,000</p>
+                        <p className="font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg mt-7">₦{Number(sales).toLocaleString()}.00</p>
                     </div>
                 </div>
                 {/* Card 2 */}
@@ -116,7 +146,7 @@ const DashboardCards = ({ setClicked }) => {
                         <p className="mt-3 font-medium font-mont sm:text-[10px] lg:text-sm xl:text-lg">Total AAS Commission</p>
                     </div>
                     <div className="flex-grow bg-light-gray px-6 py-6 rounded-3xl">
-                        <p className="font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg mt-7">₦12,000,000</p>
+                        <p className="font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg mt-7">₦{Number(commission).toLocaleString()}.00</p>
                     </div>
                 </div>
             </div>

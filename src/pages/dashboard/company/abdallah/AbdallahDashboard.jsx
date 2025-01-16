@@ -15,11 +15,14 @@ import Settings from '../../../../components/profile/setting/Settings'
 import ChangePassword from '../../../../components/profile/setting/ChangePassword'
 import Notification from '../../../../components/notification/Notification'
 import RegisterComapny from '../../../auth/signUp/RegisterComapny'
+import { useHistory } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 const AbdallahDashboard = () => {
     const [clicked, setClicked] = useState('AbdallahDashboard')
     const [nav, setNav] = useState(false)
     const [button, setButton] = useState(false)
+    const history = useHistory()
 
     const handleNavBar = () => {
         setNav(!nav)
@@ -31,6 +34,34 @@ const AbdallahDashboard = () => {
             window.print()
             setButton(false)
         }, 100)
+    }
+
+    // logout
+    const handleLogout = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Logout"
+        }).then((result) => {
+            localStorage.removeItem('ListOfStocks')
+            localStorage.removeItem('ViewAbdallahPurchase')
+            localStorage.removeItem('access-token')
+            localStorage.removeItem('rep-company-id')
+            localStorage.removeItem('email')
+            localStorage.removeItem('full-name')
+            localStorage.removeItem('refresh-token')
+            localStorage.removeItem('reset-password-token')
+            localStorage.removeItem('reset-password-uid')
+            localStorage.removeItem('soldStocks')
+            localStorage.removeItem('stockId')
+            if (result.isConfirmed) {
+                history.push('/')
+            }
+        });
     }
 
     return (
@@ -121,7 +152,7 @@ const AbdallahDashboard = () => {
                                             </p>
                                             <p
                                                 className={`${clicked === 'Logout' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-base py-3 text-center px-5 rounded-3xl mb-5 cursor-pointer`}
-                                                onClick={() => { setNav(false) }}
+                                                onClick={() => { setNav(false); handleLogout(); }}
                                             >
                                                 Logout
                                             </p>
@@ -211,7 +242,7 @@ const AbdallahDashboard = () => {
                                             </p>
                                             <p
                                                 className={`${clicked === 'Logout' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-[10px] py-2 px-16 rounded-xl mb-5 cursor-pointer`}
-                                                onClick={() => { }}
+                                                onClick={() => { handleLogout() }}
                                             >
                                                 Logout
                                             </p>

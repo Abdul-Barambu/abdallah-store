@@ -1,26 +1,93 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GoArrowLeft } from "react-icons/go";
 import { CiSearch } from "react-icons/ci";
 import { IoEye } from "react-icons/io5";
 import { FaFilter } from "react-icons/fa";
 import { MdEditSquare } from "react-icons/md";
 import { RiDeleteBin6Fill } from "react-icons/ri";
-import { listOfStocks } from '../../../../data';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const CompanySalesRecord = ({ setClicked }) => {
 
     const [searchValue, setSearchValue] = useState('');
+    const [purchases, setPurchases] = useState([])
+    const [loading, setLoading] = useState(false)
 
-    const filteredDues = listOfStocks.filter((list) =>
-        list.name.toLowerCase().includes(searchValue.toLowerCase())
-    );
+    // const filteredPurchases = purchases.filter((purchase) =>
+    //     purchase.items.map(item => item.stock_name).toLowerCase().includes(searchValue.toLowerCase())
+    // );
+
+
+    // headers
+    const Access = localStorage.getItem("access-token")
+    const Refresh = localStorage.getItem("refresh-token")
+
+    const headers = {
+        Authorization: `Bearer ${Access}`
+    }
+
+    useEffect(() => {
+        setLoading(true)
+        axios.get('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/purchases/', { headers })
+            .then(response => {
+                console.log(response)
+                setPurchases(response.data)
+                setLoading(false)
+            }).catch(error => {
+                console.log(error)
+                setLoading(false)
+            })
+    }, [])
+
+    // delete purchase
+    const handleDeletePurchase = (id) => {
+        console.log(id)
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Call the delete API after confirmation
+                axios
+                    .delete(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/stocks/${id}/delete/`, { headers })
+                    .then((response) => {
+                        // After successful deletion, update the state
+                        setPurchases((prevPurchase) =>
+                            prevPurchase.filter((purchase) => purchase.id !== id)
+                        );
+
+                        // Show success alert
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "The Purchase record has been deleted.",
+                            icon: "success",
+                        });
+                    })
+                    .catch((error) => {
+                        // Handle error and show error alert if deletion fails
+                        Swal.fire({
+                            title: "Error!",
+                            text: "There was a problem deleting the expense.",
+                            icon: "error",
+                        });
+                        console.error("Error deleting expense:", error);
+                    });
+            }
+        });
+    };
 
     return (
         <div className='bg-color-dash mx-4 sm:mx-0'>
             {/* Top Section */}
             <div className='mt-5'>
 
-                {/* Search Input */}
+                {/* Search Input
                 <div className='mt-8'>
                     <div className='relative flex items-center gap-2'>
                         {!searchValue && (
@@ -37,7 +104,7 @@ const CompanySalesRecord = ({ setClicked }) => {
                             <FaFilter className='text-sm' />
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
 
             {/* Table Section */}
@@ -45,34 +112,49 @@ const CompanySalesRecord = ({ setClicked }) => {
                 {/* Wrapper for horizontal scroll */}
                 <div className='min-w-[600px]'>
                     {/* Head */}
-                    <div className='grid grid-cols-6 bg-white py-3 text-center mb-1'>
+                    <div className='grid grid-cols-7 bg-white py-3 text-center mb-1'>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Stock Name</span>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Date of Purchase</span>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>QTY</span>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Amount Paid</span>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>AAS Commission</span>
+                        <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Status</span>
                         <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Action</span>
                     </div>
 
                     {/* Data */}
-                    <div className='h-96 overflow-y-scroll'>
-                        {
-                            filteredDues.map((list) => (
-                                <div key={list.id} className='grid grid-cols-6 my-0.5 text-center'>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.name}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.date}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.qty}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{list.price}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{list.wholesale}</span>
-                                    <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
-                                        <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewCompanySalesRecord"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
-                                        <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditCompanySale"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
-                                        <RiDeleteBin6Fill className='cursor-pointer icon-red' />
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div>
+                    {
+                        loading ? (<div className='loader'></div>) : (
+                            <div className='h-96 overflow-y-scroll'>
+                                {
+                                    purchases.map((purchase) => (
+                                        <div key={purchase.id} className='grid grid-cols-7 my-0.5 text-center'>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
+                                                {purchase.items.map((item, index) => (
+                                                    <span key={index}>{item.stock_name}</span>
+                                                ))}
+                                            </span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{purchase.date_of_purchase}</span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
+                                                {purchase.items.map((item, index) => (
+                                                    <span key={index}>{item.unit_quantity}</span>
+                                                ))}</span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(purchase.amount_paid).toLocaleString()}.00</span>
+                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number().toLocaleString()}.00</span>
+                                            <div className='bg-white/[0.47] py-5'>
+                                                <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${purchase.payment_status === 'Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{purchase.payment_status}</span>
+                                            </div>
+                                            <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
+                                                <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewCompanySalesRecord"); localStorage.setItem("ViewCompanyPurchase", JSON.stringify(purchase)) }} />
+                                                <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditCompanySale"); localStorage.setItem("ViewCompanyPurchase", JSON.stringify(purchase)) }} />
+                                                <RiDeleteBin6Fill className='cursor-pointer icon-red' onClick={() => handleDeletePurchase(purchase.id)}/>
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

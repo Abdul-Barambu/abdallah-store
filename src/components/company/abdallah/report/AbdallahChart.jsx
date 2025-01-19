@@ -105,7 +105,7 @@ const AbdallahChart = () => {
                     color: 'black',
                 },
             },
-           
+
         },
     };
 
@@ -166,10 +166,12 @@ const AbdallahChart = () => {
         Authorization: `Bearer ${accessToken}`
     }
 
+    const user_id = localStorage.getItem('rep-company-id')
+
     // all profits and sales
     useEffect(() => {
         if (selectedYear) {
-            const allSales = () => axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/sales/total-by-month/", {
+            const allSales = () => axios.get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${user_id}/monthly-sales/`, {
                 params: {
                     year: selectedYear
                 },
@@ -177,18 +179,18 @@ const AbdallahChart = () => {
             })
                 .then(response => {
                     console.log(response)
-                    setJan(response.data.monthly_sales.January)
-                    setFeb(response.data.monthly_sales.February)
-                    setMar(response.data.monthly_sales.March)
-                    setApr(response.data.monthly_sales.April)
-                    setMay(response.data.monthly_sales.May)
-                    setJun(response.data.monthly_sales.June)
-                    setJul(response.data.monthly_sales.July)
-                    setAug(response.data.monthly_sales.August)
-                    setSep(response.data.monthly_sales.September)
-                    setOct(response.data.monthly_sales.October)
-                    setNov(response.data.monthly_sales.November)
-                    setDec(response.data.monthly_sales.December)
+                    setJan(response.data.January)
+                    setFeb(response.data.February)
+                    setMar(response.data.March)
+                    setApr(response.data.April)
+                    setMay(response.data.May)
+                    setJun(response.data.June)
+                    setJul(response.data.July)
+                    setAug(response.data.August)
+                    setSep(response.data.September)
+                    setOct(response.data.October)
+                    setNov(response.data.November)
+                    setDec(response.data.December)
                 }).catch(error => {
                     console.log(error)
                 })

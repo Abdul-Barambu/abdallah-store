@@ -178,7 +178,7 @@ const AddNewReceiptRecord = ({ setClicked }) => {
                         <p className='mb-1 font-mont text-[10px] sm:text-xs font-semibold'>Total amount</p>
                         <input
                             type="text"
-                            value={totalAmount}
+                            value={Number(totalAmount).toLocaleString()}
                             onChange={(e) => setTotalAmount(e.target.value)}
                             placeholder='₦0.00'
                             className='bg-gray-view border-2 w-full text-black border-black text-center placeholder:text-black px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal outline-none'

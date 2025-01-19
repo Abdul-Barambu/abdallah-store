@@ -39,6 +39,7 @@ const AbdallahReport = ({ setClicked }) => {
         axios.get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${user_id}/total-sales/`, { headers })
             .then(response => {
                 console.log(response)
+                setSales(response.data.total_sales)
                 setLoading(false)
             }).catch(error => {
                 console.log(error)
@@ -75,7 +76,7 @@ const AbdallahReport = ({ setClicked }) => {
                                 <p className='mt-3 font-medium font-mont text-left sm:text-[10px] lg:text-sm xl:text-lg'>Total Sales <span style={{ color: '#ECECEC' }}>break</span></p>
                             </div>
                             <div className='flex-grow bg-white px-5 py-5 rounded-3xl'>
-                                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-base'>₦12,000,000</p>
+                                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-base'>₦{Number(sales).toLocaleString()}.00</p>
                                 <div className='flex flex-row items-center mt-4 px-1 sm:px-1 lg:px-2 sm:py-0 lg:py-1 increase'>
                                     <RiArrowUpFill size={20} className='font-semibold green-text' />
                                     <p className='font-semibold text-[13px] sm:text-[9px] lg:text-[10px] xl:text-xs green-text'>26%</p>
@@ -91,7 +92,7 @@ const AbdallahReport = ({ setClicked }) => {
                                 <p className='mt-3 font-medium font-mont text-left sm:text-[10px] lg:text-sm xl:text-base'>Total AAS Commission</p>
                             </div>
                             <div className='flex-grow bg-white px-6 py-6 rounded-3xl'>
-                                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg mt-7'>₦12,000,000</p>
+                                <p className='font-mont font-semibold sm:text-[10px] lg:text-sm xl:text-lg mt-7'>₦{Number(commission).toLocaleString()}.00</p>
                             </div>
                         </div>
                     </div>

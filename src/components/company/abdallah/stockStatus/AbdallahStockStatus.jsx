@@ -3,35 +3,95 @@ import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
 import { GoArrowLeft } from "react-icons/go";
 import { CiSearch } from "react-icons/ci";
 import { FaFilter } from "react-icons/fa";
-import { listOfStocks } from '../../../../data';
+import { useEffect } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
-const AbdallahStockStatus = ({ handlePrint, button }) => {
+const AbdallahStockStatus = ({ setClicked, handlePrint, button }) => {
+
     const [searchValue, setSearchValue] = useState('');
     const [filter, setFilter] = useState(false)
     const [selectedFilter, setSelectedFilter] = useState('All');
+    const [stockStatus, setStockStatus] = useState([])
+    const [healthy, setHealthy] = useState('')
+    const [low, setLow] = useState('')
+    const [out, setOut] = useState('')
+    const [loading, setLoading] = useState(false)
 
-    const filteredDues = listOfStocks.filter((stock) => {
+    const filteredDues = stockStatus.filter((stock) => {
         const matchesSearch = stock.name.toLowerCase().includes(searchValue.toLowerCase());
         const matchesFilter =
             selectedFilter === 'All' ||
-            (selectedFilter === 'Healthy Stock' && stock.remaining > stock.lowStock) ||
-            (selectedFilter === 'Low Stock' && stock.remaining <= stock.lowStock && stock.remaining > '0') ||
-            (selectedFilter === 'Out of Stock' && stock.remaining === '0');
+            (selectedFilter === 'Healthy Stock' && stock.quantity > stock.low_stock_threshold) ||
+            (selectedFilter === 'Low Stock' && stock.quantity <= stock.low_stock_threshold && stock.quantity > stock.out_of_stock_threshold) ||
+            (selectedFilter === 'Out of Stock' && stock.quantity <= stock.out_of_stock_threshold);
         return matchesSearch && matchesFilter;
     });
 
 
     const data = [
-        { name: 'Healthy Stock', value: 10, color: '#0AE418' },
-        { name: 'Low Stock', value: 5, color: '#E3D322' },
-        { name: 'Out of Stock', value: 5, color: '#F10000' }
+        { name: 'Healthy Stock', value: healthy, color: '#0AE418' },
+        { name: 'Low Stock', value: low, color: '#E3D322' },
+        { name: 'Out of Stock', value: out, color: '#F10000' }
     ];
 
     const totalValue = data.reduce((sum, entry) => sum + entry.value, 0);
 
+    // headers
+    const Access = localStorage.getItem("access-token")
+    const Refresh = localStorage.getItem("refresh-token")
+
+    const headers = {
+        Authorization: `Bearer ${Access}`
+    }
+
+    const user_id = localStorage.getItem('rep-company-id')
+
+
+    // stock status list
+    useEffect(() => {
+        setLoading(true)
+        axios.get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/stocks/`, { headers })
+            .then(response => {
+                console.log(response)
+                setStockStatus(response.data)
+                setLoading(false)
+            }).catch(error => {
+                console.log(error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ERROR',
+                    text: 'Something went wrong, please try again.'
+                })
+                setLoading(false)
+            })
+    }, [])
+
+
+    // num of stocks
+    useEffect(() => {
+        axios.get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${user_id}/stock-thresholds/`, {headers})
+        .then(response => {
+            console.log(response)
+            setHealthy(response.data.total_healthy)
+            setLow(response.data.total_low_stock)
+            setOut(response.data.total_out_of_stock)
+        }).catch(error => {
+            console.log(error)
+        })
+    }, [])
+
     return (
         <div className='bg-color-full'>
-            <div className='bg-white pb-32 mt-14'>
+            {/* Back Button */}
+            <div
+                className={`mt-4 mb-4 mx-4 sm:mx-0 flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer ${button ? 'hidden' : 'block'}`}
+                onClick={() => setClicked('Inventory')}
+            >
+                <GoArrowLeft className='text-xs sm:text-sm lg:text-xl' />
+                <span className='font-mont font-medium text-xs sm:text-sm lg:text-base'>Back</span>
+            </div>
+            <div className='bg-white pb-32'>
                 <h1 className='text-center -mb-16 font-mont font-semibold pt-5'>Real-Time Stock Status</h1>
                 {/* chart */}
                 <div className='flex items-center justify-center'>
@@ -86,7 +146,7 @@ const AbdallahStockStatus = ({ handlePrint, button }) => {
                             <div className='green-box'></div>
                             <span className='font-mont font-semibold text-xs'>Healthy Stock</span>
                         </div>
-                        <p className='font-mont font-bold mt-2 text-sm'>10</p>
+                        <p className='font-mont font-bold mt-2 text-sm'>{healthy}</p>
                     </div>
                     {/* low */}
                     <div className='box w-full sm:w-[18%] lg:w-[15%] xl:w-[13%] rounded-xl py-3 text-center'>
@@ -94,7 +154,7 @@ const AbdallahStockStatus = ({ handlePrint, button }) => {
                             <div className='yellow-box'></div>
                             <span className='font-mont font-semibold text-xs'>Low Stock</span>
                         </div>
-                        <p className='font-mont font-bold mt-2 text-sm'>5</p>
+                        <p className='font-mont font-bold mt-2 text-sm'>{low}</p>
                     </div>
                     {/* out */}
                     <div className='box w-full sm:w-[18%] lg:w-[15%] xl:w-[13%] rounded-xl py-3 text-center'>
@@ -102,7 +162,7 @@ const AbdallahStockStatus = ({ handlePrint, button }) => {
                             <div className='red-box'></div>
                             <span className='font-mont font-semibold text-xs'>Out of Stock</span>
                         </div>
-                        <p className='font-mont font-bold mt-2 text-sm'>5</p>
+                        <p className='font-mont font-bold mt-2 text-sm'>{out}</p>
                     </div>
                 </div>
                 {/* searh and filter and print */}
@@ -164,41 +224,41 @@ const AbdallahStockStatus = ({ handlePrint, button }) => {
                     {/* Wrapper for horizontal scroll */}
                     <div className={`${button ? '' : 'min-w-[600px]'}`}>
                         {/* Head */}
-                        <div className='grid grid-cols-6 bg-light-gray py-3 text-center mb-1'>
+                        <div className='grid grid-cols-4 bg-light-gray py-3 text-center mb-1'>
                             <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Stock Name</span>
-                            <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Supplier</span>
-                            <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>SKU</span>
+                            <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Category</span>
                             <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Qty</span>
-                            <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Remaining</span>
                             <span className='font-mont font-semibold text-[7px] sm:text-[10px] lg:text-sm xl:text-base'>Status</span>
                         </div>
 
                         {/* Data */}
-                        <div className={`${button ? '' : 'h-96 overflow-y-scroll'}`}>
-                            {
-                                filteredDues.map((stock) => (
-                                    <div key={stock.id} className='grid grid-cols-6 my-0.5 text-center'>
-                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.name}</span>
-                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.supplier}</span>
-                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.sku}</span>
-                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.qty}</span>
-                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.remaining}</span>
-                                        <div className='flex flex-row gap-2  lg:gap-4 justify-start items-center bg-table sm:pl-1 lg:pl-8 xl:pl-14'>
-                                            <div className={`${stock.remaining > stock.lowStock ? 'green-box' : stock.remaining <= stock.lowStock && stock.remaining > '0' ? 'yellow-box' : stock.remaining === '0' ? 'red-box' : null}`}></div>
-                                            <span className='font-mont font-semibold text-[7px] sm:text-xs'>{stock.remaining > stock.lowStock ? 'Healthy Stock' : stock.remaining <= stock.lowStock && stock.remaining > '0' ? 'Low Stock' : stock.remaining === '0' ? 'Out of Stock' : null}</span>
-                                        </div>
+                        {
+                            loading ? (<div className='loader'></div>): (
+                                <div className = {`${button ? '' : 'h-96 overflow-y-scroll'}`}>
+                        {
+                            filteredDues.map((stock) => (
+                                <div key={stock.id} className='grid grid-cols-4 my-0.5 text-center'>
+                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.name}</span>
+                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.category}</span>
+                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.quantity}</span>
+                                    <div className='flex flex-row gap-2  lg:gap-4 justify-start items-center bg-table sm:pl-1 lg:pl-8 xl:pl-14'>
+                                        <div className={`${stock.quantity > stock.low_stock_threshold ? 'green-box' : stock.quantity <= stock.low_stock_threshold && stock.quantity > stock.out_of_stock_threshold ? 'yellow-box' : stock.quantity <= stock.out_of_stock_threshold ? 'red-box' : null}`}></div>
+                                        <span className='font-mont font-semibold text-[7px] sm:text-xs'>{stock.quantity > stock.low_stock_threshold ? 'Healthy Stock' : stock.quantity <= stock.low_stock_threshold && stock.quantity > stock.out_of_stock_threshold ? 'Low Stock' : stock.quantity <= stock.out_of_stock_threshold ? 'Out of Stock' : null}</span>
                                     </div>
-                                ))
-                            }
-                        </div>
+                                </div>
+                            ))
+                        }
                     </div>
-                </div>
-                {/* print */}
-                <div onClick={handlePrint} className={`black-bg w-1/2 sm:w-[17%] lg:w-[12%] py-1.5 rounded-lg text-center sm:hidden block mx-auto mt-6 ${button ? 'hidden' : 'block'}`}>
-                    <button className="text-white text-xs font-mont font-semibold">Print</button>
+                    )
+                        }
                 </div>
             </div>
+            {/* print */}
+            <div onClick={handlePrint} className={`black-bg w-1/2 sm:w-[17%] lg:w-[12%] py-1.5 rounded-lg text-center sm:hidden block mx-auto mt-6 ${button ? 'hidden' : 'block'}`}>
+                <button className="text-white text-xs font-mont font-semibold">Print</button>
+            </div>
         </div>
+        </div >
     );
 }
 

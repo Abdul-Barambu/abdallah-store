@@ -292,7 +292,7 @@ const CompanyDashboard = () => {
                 </div>
 
                 {/* alert model */}
-                {
+                {/* {
                     outOfStock.length > 0 ? (
                         alert && (
                             <div className='center-proceed'>
@@ -303,7 +303,7 @@ const CompanyDashboard = () => {
                             </div>
                         )
                     ) : ''
-                }
+                } */}
 
                 {/* components */}
                 <div className={`${button ? 'mx-0' : 'mx-0 sm:mx-4'} ${nav ? 'hidden' : 'visible'}`}>

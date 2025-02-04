@@ -29,12 +29,12 @@ const AddExistingStock = ({ setClicked }) => {
         setLoading(true)
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/health-status/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setLowStock(response.data.low_stock_stocks)
                 setOutOfStock(response.data.out_of_stock_stocks)
                 setLoading(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 setLoading(false)
             })
     }, [])

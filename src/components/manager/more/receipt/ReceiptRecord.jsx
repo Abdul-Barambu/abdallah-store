@@ -33,11 +33,11 @@ const ReceiptRecord = ({ setClicked }) => {
         setLoading(true)
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/receipts/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setReceipts(response.data)
                 setLoading(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 setLoading(false)
             })
     }, [])
@@ -116,42 +116,44 @@ const ReceiptRecord = ({ setClicked }) => {
                         loading ? (<div className='loader'></div>) : (
                             <div className='h-96 overflow-y-scroll'>
                                 {
-                                    filteredReceipts.map((receipt) => (
-                                        <div key={receipt.id} className='grid grid-cols-9 my-0.5 text-center'>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{receipt.supplier_name}</span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
-                                                {receipt.items.map((item, index) => (
-                                                    <span key={index} className='flex flex-col'>{item.date}</span>
-                                                ))}
-                                            </span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
-                                                {receipt.items.map((item, index) => (
-                                                    <span key={index} className='flex flex-col'>{item.stock_name}</span>
-                                                ))}
-                                            </span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
-                                                {receipt.items.map((item, index) => (
-                                                    <span key={index} className='flex flex-col'>₦{Number(item.price).toLocaleString()}.00</span>
-                                                ))}
-                                            </span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
-                                                {receipt.items.map((item, index) => (
-                                                    <span key={index} className='flex flex-col'>{item.quantity}</span>
-                                                ))}
-                                            </span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(receipt.total).toLocaleString()}.00</span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(receipt.amount_paid).toLocaleString()}.00</span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(receipt.outstanding).toLocaleString()}.00</span>
-                                            <div className='bg-white/[0.47] py-5'>
-                                                <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${receipt.payment_status === 'Fully Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{receipt.payment_status}</span>
+                                    receipts.length > 0 ? (
+                                        filteredReceipts.map((receipt) => (
+                                            <div key={receipt.id} className='grid grid-cols-9 my-0.5 text-center'>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{receipt.supplier_name}</span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
+                                                    {receipt.items.map((item, index) => (
+                                                        <span key={index} className='flex flex-col'>{item.date}</span>
+                                                    ))}
+                                                </span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
+                                                    {receipt.items.map((item, index) => (
+                                                        <span key={index} className='flex flex-col'>{item.stock_name}</span>
+                                                    ))}
+                                                </span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
+                                                    {receipt.items.map((item, index) => (
+                                                        <span key={index} className='flex flex-col'>₦{Number(item.price).toLocaleString()}.00</span>
+                                                    ))}
+                                                </span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
+                                                    {receipt.items.map((item, index) => (
+                                                        <span key={index} className='flex flex-col'>{item.quantity}</span>
+                                                    ))}
+                                                </span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(receipt.total).toLocaleString()}.00</span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(receipt.amount_paid).toLocaleString()}.00</span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(receipt.outstanding).toLocaleString()}.00</span>
+                                                <div className='bg-white/[0.47] py-5'>
+                                                    <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${receipt.payment_status === 'Fully Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{receipt.payment_status}</span>
+                                                </div>
+                                                {/* <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
+                                                <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewReceiptRecord"); localStorage.setItem("ListOfStocks", JSON.stringify(receipt)) }} />
+                                                <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditReceiptRecord"); localStorage.setItem("ReceiptsRecord", JSON.stringify(receipt)) }} />
+                                                <RiDeleteBin6Fill className='cursor-pointer icon-red' />
+                                            </div> */}
                                             </div>
-                                            {/* <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
-                                            <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewReceiptRecord"); localStorage.setItem("ListOfStocks", JSON.stringify(receipt)) }} />
-                                            <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditReceiptRecord"); localStorage.setItem("ReceiptsRecord", JSON.stringify(receipt)) }} />
-                                            <RiDeleteBin6Fill className='cursor-pointer icon-red' />
-                                        </div> */}
-                                        </div>
-                                    ))
+                                        ))
+                                    ) : (<p className='font-mont text-center font-semibold mt-4'>No Record added</p>)
                                 }
                             </div>
                         )

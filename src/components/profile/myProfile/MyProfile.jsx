@@ -23,11 +23,11 @@ const MyProfile = ({ setClicked }) => {
             full_name: name
         }, { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 toast.success('Name updated successfully')
                 setBtn(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 toast.error('Error occured, Please try again')
                 setBtn(false)
             })

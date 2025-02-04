@@ -23,7 +23,7 @@ const CompanyAddRestocking = ({ setClicked }) => {
         Authorization: `Bearer ${Access}`
     }
 
-    console.log(stockId)
+    // console.log(stockId)
 
     const handleRestock = () => {
         setBtn(true)
@@ -34,11 +34,11 @@ const CompanyAddRestocking = ({ setClicked }) => {
             out_of_stock_threshold: parseInt(outOfStock)
         }, { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 toast.success('Stock added successfully')
                 setBtn(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 Swal.fire({
                     icon: 'error',
                     title: 'ERROR',

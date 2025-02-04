@@ -26,11 +26,11 @@ const StockRequest = () => {
         setLoading(true)
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/store/requests/all/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setRequests(response.data)
                 setLoading(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 setLoading(false)
             })
     }, [])
@@ -42,13 +42,13 @@ const StockRequest = () => {
             { headers }
         )
             .then(response => {
-                console.log(response);
+                // console.log(response);
                 toast.success('Request approved successfully');
                 // Update the approved IDs to reflect the success
                 setApprovedIds((prevIds) => [...prevIds, id]);
             })
             .catch(error => {
-                console.error(error);
+                // console.error(error);
                 toast.error('Something went wrong, please try again');
             });
     };
@@ -72,32 +72,36 @@ const StockRequest = () => {
                     {
                         loading ? (<div className='loader'></div>) : (
                             <div className='h-96 overflow-y-scroll'>
-                                {requests.map((stock) => (
-                                    stock.is_approved ? ('') : (
-                                        <div key={stock.id} className='grid grid-cols-4 my-0.5 text-center'>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.stock_name}</span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.date_requested}</span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.quantity}</span>
-                                            <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
-                                                <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
-                                                    <div
-                                                        className={`${approvedIds.includes(stock.id) ? 'approved-button' : 'approve-button'} cursor-pointer`}
-                                                        onClick={() => handleApproveRequest(stock.id)}
-                                                    >
-                                                        <button
-                                                            className={`font-mont text-[8px] sm:text-[10px] xl:text-sm font-semibold ${approvedIds.includes(stock.id) ? 'text-white' : 'text-black'
-                                                                }`}
-                                                            disabled={approvedIds.includes(stock.id)} // Disable button if already approved
-                                                        >
-                                                            {approvedIds.includes(stock.id) ? 'Approved' : 'Approve Request'}
-                                                        </button>
+                                {
+                                    requests.length > 0 ? (
+                                        requests.map((stock) => (
+                                            stock.is_approved ? ('') : (
+                                                <div key={stock.id} className='grid grid-cols-4 my-0.5 text-center'>
+                                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.stock_name}</span>
+                                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.date_requested}</span>
+                                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.quantity}</span>
+                                                    <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
+                                                        <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
+                                                            <div
+                                                                className={`${approvedIds.includes(stock.id) ? 'approved-button' : 'approve-button'} cursor-pointer`}
+                                                                onClick={() => handleApproveRequest(stock.id)}
+                                                            >
+                                                                <button
+                                                                    className={`font-mont text-[8px] sm:text-[10px] xl:text-sm font-semibold ${approvedIds.includes(stock.id) ? 'text-white' : 'text-black'
+                                                                        }`}
+                                                                    disabled={approvedIds.includes(stock.id)} // Disable button if already approved
+                                                                >
+                                                                    {approvedIds.includes(stock.id) ? 'Approved' : 'Approve Request'}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </div>
-
-                                            </div>
-                                        </div>
-                                    )
-                                ))}
+                                            )
+                                        ))
+                                    ) : (<p className='font-mont text-center font-semibold mt-4'>No Record added</p>)
+                                }
                             </div>
                         )
                     }

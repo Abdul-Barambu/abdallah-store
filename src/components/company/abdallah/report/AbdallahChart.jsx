@@ -155,7 +155,7 @@ const AbdallahChart = () => {
         // console.log(selectedValue); // Log the selected year
     };
 
-    console.log(selectedYear)
+    // console.log(selectedYear)
 
 
     // header
@@ -178,7 +178,7 @@ const AbdallahChart = () => {
                 headers: headers
             })
                 .then(response => {
-                    console.log(response)
+                    // console.log(response)
                     setJan(response.data.January)
                     setFeb(response.data.February)
                     setMar(response.data.March)
@@ -192,7 +192,7 @@ const AbdallahChart = () => {
                     setNov(response.data.November)
                     setDec(response.data.December)
                 }).catch(error => {
-                    console.log(error)
+                    // console.log(error)
                 })
 
             allSales();

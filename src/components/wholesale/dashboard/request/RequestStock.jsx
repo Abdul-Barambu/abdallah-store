@@ -33,10 +33,10 @@ const RequestStock = ({ setClicked }) => {
     useEffect(() => {
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/available/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setStocks(response.data)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 
@@ -47,12 +47,12 @@ const RequestStock = ({ setClicked }) => {
             quantity: parseInt(qty)
         }, { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setAlert(true)
                 setAlert(true)
                 setBtn(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 toast.error('Something went wrong, please try again')
                 setBtn(false)
             })

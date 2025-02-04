@@ -183,7 +183,7 @@ const WholesaleCharts = () => {
         // console.log(selectedValue); // Log the selected year
     };
 
-    console.log(selectedYear)
+    // console.log(selectedYear)
 
 
     // header
@@ -204,7 +204,7 @@ const WholesaleCharts = () => {
                 headers: headers
             })
                 .then(response => {
-                    console.log(response)
+                    // console.log(response)
                     setJan(response.data.monthly_sales.monthly_sales.January)
                     setFeb(response.data.monthly_sales.monthly_sales.February)
                     setMar(response.data.monthly_sales.monthly_sales.March)
@@ -218,7 +218,7 @@ const WholesaleCharts = () => {
                     setNov(response.data.monthly_sales.monthly_sales.November)
                     setDec(response.data.monthly_sales.monthly_sales.December)
                 }).catch(error => {
-                    console.log(error)
+                    // console.log(error)
                 })
 
             const allProfits = () => axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/wholesale/monthly-profits/", {
@@ -228,7 +228,7 @@ const WholesaleCharts = () => {
                 headers: headers
             })
                 .then(response => {
-                    console.log(response)
+                    // console.log(response)
                     setJanP(response.data.monthly_profits.monthly_profits.January)
                     setFebP(response.data.monthly_profits.monthly_profits.February)
                     setMarP(response.data.monthly_profits.monthly_profits.March)
@@ -242,7 +242,7 @@ const WholesaleCharts = () => {
                     setNovP(response.data.monthly_profits.monthly_profits.November)
                     setDecP(response.data.monthly_profits.monthly_profits.December)
                 }).catch(error => {
-                    console.log(error)
+                    // console.log(error)
                 })
 
             allSales();

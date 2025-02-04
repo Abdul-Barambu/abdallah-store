@@ -183,7 +183,7 @@ const Charts = () => {
         // console.log(selectedValue); // Log the selected year
     };
 
-    console.log(selectedYear)
+    // console.log(selectedYear)
 
 
     // header
@@ -204,7 +204,7 @@ const Charts = () => {
                 headers: headers
             })
                 .then(response => {
-                    console.log(response)
+                    // console.log(response)
                     setJan(response.data.monthly_sales.January)
                     setFeb(response.data.monthly_sales.February)
                     setMar(response.data.monthly_sales.March)
@@ -218,7 +218,7 @@ const Charts = () => {
                     setNov(response.data.monthly_sales.November)
                     setDec(response.data.monthly_sales.December)
                 }).catch(error => {
-                    console.log(error)
+                    // console.log(error)
                 })
 
             const allProfits = () => axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/monthly-profits/", {
@@ -228,7 +228,7 @@ const Charts = () => {
                 headers: headers
             })
                 .then(response => {
-                    console.log(response)
+                    // console.log(response)
                     setJanP(response.data.combined_profits.January)
                     setFebP(response.data.combined_profits.February)
                     setMarP(response.data.combined_profits.March)
@@ -242,7 +242,7 @@ const Charts = () => {
                     setNovP(response.data.combined_profits.November)
                     setDecP(response.data.combined_profits.December)
                 }).catch(error => {
-                    console.log(error)
+                    // console.log(error)
                 })
 
             allSales();

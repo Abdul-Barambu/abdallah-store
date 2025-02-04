@@ -5,6 +5,8 @@ const ViewSupplierDetails = ({ setClicked }) => {
 
     const list = JSON.parse(localStorage.getItem('ListOfStocks'))
 
+    localStorage.setItem("supplierName", list.supplier_name)
+
     return (
         <div className='bg-color-full'>
             {/* Back Button */}

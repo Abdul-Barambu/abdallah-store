@@ -35,56 +35,56 @@ const SupplierManagement = ({ setClicked }) => {
         setLoading(true)
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setListOfStocks(response.data)
                 setLoading(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 setLoading(false)
             })
     }, [])
 
 
-  // delete stock
-  const handleDeleteStock = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Call the delete API after confirmation
-        axios
-          .delete(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/${id}/`, { headers })
-          .then((response) => {
-            // After successful deletion, update the state
-            setListOfStocks((prevStock) =>
-              prevStock.filter((list) => list.id !== id)
-            );
+    // delete stock
+    const handleDeleteStock = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Call the delete API after confirmation
+                axios
+                    .delete(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/${id}/`, { headers })
+                    .then((response) => {
+                        // After successful deletion, update the state
+                        setListOfStocks((prevStock) =>
+                            prevStock.filter((list) => list.id !== id)
+                        );
 
-            // Show success alert
-            Swal.fire({
-              title: "Deleted!",
-              text: "The Stock has been deleted.",
-              icon: "success",
-            });
-          })
-          .catch((error) => {
-            // Handle error and show error alert if deletion fails
-            Swal.fire({
-              title: "Error!",
-              text: "There was a problem deleting the expense.",
-              icon: "error",
-            });
-            console.error("Error deleting expense:", error);
-          });
-      }
-    });
-  };
+                        // Show success alert
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "The Stock has been deleted.",
+                            icon: "success",
+                        });
+                    })
+                    .catch((error) => {
+                        // Handle error and show error alert if deletion fails
+                        Swal.fire({
+                            title: "Error!",
+                            text: "There was a problem deleting the expense.",
+                            icon: "error",
+                        });
+                        // console.error("Error deleting expense:", error);
+                    });
+            }
+        });
+    };
 
 
     return (
@@ -157,22 +157,24 @@ const SupplierManagement = ({ setClicked }) => {
                         loading ? (<div className='loader'></div>) : (
                             <div className='h-96 overflow-y-scroll'>
                                 {
-                                    filteredDues.map((list) => (
-                                        <div key={list.id} className='grid grid-cols-6 my-0.5 text-center'>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.stock_name}</span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.supplier_name}</span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.quantity}</span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(list.price).toLocaleString()}.00</span>
-                                            <div className='bg-white/[0.47] py-5'>
-                                                <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${list.payment_status === 'Fully Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{list.payment_status}</span>
+                                    listOfStocks.length > 0 ? (
+                                        filteredDues.map((list) => (
+                                            <div key={list.id} className='grid grid-cols-6 my-0.5 text-center'>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.stock_name}</span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.supplier_name}</span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.quantity}</span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(list.price).toLocaleString()}.00</span>
+                                                <div className='bg-white/[0.47] py-5'>
+                                                    <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${list.payment_status === 'Fully Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{list.payment_status}</span>
+                                                </div>
+                                                <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
+                                                    <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewSupplierDetails"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
+                                                    <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditStockDetails"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
+                                                    <RiDeleteBin6Fill className='cursor-pointer icon-red' onClick={() => handleDeleteStock(list.id)} />
+                                                </div>
                                             </div>
-                                            <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
-                                                <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewSupplierDetails"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
-                                                <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditStockDetails"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
-                                                <RiDeleteBin6Fill className='cursor-pointer icon-red' onClick={() => handleDeleteStock(list.id)} />
-                                            </div>
-                                        </div>
-                                    ))
+                                        ))
+                                    ) : (<p className='font-mont text-center font-semibold mt-4'>No Record added</p>)
                                 }
                             </div>
                         )

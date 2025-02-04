@@ -28,11 +28,11 @@ const HistoryRecord = () => {
         setLoading(true)
         axios.get('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/store/requests/approved/', { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setListOfApproved(response.data)
                 setLoading(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 Swal.fire({
                     icon: 'error',
                     title: 'ERROR',
@@ -86,13 +86,15 @@ const HistoryRecord = () => {
                         loading ? (<div className='loader'></div>) : (
                             <div className='h-96 overflow-y-scroll'>
                                 {
-                                    filteredList.map((list) => (
-                                        <div key={list.id} className='grid grid-cols-3 my-0.5 text-center'>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.stock_name}</span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.quantity}</span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.date_requested}</span>
-                                        </div>
-                                    ))
+                                    listofApproved.length > 0 ? (
+                                        filteredList.map((list) => (
+                                            <div key={list.id} className='grid grid-cols-3 my-0.5 text-center'>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.stock_name}</span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.quantity}</span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.date_requested}</span>
+                                            </div>
+                                        ))
+                                    ) : (<p className='font-mont text-center font-semibold mt-4'>No Record added</p>)
                                 }
                             </div>
                         )

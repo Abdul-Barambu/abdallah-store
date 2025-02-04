@@ -155,7 +155,7 @@ const CompanyChart = () => {
         // console.log(selectedValue); // Log the selected year
     };
 
-    console.log(selectedYear)
+    // console.log(selectedYear)
 
 
     // header
@@ -176,7 +176,7 @@ const CompanyChart = () => {
                 headers: headers
             })
                 .then(response => {
-                    console.log(response)
+                    // console.log(response)
                     setJan(response.data.monthly_sales.January)
                     setFeb(response.data.monthly_sales.February)
                     setMar(response.data.monthly_sales.March)
@@ -190,7 +190,7 @@ const CompanyChart = () => {
                     setNov(response.data.monthly_sales.November)
                     setDec(response.data.monthly_sales.December)
                 }).catch(error => {
-                    console.log(error)
+                    // console.log(error)
                 })
 
             allSales();

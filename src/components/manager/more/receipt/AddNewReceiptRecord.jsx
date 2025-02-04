@@ -68,11 +68,11 @@ const AddNewReceiptRecord = ({ setClicked }) => {
             supplier_name: name
         }, { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 toast.success("Receipt saved successfully")
                 setBtn(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 toast.error("Something went wrong, Please try again")
                 setBtn(false)
             })

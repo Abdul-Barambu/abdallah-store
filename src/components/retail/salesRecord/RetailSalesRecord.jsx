@@ -24,11 +24,11 @@ const RetailSalesRecord = ({ setClicked }) => {
         setLoading(true)
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/retail/purchase/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setRetailList(response.data)
                 setLoading(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 Swal.fire({
                     icon: 'error',
                     title: 'ERROR',
@@ -72,7 +72,7 @@ const RetailSalesRecord = ({ setClicked }) => {
                             text: "There was a problem deleting the expense.",
                             icon: "error",
                         });
-                        console.error("Error deleting expense:", error);
+                        // console.error("Error deleting expense:", error);
                     });
             }
         });
@@ -118,31 +118,37 @@ const RetailSalesRecord = ({ setClicked }) => {
                     </div>
 
                     {/* Data */}
-                    <div className='h-96 overflow-y-scroll'>
-                        {
-                            retailList.map((list) => (
-                                <div key={list.id} className='grid grid-cols-5 my-0.5 text-center'>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
-                                    {
-                                        list.items.map(item => (
-                                            <span key={item.stock_id} className='flex flex-col'>{item.stock_name}</span>
+                    {
+                        loading ? (<div className='loader'></div>) : (
+                            <div className='h-96 overflow-y-scroll'>
+                                {
+                                    retailList.length > 0 ? (
+                                        retailList.map((list) => (
+                                            <div key={list.id} className='grid grid-cols-5 my-0.5 text-center'>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
+                                                    {
+                                                        list.items.map(item => (
+                                                            <span key={item.stock_id} className='flex flex-col'>{item.stock_name}</span>
+                                                        ))
+                                                    }
+                                                </span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.date_of_purchase}</span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'> ₦{Number(list.total_price).toLocaleString()}.00</span>
+                                                <div className='bg-white/[0.47] py-5'>
+                                                    <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${list.payment_status === 'Fully Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{list.payment_status}</span>
+                                                </div>
+                                                <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
+                                                    <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewRetailRecord"); localStorage.setItem("retail-list", JSON.stringify(list)) }} />
+                                                    {/* <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditRecord"); localStorage.setItem("edit-retail", JSON.stringify(list)) }} /> */}
+                                                    <RiDeleteBin6Fill className='cursor-pointer icon-red' onClick={() => handleDeletePurchase(list.id)} />
+                                                </div>
+                                            </div>
                                         ))
-                                    }
-                                    </span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.date_of_purchase}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'> ₦{Number(list.total_price).toLocaleString()}.00</span>
-                                    <div className='bg-white/[0.47] py-5'>
-                                        <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${list.payment_status === 'Fully Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{list.payment_status}</span>
-                                    </div>
-                                    <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
-                                        <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewRetailRecord"); localStorage.setItem("retail-list", JSON.stringify(list)) }} />
-                                        <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditRecord"); localStorage.setItem("edit-retail", JSON.stringify(list)) }} />
-                                        {/* <RiDeleteBin6Fill className='cursor-pointer icon-red' onClick={() => handleDeletePurchase(list.id)} /> */}
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div>
+                                    ) : (<p className='font-mont text-center font-semibold mt-4'>No Record added</p>)
+                                }
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

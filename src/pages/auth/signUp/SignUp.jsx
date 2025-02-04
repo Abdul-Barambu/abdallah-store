@@ -29,7 +29,7 @@ const SignUp = () => {
             confirm_password: confirmPassword,
             role: role
         }).then(response => {
-            console.log(response)
+            // console.log(response)
             Swal.fire({
                 icon: 'success',
                 title: 'SUCCESS',
@@ -37,7 +37,7 @@ const SignUp = () => {
             })
             setBtn(false)
         }).catch(error => {
-            console.log(error)
+            // console.log(error)
             Swal.fire({
                 icon: 'error',
                 title: 'ERROR',

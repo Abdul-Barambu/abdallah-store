@@ -24,10 +24,10 @@ const CompanyReport = ({ setClicked }) => {
     useEffect(() => {
         axios.get('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/sales/total-commission/', { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setCommission(response.data.total_commission)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 
@@ -35,10 +35,11 @@ const CompanyReport = ({ setClicked }) => {
         setLoading(true)
         axios.get('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/sales/total/', { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
+                setSales(response.data.total_sales)
                 setLoading(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 setLoading(false)
             })
     }, [])
@@ -47,10 +48,10 @@ const CompanyReport = ({ setClicked }) => {
     useEffect(() => {
         axios.get('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/top-selling-products/', { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setProducts(response.data)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 
@@ -119,19 +120,21 @@ const CompanyReport = ({ setClicked }) => {
                                 loading ? (<div className='loader'></div>) : (
                                     <div className={`h-[500px] overflow-y-scroll`}>
                                         {
-                                            products.map((product) => (
-                                                <div key={product.company_stock_id} className='grid grid-cols-6 my-0.5 text-center'>
-                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.stock_name}</span>
-                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.category}</span>
-                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.total_sold_quantity}</span>
-                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.amount_paid).toLocaleString()}.00</span>
-                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.commission_made).toLocaleString()}.00</span>
-                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.total_revenue).toLocaleString()}.00</span>
-                                                    {/* <div className='bg-table flex flex-row gap-4 justify-center items-center'>
-                                                <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewCompanyReport"); localStorage.setItem("soldStocks", JSON.stringify(product)) }} />
-                                            </div> */}
-                                                </div>
-                                            ))
+                                            products.length > 0 ? (
+                                                products.map((product) => (
+                                                    <div key={product.company_stock_id} className='grid grid-cols-6 my-0.5 text-center'>
+                                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.stock_name}</span>
+                                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.category}</span>
+                                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.total_sold_quantity}</span>
+                                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.amount_paid).toLocaleString()}.00</span>
+                                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.commission_made).toLocaleString()}.00</span>
+                                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.total_revenue).toLocaleString()}.00</span>
+                                                        {/* <div className='bg-table flex flex-row gap-4 justify-center items-center'>
+                                                    <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewCompanyReport"); localStorage.setItem("soldStocks", JSON.stringify(product)) }} />
+                                                </div> */}
+                                                    </div>
+                                                ))
+                                            ) : (<p className='font-mont text-center font-semibold mt-4'>No Record added</p>)
                                         }
                                     </div>
                                 )

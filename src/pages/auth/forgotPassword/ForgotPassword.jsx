@@ -12,7 +12,7 @@ const ForgotPassword = () => {
         axios.post("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/userauths/password-reset/", {
             email: email
         }).then(response => {
-            console.log(response)
+            // console.log(response)
             localStorage.setItem('reset-password-token', response.data.token)
             localStorage.setItem('reset-password-uid', response.data.uidb64)
             Swal.fire({
@@ -22,7 +22,7 @@ const ForgotPassword = () => {
             })
             setBtn(false)
         }).catch(error => {
-            console.log(error)
+            // console.log(error)
             Swal.fire({
                 icon: 'error',
                 title: 'ERROR',

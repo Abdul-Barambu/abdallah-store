@@ -51,13 +51,18 @@ const AbdallahStockStatus = ({ setClicked, handlePrint, button }) => {
     // stock status list
     useEffect(() => {
         setLoading(true)
-        axios.get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/stocks/`, { headers })
+        axios.get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user-company-stocks/`, {
+            params: {
+                user_id: user_id
+            },
+            headers: headers
+        })
             .then(response => {
-                console.log(response)
-                setStockStatus(response.data)
+                // console.log(response)
+                setStockStatus(response.data.stocks)
                 setLoading(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 Swal.fire({
                     icon: 'error',
                     title: 'ERROR',
@@ -70,27 +75,27 @@ const AbdallahStockStatus = ({ setClicked, handlePrint, button }) => {
 
     // num of stocks
     useEffect(() => {
-        axios.get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${user_id}/stock-thresholds/`, {headers})
-        .then(response => {
-            console.log(response)
-            setHealthy(response.data.total_healthy)
-            setLow(response.data.total_low_stock)
-            setOut(response.data.total_out_of_stock)
-        }).catch(error => {
-            console.log(error)
-        })
+        axios.get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${user_id}/stock-thresholds/`, { headers })
+            .then(response => {
+                // console.log(response)
+                setHealthy(response.data.total_healthy)
+                setLow(response.data.total_low_stock)
+                setOut(response.data.total_out_of_stock)
+            }).catch(error => {
+                // console.log(error)
+            })
     }, [])
 
     return (
         <div className='bg-color-full'>
             {/* Back Button */}
-            <div
+            {/* <div
                 className={`mt-4 mb-4 mx-4 sm:mx-0 flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer ${button ? 'hidden' : 'block'}`}
                 onClick={() => setClicked('Inventory')}
             >
                 <GoArrowLeft className='text-xs sm:text-sm lg:text-xl' />
                 <span className='font-mont font-medium text-xs sm:text-sm lg:text-base'>Back</span>
-            </div>
+            </div> */}
             <div className='bg-white pb-32'>
                 <h1 className='text-center -mb-16 font-mont font-semibold pt-5'>Real-Time Stock Status</h1>
                 {/* chart */}
@@ -233,31 +238,31 @@ const AbdallahStockStatus = ({ setClicked, handlePrint, button }) => {
 
                         {/* Data */}
                         {
-                            loading ? (<div className='loader'></div>): (
-                                <div className = {`${button ? '' : 'h-96 overflow-y-scroll'}`}>
-                        {
-                            filteredDues.map((stock) => (
-                                <div key={stock.id} className='grid grid-cols-4 my-0.5 text-center'>
-                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.name}</span>
-                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.category}</span>
-                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.quantity}</span>
-                                    <div className='flex flex-row gap-2  lg:gap-4 justify-start items-center bg-table sm:pl-1 lg:pl-8 xl:pl-14'>
-                                        <div className={`${stock.quantity > stock.low_stock_threshold ? 'green-box' : stock.quantity <= stock.low_stock_threshold && stock.quantity > stock.out_of_stock_threshold ? 'yellow-box' : stock.quantity <= stock.out_of_stock_threshold ? 'red-box' : null}`}></div>
-                                        <span className='font-mont font-semibold text-[7px] sm:text-xs'>{stock.quantity > stock.low_stock_threshold ? 'Healthy Stock' : stock.quantity <= stock.low_stock_threshold && stock.quantity > stock.out_of_stock_threshold ? 'Low Stock' : stock.quantity <= stock.out_of_stock_threshold ? 'Out of Stock' : null}</span>
-                                    </div>
+                            loading ? (<div className='loader'></div>) : (
+                                <div className={`${button ? '' : 'h-96 overflow-y-scroll'}`}>
+                                    {
+                                        filteredDues.map((stock) => (
+                                            <div key={stock.id} className='grid grid-cols-4 my-0.5 text-center'>
+                                                <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.name}</span>
+                                                <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.category}</span>
+                                                <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{stock.quantity}</span>
+                                                <div className='flex flex-row gap-2  lg:gap-4 justify-start items-center bg-table sm:pl-1 lg:pl-8 xl:pl-14'>
+                                                    <div className={`${stock.quantity > stock.low_stock_threshold ? 'green-box' : stock.quantity <= stock.low_stock_threshold && stock.quantity > stock.out_of_stock_threshold ? 'yellow-box' : stock.quantity <= stock.out_of_stock_threshold ? 'red-box' : null}`}></div>
+                                                    <span className='font-mont font-semibold text-[7px] sm:text-xs'>{stock.quantity > stock.low_stock_threshold ? 'Healthy Stock' : stock.quantity <= stock.low_stock_threshold && stock.quantity > stock.out_of_stock_threshold ? 'Low Stock' : stock.quantity <= stock.out_of_stock_threshold ? 'Out of Stock' : null}</span>
+                                                </div>
+                                            </div>
+                                        ))
+                                    }
                                 </div>
-                            ))
+                            )
                         }
                     </div>
-                    )
-                        }
+                </div>
+                {/* print */}
+                <div onClick={handlePrint} className={`black-bg w-1/2 sm:w-[17%] lg:w-[12%] py-1.5 rounded-lg text-center sm:hidden block mx-auto mt-6 ${button ? 'hidden' : 'block'}`}>
+                    <button className="text-white text-xs font-mont font-semibold">Print</button>
                 </div>
             </div>
-            {/* print */}
-            <div onClick={handlePrint} className={`black-bg w-1/2 sm:w-[17%] lg:w-[12%] py-1.5 rounded-lg text-center sm:hidden block mx-auto mt-6 ${button ? 'hidden' : 'block'}`}>
-                <button className="text-white text-xs font-mont font-semibold">Print</button>
-            </div>
-        </div>
         </div >
     );
 }

@@ -19,7 +19,7 @@ const ResetPassword = () => {
             new_password: password,
             confirm_password: confirmPassword
         }).then(response => {
-            console.log(response)
+            // console.log(response)
             Swal.fire({
                 icon: 'success',
                 title: 'SUCCESS',
@@ -29,7 +29,7 @@ const ResetPassword = () => {
             })
             setBtn(false)
         }).catch(error => {
-            console.log(error)
+            // console.log(error)
             Swal.fire({
                 icon: 'error',
                 title: 'ERROR',

@@ -56,11 +56,11 @@ const AddExisting = ({ setClicked }) => {
             out_of_stock_threshold: parseInt(outOfStock)
         }, { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 toast.success('Added Successfully')
                 setBtn(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 Swal.fire({
                     icon: 'error',
                     title: 'ERROR',

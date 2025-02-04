@@ -76,7 +76,7 @@ const CompanyAddNewPurchase = ({ setClicked }) => {
                     ? { ...row, stockId: stockId } // Only update stockId
                     : row
             ),
-            console.log(stockId)
+            // console.log(stockId)
         );
     };
 
@@ -98,10 +98,10 @@ const CompanyAddNewPurchase = ({ setClicked }) => {
     useEffect(() => {
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/stocks/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setStocks(response.data)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 
@@ -119,13 +119,13 @@ const CompanyAddNewPurchase = ({ setClicked }) => {
             amount_paid: amountPaid,
         }, { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 toast.success('Purchase added sucessfully')
                 localStorage.setItem("company-purchase", JSON.stringify(response.data))
                 setAlert(true)
                 setBtn(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 toast.error('Something went wrong, please try again')
                 setBtn(false)
             })

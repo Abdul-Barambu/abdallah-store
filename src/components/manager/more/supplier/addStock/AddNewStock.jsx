@@ -62,11 +62,11 @@ const AddNewStock = ({ setClicked }) => {
             out_of_stock_threshold: outOfStock
         }, { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 toast.success('Stock Added Successfully')
                 setBtn(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 Swal.fire({
                     icon: 'error',
                     title: 'ERROR',

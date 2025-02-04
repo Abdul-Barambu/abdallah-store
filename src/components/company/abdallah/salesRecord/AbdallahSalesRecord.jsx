@@ -29,11 +29,11 @@ const AbdallahSalesRecord = ({ setClicked }) => {
         setLoading(true)
         axios.get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${user_id}/purchases/`, { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setPurchases(response.data.purchases)
                 setLoading(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 setLoading(false)
             })
     }, [])
@@ -84,28 +84,30 @@ const AbdallahSalesRecord = ({ setClicked }) => {
                         loading ? (<div className='loader'></div>) : (
                             <div className='h-96 overflow-y-scroll'>
                                 {
-                                    purchases.map((purchase) => (
-                                        <div key={purchase.id} className='grid grid-cols-7 my-0.5 text-center'>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
-                                                {purchase.items.map((item, index) => (
-                                                    <span key={index} className='flex flex-col'>{item.stock_name}</span>
-                                                ))}
-                                            </span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{purchase.date_of_purchase}</span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
-                                                {purchase.items.map((item, index) => (
-                                                    <span key={index}>{item.unit_quantity}</span>
-                                                ))}</span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(purchase.amount_paid).toLocaleString()}.00</span>
-                                            <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number().toLocaleString()}.00</span>
-                                            <div className='bg-white/[0.47] py-5'>
-                                                <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${purchase.status === 'Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{purchase.status}</span>
+                                    purchases.length > 0 ? (
+                                        purchases.map((purchase) => (
+                                            <div key={purchase.id} className='grid grid-cols-7 my-0.5 text-center'>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
+                                                    {purchase.items.map((item, index) => (
+                                                        <span key={index} className='flex flex-col'>{item.stock_name}</span>
+                                                    ))}
+                                                </span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{purchase.date_of_purchase}</span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>
+                                                    {purchase.items.map((item, index) => (
+                                                        <span key={index}>{item.unit_quantity}</span>
+                                                    ))}</span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number(purchase.amount_paid).toLocaleString()}.00</span>
+                                                <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>₦{Number().toLocaleString()}.00</span>
+                                                <div className='bg-white/[0.47] py-5'>
+                                                    <span className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${purchase.status === 'Paid' ? 'fully-paid green-text' : 'on-credit icon-red'} truncate`}>{purchase.status}</span>
+                                                </div>
+                                                <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
+                                                    <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewAbdallahSalesRecord"); localStorage.setItem("ViewAbdallahPurchase", JSON.stringify(purchase)) }} />
+                                                </div>
                                             </div>
-                                            <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
-                                                <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewAbdallahSalesRecord"); localStorage.setItem("ViewAbdallahPurchase", JSON.stringify(purchase)) }} />
-                                            </div>
-                                        </div>
-                                    ))
+                                        ))
+                                    ) : (<p className='font-mont text-center font-semibold mt-4'>No Record added</p>)
                                 }
                             </div>
                         )

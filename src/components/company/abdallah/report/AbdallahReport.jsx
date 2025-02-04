@@ -27,10 +27,10 @@ const AbdallahReport = ({ setClicked }) => {
     useEffect(() => {
         axios.get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${user_id}/total-commission/`, { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setCommission(response.data.total_commission)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 
@@ -38,11 +38,11 @@ const AbdallahReport = ({ setClicked }) => {
         setLoading(true)
         axios.get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${user_id}/total-sales/`, { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setSales(response.data.total_sales)
                 setLoading(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 setLoading(false)
             })
     }, [])
@@ -51,10 +51,10 @@ const AbdallahReport = ({ setClicked }) => {
     useEffect(() => {
         axios.get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${user_id}/top-selling-stocks/`, { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setProducts(response.data.top_selling_stocks)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 
@@ -118,6 +118,7 @@ const AbdallahReport = ({ setClicked }) => {
                                 loading ? (<div className='loader'></div>) : (
                                     <div className={`h-[500px] overflow-y-scroll`}>
                                         {
+                                           products.length > 0 ? (
                                             products.map((product) => (
                                                 <div key={product.company_stock_id} className='grid grid-cols-3 my-0.5 text-center'>
                                                     <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.stock_name}</span>
@@ -128,6 +129,7 @@ const AbdallahReport = ({ setClicked }) => {
                                             </div> */}
                                                 </div>
                                             ))
+                                           ) : (<p className='font-mont text-center font-semibold mt-4'>No Record added</p>)
                                         }
                                     </div>
                                 )

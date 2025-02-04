@@ -27,11 +27,11 @@ const ChangePassword = ({ setClicked }) => {
             confirm_password: confirmPassword
         }, { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 toast.success('Password Changed Successfully')
                 setBtn(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 toast.error('Error occured, please try again')
                 setBtn(false)
             })

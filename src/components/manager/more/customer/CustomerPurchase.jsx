@@ -33,12 +33,12 @@ const CustomerPurchase = ({ setClicked }) => {
                 { headers }
             )
             .then((response) => {
-                console.log(response)
+                // console.log(response)
                 setWholesale(response.data);
                 setLoading(false);
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
                 setLoading(false);
             });
     }, []);
@@ -51,12 +51,12 @@ const CustomerPurchase = ({ setClicked }) => {
                 { headers }
             )
             .then((response) => {
-                console.log(response)
+                // console.log(response)
                 setRetail(response.data);
                 setLoading(false);
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
                 setLoading(false);
             });
     }, []);
@@ -130,43 +130,47 @@ const CustomerPurchase = ({ setClicked }) => {
                             <div className="loader"></div>
                         ) : (
                             <div className="h-96 overflow-y-scroll">
-                                {filteredWholesale.map((list) => (
-                                    <div key={list.id} className="grid grid-cols-6 my-0.5 text-center">
-                                        <span className="bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate">
-                                            {list.buyer_name}
-                                        </span>
-                                        <span className="bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate">
-                                            {list.date_of_purchase}
-                                        </span>
-                                        <span className="bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate">
-                                            {list.items.map((item, index) => (
-                                                <span key={index}>{item.stock_name}</span>
-                                            ))}
-                                        </span>
-                                        <span className="bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate">
-                                            ₦{Number(list.total_price).toLocaleString()}.00
-                                        </span>
-                                        <div className="bg-white/[0.47] py-5">
-                                            <span
-                                                className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${list.payment_status === 'Fully Paid'
-                                                        ? 'fully-paid green-text'
-                                                        : 'on-credit icon-red'
-                                                    } truncate`}
-                                            >
-                                                {list.payment_status}
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-row gap-4 justify-center items-center bg-white/[0.47]">
-                                            <IoEye
-                                                className="cursor-pointer"
-                                                onClick={() => {
-                                                    setClicked('CustomerPurchaseReceipt');
-                                                    localStorage.setItem('wholesalePurchases', JSON.stringify(list));
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                ))}
+                                {
+                                    wholesale.length > 0 ? (
+                                        filteredWholesale.map((list) => (
+                                            <div key={list.id} className="grid grid-cols-6 my-0.5 text-center">
+                                                <span className="bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate">
+                                                    {list.buyer_name}
+                                                </span>
+                                                <span className="bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate">
+                                                    {list.date_of_purchase}
+                                                </span>
+                                                <span className="bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate">
+                                                    {list.items.map((item, index) => (
+                                                        <span key={index}>{item.stock_name}</span>
+                                                    ))}
+                                                </span>
+                                                <span className="bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate">
+                                                    ₦{Number(list.total_price).toLocaleString()}.00
+                                                </span>
+                                                <div className="bg-white/[0.47] py-5">
+                                                    <span
+                                                        className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${list.payment_status === 'Fully Paid'
+                                                            ? 'fully-paid green-text'
+                                                            : 'on-credit icon-red'
+                                                            } truncate`}
+                                                    >
+                                                        {list.payment_status}
+                                                    </span>
+                                                </div>
+                                                <div className="flex flex-row gap-4 justify-center items-center bg-white/[0.47]">
+                                                    <IoEye
+                                                        className="cursor-pointer"
+                                                        onClick={() => {
+                                                            setClicked('CustomerPurchaseReceipt');
+                                                            localStorage.setItem('wholesalePurchases', JSON.stringify(list));
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : (<p className='font-mont text-center font-semibold mt-4'>No Record added</p>)
+                                }
                             </div>
                         )}
                     </div>
@@ -200,40 +204,44 @@ const CustomerPurchase = ({ setClicked }) => {
                             <div className="loader"></div>
                         ) : (
                             <div className="h-96 overflow-y-scroll">
-                                {filteredRetail.map((list) => (
-                                    <div key={list.id} className="grid grid-cols-5 my-0.5 text-center">
-                                        <span className="bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate">
-                                            {list.date_of_purchase}
-                                        </span>
-                                        <span className="bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate">
-                                            {list.items.map((item, index) => (
-                                                <span key={index}>{item.stock_name}</span>
-                                            ))}
-                                        </span>
-                                        <span className="bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate">
-                                            ₦{Number(list.total_price).toLocaleString()}.00
-                                        </span>
-                                        <div className="bg-white/[0.47] py-5">
-                                            <span
-                                                className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${list.payment_status === 'Fully Paid'
-                                                        ? 'fully-paid green-text'
-                                                        : 'on-credit icon-red'
-                                                    } truncate`}
-                                            >
-                                                {list.payment_status}
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-row gap-4 justify-center items-center bg-white/[0.47]">
-                                            <IoEye
-                                                className="cursor-pointer"
-                                                onClick={() => {
-                                                    setClicked('CustomerRetailReceipt');
-                                                    localStorage.setItem('RetailPurchases', JSON.stringify(list));
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                ))}
+                                {
+                                    retail.length > 0 ? (
+                                        filteredRetail.map((list) => (
+                                            <div key={list.id} className="grid grid-cols-5 my-0.5 text-center">
+                                                <span className="bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate">
+                                                    {list.date_of_purchase}
+                                                </span>
+                                                <span className="bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate">
+                                                    {list.items.map((item, index) => (
+                                                        <span key={index}>{item.stock_name}</span>
+                                                    ))}
+                                                </span>
+                                                <span className="bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate">
+                                                    ₦{Number(list.total_price).toLocaleString()}.00
+                                                </span>
+                                                <div className="bg-white/[0.47] py-5">
+                                                    <span
+                                                        className={`text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium ${list.payment_status === 'Fully Paid'
+                                                            ? 'fully-paid green-text'
+                                                            : 'on-credit icon-red'
+                                                            } truncate`}
+                                                    >
+                                                        {list.payment_status}
+                                                    </span>
+                                                </div>
+                                                <div className="flex flex-row gap-4 justify-center items-center bg-white/[0.47]">
+                                                    <IoEye
+                                                        className="cursor-pointer"
+                                                        onClick={() => {
+                                                            setClicked('CustomerRetailReceipt');
+                                                            localStorage.setItem('RetailPurchases', JSON.stringify(list));
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : (<p className='font-mont text-center font-semibold mt-4'>No Record added</p>)
+                                }
                             </div>
                         )}
                     </div>

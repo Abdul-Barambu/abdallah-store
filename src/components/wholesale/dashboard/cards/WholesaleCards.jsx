@@ -26,10 +26,10 @@ const WholesaleCards = ({ setClicked }) => {
     useEffect(() => {
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/wholesale/daily-sales/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setSales(response.data.daily_sales)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 
@@ -37,10 +37,10 @@ const WholesaleCards = ({ setClicked }) => {
     useEffect(() => {
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/wholesale/daily-profits/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setProfit(response.data.daily_profit)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 
@@ -48,10 +48,10 @@ const WholesaleCards = ({ setClicked }) => {
     useEffect(() => {
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/purchases/on-credit/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setDue(response.data.total_count)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 

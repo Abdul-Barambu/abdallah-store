@@ -36,6 +36,7 @@ import CustomerRetailReceipt from '../../../components/manager/more/customer/Cus
 import Swal from 'sweetalert2'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
+import Users from '../../../components/users/Users'
 
 const ManagerDashboard = () => {
   const [clicked, setClicked] = useState('ManagerDashboard')
@@ -229,6 +230,12 @@ const ManagerDashboard = () => {
                       >
                         Logout
                       </p>
+                      <p
+                        className={`${clicked === 'Users' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-base py-3 text-center px-5 rounded-3xl mb-5 cursor-pointer`}
+                        onClick={() => { setClicked("Users"); setNav(false) }}
+                      >
+                        Users
+                      </p>
                     </div>
                   )}
                 </div>
@@ -343,6 +350,12 @@ const ManagerDashboard = () => {
                       >
                         Logout
                       </p>
+                      <p
+                        className={`${clicked === 'Users' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-[10px] py-2 px-16 rounded-xl mb-5 cursor-pointer`}
+                        onClick={() => { setClicked("Users"); }}
+                      >
+                        Users
+                      </p>
                     </div>
                   )}
                 </div>
@@ -378,7 +391,7 @@ const ManagerDashboard = () => {
                         : clicked === "ViewReceiptRecord" ? <ViewReceiptRecord setClicked={setClicked} handlePrint={handlePrint} button={button} /> : clicked === "EditReceiptRecord" ? <EditReceiptRecord setClicked={setClicked} /> : clicked === "CustomerRetailReceipt" ? <CustomerRetailReceipt setClicked={setClicked} handlePrint={handlePrint} button={button} />
 
                           // ##### profile and notification #####
-                          : clicked === "MyProfile" ? <MyProfile setClicked={setClicked} /> : clicked === "Settings" ? <Settings setClicked={setClicked} /> : clicked === "ChangePassword" ? <ChangePassword setClicked={setClicked} /> : clicked === "Notification" ? <Notification setClicked={setClicked} /> : null
+                          : clicked === "MyProfile" ? <MyProfile setClicked={setClicked} /> : clicked === "Settings" ? <Settings setClicked={setClicked} /> : clicked === "ChangePassword" ? <ChangePassword setClicked={setClicked} /> : clicked === "Notification" ? <Notification setClicked={setClicked} /> : clicked === "Users" ? <Users /> : null
           }
         </div>
 

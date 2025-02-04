@@ -131,13 +131,13 @@ const EditRecord = ({ setClicked }) => {
             date_of_purchase: new Date().toISOString().split('T')[0]
         }, { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 toast.success('Updated sucessfully')
                 localStorage.setItem("edit-wholesale-purchase", JSON.stringify(response.data))
                 setAlert(true)
                 setBtn(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 toast.error('Something went wrong, please try again')
                 setBtn(false)
             })

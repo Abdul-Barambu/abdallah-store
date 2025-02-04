@@ -51,11 +51,11 @@ const CompanyStockStatus = ({ setClicked, handlePrint, button }) => {
         setLoading(true)
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/stocks/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setStockStatus(response.data)
                 setLoading(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 Swal.fire({
                     icon: 'error',
                     title: 'ERROR',
@@ -70,12 +70,12 @@ const CompanyStockStatus = ({ setClicked, handlePrint, button }) => {
     useEffect(() => {
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/stocks/health-status/", {headers})
         .then(response => {
-            console.log(response)
+            // console.log(response)
             setHealthy(response.data.total_healthy)
             setLow(response.data.total_low_stock)
             setOut(response.data.total_out_of_stock)
         }).catch(error => {
-            console.log(error)
+            // console.log(error)
         })
     }, [])
 

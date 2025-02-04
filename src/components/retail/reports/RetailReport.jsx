@@ -30,10 +30,10 @@ const RetailReport = ({ setClicked }) => {
     useEffect(() => {
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/retail/sales/total/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setSales(response.data.total_sales)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 
@@ -41,10 +41,10 @@ const RetailReport = ({ setClicked }) => {
     useEffect(() => {
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/retail/profit/total/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setProfit(response.data.total_profit)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 
@@ -53,11 +53,11 @@ const RetailReport = ({ setClicked }) => {
         setLoading(true)
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/retail/retail/top_selling_products/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setTopSellingProducts(response.data.top_selling_products)
                 setLoading(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 Swal.fire({
                     icon: 'error',
                     title: 'ERROR',
@@ -134,19 +134,21 @@ const RetailReport = ({ setClicked }) => {
                                 loading ? (<div className='loader'></div>) : (
                                     <div className={`h-[500px] overflow-y-scroll`}>
                                         {
-                                            topSellingProducts.map((product) => (
-                                                <div key={product.id} className='grid grid-cols-6 my-0.5 text-center'>
-                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.stock_name}</span>
-                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.sku}</span>
-                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.retail_actual_price).toLocaleString()}.00</span>
-                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.quantity_sold}</span>
-                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.amount_generated).toLocaleString()}.00</span>
-                                                    <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.profit_made).toLocaleString()}.00</span>
-                                                    {/* <div className='bg-table flex flex-row gap-4 justify-center items-center'>
-                                                        <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewRetailReport"); localStorage.setItem("soldStocks", JSON.stringify(product)) }} />
-                                                    </div> */}
-                                                </div>
-                                            ))
+                                            topSellingProducts.length > 0 ? (
+                                                topSellingProducts.map((product) => (
+                                                    <div key={product.id} className='grid grid-cols-6 my-0.5 text-center'>
+                                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.stock_name}</span>
+                                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.sku}</span>
+                                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.retail_actual_price).toLocaleString()}.00</span>
+                                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>{product.quantity_sold}</span>
+                                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.amount_generated).toLocaleString()}.00</span>
+                                                        <span className='bg-table text-[8px] sm:text-[10px] lg:text-sm font-mont font-medium py-5 truncate'>₦{Number(product.profit_made).toLocaleString()}.00</span>
+                                                        {/* <div className='bg-table flex flex-row gap-4 justify-center items-center'>
+                                                            <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewRetailReport"); localStorage.setItem("soldStocks", JSON.stringify(product)) }} />
+                                                        </div> */}
+                                                    </div>
+                                                ))
+                                            ): (<p className='font-mont text-center font-semibold mt-4'>No Record added</p>)
                                         }
                                     </div>
                                 )

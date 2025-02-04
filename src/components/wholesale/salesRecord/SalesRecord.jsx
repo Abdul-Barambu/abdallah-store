@@ -29,11 +29,11 @@ const SalesRecord = ({ setClicked }) => {
         setLoading(true)
         axios.get('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/wholesale/wholesale-purchase-list', { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setPurchases(response.data)
                 setLoading(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 Swal.fire({
                     icon: 'error',
                     title: 'ERROR',
@@ -79,7 +79,7 @@ const SalesRecord = ({ setClicked }) => {
                             text: "There was a problem deleting the expense.",
                             icon: "error",
                         });
-                        console.error("Error deleting expense:", error);
+                        // console.error("Error deleting expense:", error);
                     });
             }
         });
@@ -145,8 +145,8 @@ const SalesRecord = ({ setClicked }) => {
                                                 </div>
                                                 <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
                                                     <IoEye className='cursor-pointer' onClick={() => { setClicked("SalesReceipt"); localStorage.setItem("Wholesale-purchases", JSON.stringify(purchase)) }} />
-                                                    <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditSales"); localStorage.setItem("Wholesale-purchases", JSON.stringify(purchase)) }} />
-                                                    {/* <RiDeleteBin6Fill className='cursor-pointer icon-red' onClick={() => handleDeletePurchase(purchase.id)} /> */}
+                                                    {/* <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditSales"); localStorage.setItem("Wholesale-purchases", JSON.stringify(purchase)) }} /> */}
+                                                    <RiDeleteBin6Fill className='cursor-pointer icon-red' onClick={() => handleDeletePurchase(purchase.id)} />
                                                 </div>
                                             </div>
                                         ))

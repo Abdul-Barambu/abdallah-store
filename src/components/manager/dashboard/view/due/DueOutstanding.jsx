@@ -28,11 +28,11 @@ const DueOutstanding = ({ setClicked }) => {
         setLoading(true)
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/purchases/on-credit/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setOnCredit(response.data.purchases)
                 setLoading(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 setLoading(false)
             })
     }, [])

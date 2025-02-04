@@ -87,10 +87,10 @@ const RetailAddPurchase = ({ setClicked }) => {
     useEffect(() => {
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/available/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setStocks(response.data)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 
@@ -107,13 +107,13 @@ const RetailAddPurchase = ({ setClicked }) => {
             date_of_purchase: new Date().toISOString().split('T')[0]
         }, { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 toast.success('Purchase added sucessfully')
                 localStorage.setItem("stock-retail-purchase", JSON.stringify(response.data))
                 setAlert(true)
                 setBtn(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 toast.error('Something went wrong, please try again')
                 setBtn(false)
             })

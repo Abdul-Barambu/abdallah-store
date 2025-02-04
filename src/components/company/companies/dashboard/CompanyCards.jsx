@@ -21,10 +21,10 @@ const CompanyCards = ({ setClicked }) => {
     useEffect(() => {
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/sales/total/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setSales(response.data.total_sales)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 
@@ -32,10 +32,10 @@ const CompanyCards = ({ setClicked }) => {
     useEffect(() => {
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/sales/total-commission/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setCommssion(response.data.total_commission)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 

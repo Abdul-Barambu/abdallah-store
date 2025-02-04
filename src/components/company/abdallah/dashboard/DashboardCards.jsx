@@ -43,22 +43,22 @@ const DashboardCards = ({ setClicked }) => {
         axios
             .get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${id}/total-commission/`, { headers })
             .then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 setCommission(response.data.total_commission)
             })
             .catch((error) => {
-                console.error('Error fetching total commission:', error);
+                // console.error('Error fetching total commission:', error);
             });
 
         // Fetch the total sales for the selected company
         axios
             .get(`https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/company/user/${id}/total-sales/`, { headers })
             .then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 setSales(response.data.total_sales)
             })
             .catch((error) => {
-                console.error('Error fetching total commission:', error);
+                // console.error('Error fetching total commission:', error);
             });
 
     };
@@ -68,10 +68,10 @@ const DashboardCards = ({ setClicked }) => {
     useEffect(() => {
         axios.get('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/userauths/users/', { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setCompanies(response.data.users)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 

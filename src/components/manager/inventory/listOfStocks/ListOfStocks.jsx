@@ -30,11 +30,11 @@ const ListOfStocks = ({ setClicked }) => {
         setLoading(true)
         axios.get('https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/', { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setListOfStocks(response.data)
                 setLoading(false)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
                 toast.error('Something went wrong...')
                 setLoading(false)
             })
@@ -89,25 +89,29 @@ const ListOfStocks = ({ setClicked }) => {
 
                     {/* Data */}
                     {
-                        loading ? (<div className='loader'></div>) : (
+                        loading ? (
+                            <div className='loader'></div>
+                        ) : filteredDues.length === 0 ? (
+                            <div className="text-center text-black font-mont font-medium py-5">
+                                No Records Found
+                            </div>
+                        ) : (
                             <div className='h-96 overflow-y-scroll'>
-                        {
-                            filteredDues.map((list) => (
-                                <div key={list.id} className='grid grid-cols-5 my-0.5 text-center'>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.stock_name}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.category}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.supplier_name}</span>
-                                    <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.sku}</span>
-                                    <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
-                                        <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewStock"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
-                                        {/* <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditStock"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} /> */}
+                                {filteredDues.map((list) => (
+                                    <div key={list.id} className='grid grid-cols-5 my-0.5 text-center'>
+                                        <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.stock_name}</span>
+                                        <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.category}</span>
+                                        <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.supplier_name}</span>
+                                        <span className='bg-white/[0.47] text-[8px] sm:text-[10px] lg:text-sm xl:text-base font-mont font-medium py-5 truncate'>{list.sku}</span>
+                                        <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
+                                            <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewStock"); localStorage.setItem("ListOfStocks", JSON.stringify(list)) }} />
+                                        </div>
                                     </div>
-                                </div>
-                            ))
-                        }
-                    </div>
+                                ))}
+                            </div>
                         )
                     }
+
                 </div>
             </div>
         </div>

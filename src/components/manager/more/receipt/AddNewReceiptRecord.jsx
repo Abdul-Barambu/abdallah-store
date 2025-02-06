@@ -14,11 +14,11 @@ const AddNewReceiptRecord = ({ setClicked }) => {
         updatedItems[index][field] = value;
 
         // Automatically calculate amount if price or quantity changes
-        if (field === 'price' || field === 'quantity') {
-            const price = parseFloat(updatedItems[index].price) || 0;
-            const quantity = parseFloat(updatedItems[index].quantity) || 0;
-            updatedItems[index].amount = price * quantity;
-        }
+        // if (field === 'price' || field === 'quantity') {
+        //     const price = parseFloat(updatedItems[index].price) || 0;
+        //     const quantity = parseFloat(updatedItems[index].quantity) || 0;
+        //     updatedItems[index].amount = price * quantity;
+        // }
 
         setItems(updatedItems);
     };
@@ -41,7 +41,8 @@ const AddNewReceiptRecord = ({ setClicked }) => {
 
     useEffect(() => {
         const calculatedTotal = items.reduce((sum, item) => {
-            return sum + (item.price * item.quantity || 0);
+            const price = parseFloat(item.price) || 0; // Ensure price is a valid number
+            return sum + price;
         }, 0);
         setTotalAmount(calculatedTotal);
     }, [items]);
@@ -60,7 +61,7 @@ const AddNewReceiptRecord = ({ setClicked }) => {
             items: items.map(item => ({
                 stock_name: item.stockName,
                 quantity: item.quantity,
-                price: item.amount,
+                price: item.price,
                 date: new Date().toISOString().split('T')[0]
             })),
             amount_paid: amountPaid,
@@ -113,7 +114,7 @@ const AddNewReceiptRecord = ({ setClicked }) => {
                         {items.map((item, index) => (
                             <div key={index} className='py-2 mb-1 min-w-[600px]'>
                                 {/* Inputs */}
-                                <div className='grid grid-cols-[1fr_0.5fr_0.5fr_0.5fr] mt-7 gap-4 sm:gap-0'>
+                                <div className='grid grid-cols-[1fr_0.5fr_0.5fr] mt-7 gap-4 sm:gap-0'>
                                     {/* Stock Name */}
                                     <div className='mb-2'>
                                         <p className='mb-1 font-mont text-[10px] sm:text-xs font-medium'>Stock Name</p>
@@ -148,7 +149,7 @@ const AddNewReceiptRecord = ({ setClicked }) => {
                                         />
                                     </div>
                                     {/* Amount */}
-                                    <div className='mb-2'>
+                                    {/* <div className='mb-2'>
                                         <p className='mb-1 font-mont text-[10px] sm:text-xs font-semibold'>Item Total</p>
                                         <input
                                             type="text"
@@ -157,7 +158,7 @@ const AddNewReceiptRecord = ({ setClicked }) => {
                                             placeholder='₦0.00'
                                             className='bg-gray-view border-2 text-black border-black text-center placeholder:text-black px-3 py-3 sm:py-2 rounded-lg font-mont text-xs sm:text-sm font-normal outline-none w-full sm:w-3/4'
                                         />
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         ))}

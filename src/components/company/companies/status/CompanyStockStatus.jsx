@@ -81,15 +81,7 @@ const CompanyStockStatus = ({ setClicked, handlePrint, button }) => {
 
     return (
         <div className='bg-color-full'>
-            {/* Back Button */}
-            <div
-                className={`mt-4 mb-4 mx-4 sm:mx-0 flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer ${button ? 'hidden' : 'block'}`}
-                onClick={() => setClicked('Inventory')}
-            >
-                <GoArrowLeft className='text-xs sm:text-sm lg:text-xl' />
-                <span className='font-mont font-medium text-xs sm:text-sm lg:text-base'>Back</span>
-            </div>
-            <div className='bg-white pb-32'>
+            <div className='bg-white pb-32 mt-5'>
                 <h1 className='text-center -mb-16 font-mont font-semibold pt-5'>Real-Time Stock Status</h1>
                 {/* chart */}
                 <div className='flex items-center justify-center'>

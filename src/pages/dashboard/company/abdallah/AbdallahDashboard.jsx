@@ -17,6 +17,7 @@ import Notification from '../../../../components/notification/Notification'
 import RegisterComapny from '../../../auth/signUp/RegisterComapny'
 import { useHistory } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import { useEffect } from 'react'
 
 const AbdallahDashboard = () => {
     const [clicked, setClicked] = useState('AbdallahDashboard')
@@ -35,6 +36,20 @@ const AbdallahDashboard = () => {
             setButton(false)
         }, 100)
     }
+
+    // disable back
+    useEffect(() => {
+        const handleBackButton = () => {
+            history.push("/abdallah-dashboard"); // Redirects to the same page
+        };
+
+        window.history.pushState(null, "", window.location.href);
+        window.addEventListener("popstate", handleBackButton);
+
+        return () => {
+            window.removeEventListener("popstate", handleBackButton);
+        };
+    }, [history]);
 
     // logout
     const handleLogout = () => {

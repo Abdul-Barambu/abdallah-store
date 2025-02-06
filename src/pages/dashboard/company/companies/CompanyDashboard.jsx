@@ -48,6 +48,20 @@ const CompanyDashboard = () => {
         }, 100)
     }
 
+    // disable back
+    useEffect(() => {
+        const handleBackButton = () => {
+            history.push("/company-dashboard"); // Redirects to the same page
+        };
+
+        window.history.pushState(null, "", window.location.href);
+        window.addEventListener("popstate", handleBackButton);
+
+        return () => {
+            window.removeEventListener("popstate", handleBackButton);
+        };
+    }, [history]);
+
     useEffect(() => {
         setAlert(true); // Always show alert on page load
     }, []);

@@ -58,6 +58,20 @@ const ManagerDashboard = () => {
     }, 100)
   }
 
+  // disable back
+  useEffect(() => {
+    const handleBackButton = () => {
+      history.push("/manager-dashboard"); // Redirects to the same page
+    };
+
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", handleBackButton);
+
+    return () => {
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, [history]);
+
   // alert
   useEffect(() => {
     setAlert(true); // Always show alert on page load
@@ -75,10 +89,10 @@ const ManagerDashboard = () => {
   useEffect(() => {
     axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/health-status/", { headers })
       .then(response => {
-        console.log(response)
+        // console.log(response)
         setOutOfStock(response.data.out_of_stock_stocks)
       }).catch(error => {
-        console.log(error)
+        // console.log(error)
       })
   }, [])
 
@@ -110,6 +124,10 @@ const ManagerDashboard = () => {
         history.push('/')
       }
     });
+  }
+
+  const handleRegister = () => {
+    history.push('/register')
   }
 
   return (
@@ -225,16 +243,22 @@ const ManagerDashboard = () => {
                         Settings
                       </p>
                       <p
-                        className={`${clicked === 'Logout' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-base py-3 text-center px-5 rounded-3xl mb-5 cursor-pointer`}
-                        onClick={() => { setNav(false); handleLogout() }}
+                        className={`${clicked === 'Users' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-base py-3 text-center px-5 rounded-3xl mb-5 cursor-pointer`}
+                        onClick={() => { handleRegister(); setNav(false) }}
                       >
-                        Logout
+                        Register
                       </p>
                       <p
                         className={`${clicked === 'Users' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-base py-3 text-center px-5 rounded-3xl mb-5 cursor-pointer`}
                         onClick={() => { setClicked("Users"); setNav(false) }}
                       >
                         Users
+                      </p>
+                      <p
+                        className={`${clicked === 'Logout' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-base py-3 text-center px-5 rounded-3xl mb-5 cursor-pointer`}
+                        onClick={() => { setNav(false); handleLogout() }}
+                      >
+                        Logout
                       </p>
                     </div>
                   )}
@@ -345,16 +369,22 @@ const ManagerDashboard = () => {
                         Settings
                       </p>
                       <p
-                        className={`${clicked === 'Logout' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-[10px] py-2 px-16 rounded-xl mb-5 cursor-pointer`}
-                        onClick={() => { handleLogout() }}
+                        className={`${clicked === 'Users' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-[10px] py-2 px-16 rounded-xl mb-5 cursor-pointer`}
+                        onClick={() => { handleRegister(); }}
                       >
-                        Logout
+                        Register
                       </p>
                       <p
                         className={`${clicked === 'Users' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-[10px] py-2 px-16 rounded-xl mb-5 cursor-pointer`}
                         onClick={() => { setClicked("Users"); }}
                       >
                         Users
+                      </p>
+                      <p
+                        className={`${clicked === 'Logout' ? 'black-bg text-white' : 'bg-light-gray black-text'} font-medium font-mont text-[10px] py-2 px-16 rounded-xl mb-5 cursor-pointer`}
+                        onClick={() => { handleLogout() }}
+                      >
+                        Logout
                       </p>
                     </div>
                   )}

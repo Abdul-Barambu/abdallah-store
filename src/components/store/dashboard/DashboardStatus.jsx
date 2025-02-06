@@ -80,8 +80,7 @@ const DashboardStatus = ({ handlePrint, button }) => {
 
     return (
         <div className='bg-color-full'>
-            {/* Back Button */}
-            <div className='bg-white pb-32'>
+            <div className='bg-white pb-32 mt-5'>
                 <h1 className='text-center -mb-16 font-mont font-semibold pt-5'>Real-Time Stock Status</h1>
                 {/* chart */}
                 <div className='flex items-center justify-center'>

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { GoArrowLeft } from "react-icons/go";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import CompanySuccessPurchase from './CompanySuccessPurchase';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
+import { FaCaretDown } from "react-icons/fa";
 
 const CompanyAddNewPurchase = ({ setClicked }) => {
 
@@ -14,6 +15,12 @@ const CompanyAddNewPurchase = ({ setClicked }) => {
     const [status, setStatus] = useState('')
     const [stocks, setStocks] = useState([])
     const [btn, setBtn] = useState(false)
+
+    const [dropdownOpen, setDropdownOpen] = useState(null); // Track open dropdown for each row
+    const [searchTerm, setSearchTerm] = useState(""); // Search input state
+    const dropdownRef = useRef(null);
+    const [selectedStocks, setSelectedStocks] = useState({});
+
     const [rows, setRows] = useState([
         { id: 1, stockName: 0, stockPrice: '', qty: '', totalPrice: 0 }
     ]);
@@ -169,27 +176,63 @@ const CompanyAddNewPurchase = ({ setClicked }) => {
                     </div>
 
                     {/* Rows */}
+                    
                     {rows.map((row) => (
                         <div key={row.id} className='flex justify-between my-1 bg-white/[0.47]'>
                             <span className='text-xs sm:text-sm font-mont py-4 px-5'>{row.id}</span>
-                            <span className='py-2 px-4'>
-                                <select
-                                    name="name"
-                                    className="bg-white px-2 text-xs sm:text-sm w-full py-3 font-mont outline-none rounded-md sm:rounded-lg"
-                                    onChange={(e) => {
-                                        const stockId = e.target.value; // Get the selected stock ID
-                                        handleStockSelect(row.id, stockId); // Call the function
-                                    }}
-                                >
-                                    <option value="">-- Product Name --</option>
-                                    {stocks.map((stock) => (
-                                        <option key={stock.id} value={stock.id}>
-                                            {stock.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </span>
-                            {/* <span className='text-xs sm:text-sm font-mont py-4 px-5'>₦{Number(row.stockPrice).toLocaleString()}.00</span> */}
+                            <span className="py-2 px-4 relative">
+                                    {/* Selected Stock Name Display */}
+                                    <div className='bg-white rounded-md sm:rounded-lg cursor-pointer flex gap-10 items-center px-5' onClick={() => setDropdownOpen(dropdownOpen === row.id ? null : row.id)}>
+                                        <div
+                                            className=" text-xs sm:text-sm py-3 font-mont outline-none "
+
+                                        >
+                                            {selectedStocks[row.id] || "Select a Product"}
+                                        </div>
+                                        <div>
+                                            <FaCaretDown />
+                                        </div>
+                                    </div>
+
+                                    {/* Dropdown with Search & Scroll */}
+                                    {dropdownOpen === row.id && (
+                                        <div className="relative mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg h-36 overflow-y-scroll">
+                                            {/* Search Input */}
+                                            <input
+                                                type="text"
+                                                placeholder="Search product..."
+                                                className="w-full px-3 py-2 text-xs sm:text-sm border-b outline-none"
+                                                value={searchTerm}
+                                                onChange={(e) => setSearchTerm(e.target.value)}
+                                            />
+
+                                            {/* Scrollable Product List */}
+                                            <div className="max-h-32 overflow-y-auto">
+                                                {stocks
+                                                    .filter((stock) =>
+                                                        stock.name.toLowerCase().includes(searchTerm.toLowerCase())
+                                                    )
+                                                    .map((stock) => (
+                                                        <div
+                                                            key={stock.id}
+                                                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                                            onClick={() => {
+                                                                handleStockSelect(row.id, stock.id);
+                                                                setSelectedStocks((prev) => ({
+                                                                    ...prev,
+                                                                    [row.id]: stock.name,
+                                                                }));
+                                                                setDropdownOpen(null); // Close dropdown
+                                                                setSearchTerm(""); // Reset search
+                                                            }}
+                                                        >
+                                                            {stock.name}
+                                                        </div>
+                                                    ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </span>
                             <span className='text-xs sm:text-sm font-mont py-2'>
                                 <input
                                     type="text"

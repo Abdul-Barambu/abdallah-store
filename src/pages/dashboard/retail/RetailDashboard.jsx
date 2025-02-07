@@ -74,10 +74,10 @@ const RetailDashboard = () => {
     useEffect(() => {
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/health-status/", { headers })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 setOutOfStock(response.data.out_of_stock_stocks)
             }).catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 

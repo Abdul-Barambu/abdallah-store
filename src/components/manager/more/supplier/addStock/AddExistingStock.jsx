@@ -7,11 +7,12 @@ import axios from 'axios';
 const AddExistingStock = ({ setClicked }) => {
 
     const [searchValue, setSearchValue] = useState('');
+    const [healthyStock, setHealthyStock] = useState([])
     const [lowStock, setLowStock] = useState([])
     const [outOfStock, setOutOfStock] = useState([])
     const [loading, setLoading] = useState(false)
 
-    const combinedStocks = [...lowStock, ...outOfStock];
+    const combinedStocks = [...healthyStock, ...lowStock, ...outOfStock];
 
     const filteredStock = combinedStocks.filter((stock) =>
         stock.stock_name.toLowerCase().includes(searchValue.toLowerCase())
@@ -29,7 +30,8 @@ const AddExistingStock = ({ setClicked }) => {
         setLoading(true)
         axios.get("https://aamsheiliagunicorn-sms-wsgi-application.onrender.com/inventory/stocks/health-status/", { headers })
             .then(response => {
-                // console.log(response)
+                console.log(response)
+                setHealthyStock(response.data.healthy_stocks)
                 setLowStock(response.data.low_stock_stocks)
                 setOutOfStock(response.data.out_of_stock_stocks)
                 setLoading(false)

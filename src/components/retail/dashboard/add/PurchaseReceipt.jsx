@@ -66,7 +66,7 @@ const PurchaseReceipt = ({ setClicked, handlePrint, button }) => {
                                             <span className='font-mont text-[9px] sm:text-xs font-medium'>{item.stock_name}</span>
                                             <span className='font-mont text-[9px] sm:text-xs font-medium'>₦{Number(item.price).toLocaleString()}.00</span>
                                             <span className='font-mont text-[9px] sm:text-xs font-medium'>{item.quantity}</span>
-                                            <span className='font-mont text-[9px] sm:text-xs font-medium'>₦{Number(item.item_total).toLocaleString()}.00</span>
+                                            <span className='font-mont text-[9px] sm:text-xs font-medium'>₦{Number(item.price * item.quantity).toLocaleString()}.00</span>
                                         </div>
                                     ))
                                 }

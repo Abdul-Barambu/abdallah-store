@@ -23,7 +23,7 @@ const EditPurchaseReceipt = ({ setClicked, handlePrint, button }) => {
                 {/* back */}
                 <div
                     className={`mt-4 mb-2 flex items-center justify-center gap-3 bg-white w-28 py-3 sm:py-2 rounded-xl cursor-pointer ${button ? 'hidden' : 'block'}`}
-                    onClick={() => setClicked('EditSales')}
+                    onClick={() => setClicked('SalesRecord')}
                 >
                     <GoArrowLeft className='text-xs sm:text-sm lg:text-xl' />
                     <span className='font-mont font-medium text-xs sm:text-sm lg:text-base'>Back</span>
@@ -92,7 +92,7 @@ const EditPurchaseReceipt = ({ setClicked, handlePrint, button }) => {
                     {/* footer */}
                     <div className='bg-light-gray mx-2 sm:mx-3 mt-5 text-center py-2'>
                         <p className='text-[7px] sm:text-xs font-mont font-medium mb-2'>Payment Status</p>
-                        <p className='text-sm sm:text-2xl font-mont font-bold'>{purchase.payment_status}</p>
+                        <p className='text-sm sm:text-2xl font-mont font-bold'>{purchase.status}</p>
                     </div>
                 </div>
 

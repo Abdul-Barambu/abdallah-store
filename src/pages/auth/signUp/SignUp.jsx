@@ -78,7 +78,7 @@ const SignUp = () => {
                         <div className='mt-7'>
                             <select name="role" onChange={handleRoleChange} className='bg-light-gray w-full text-sm pl-5 py-4 sm:py-3 font-mont font-medium rounded-xl outline-none'>
                                 <option value="">----- Choose Role -----</option>
-                                <option value="manager">Manager</option>
+                                {/* <option value="manager">Manager</option> */}
                                 <option value="wholesaler">Wholesale</option>
                                 <option value="retailer">Retail</option>
                                 <option value="storekeeper">Store</option>

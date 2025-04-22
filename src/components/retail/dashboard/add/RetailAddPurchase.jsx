@@ -78,11 +78,11 @@ const RetailAddPurchase = ({ setClicked }) => {
         setStatus(selectedValue);
     };
 
-    const handleStockSelect = (rowId, stockId, retailPrice) => {
+    const handleStockSelect = (rowId, stockId, retail_price) => {
         setRows((prevRows) =>
             prevRows.map((row) =>
                 row.id === rowId
-                    ? { ...row, stockId: stockId, stockPrice: retailPrice }
+                    ? { ...row, stockId: stockId, stockPrice: retail_price }
                     : row
             )
         );
@@ -126,13 +126,13 @@ const RetailAddPurchase = ({ setClicked }) => {
             date_of_purchase: new Date().toISOString().split('T')[0]
         }, { headers })
             .then(response => {
-                // console.log(response)
+                console.log(response)
                 toast.success('Purchase added sucessfully')
                 localStorage.setItem("stock-retail-purchase", JSON.stringify(response.data))
                 setAlert(true)
                 setBtn(false)
             }).catch(error => {
-                // console.log(error)
+                console.log(error)
                 toast.error('Something went wrong, please try again')
                 setBtn(false)
             })
@@ -219,7 +219,7 @@ const RetailAddPurchase = ({ setClicked }) => {
                                                             key={stock.id}
                                                             className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                                                             onClick={() => {
-                                                                handleStockSelect(row.id, stock.id, stock.wholesale_price);
+                                                                handleStockSelect(row.id, stock.id, stock.retail_price);
                                                                 setSelectedStocks((prev) => ({
                                                                     ...prev,
                                                                     [row.id]: stock.stock_name,

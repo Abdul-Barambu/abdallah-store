@@ -145,7 +145,7 @@ const SalesRecord = ({ setClicked }) => {
                                                 </div>
                                                 <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
                                                     <IoEye className='cursor-pointer' onClick={() => { setClicked("SalesReceipt"); localStorage.setItem("Wholesale-purchases", JSON.stringify(purchase)) }} />
-                                                    {/* <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditSales"); localStorage.setItem("Wholesale-purchases", JSON.stringify(purchase)) }} /> */}
+                                                    <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditSales"); localStorage.setItem("Wholesale-purchases", JSON.stringify(purchase)) }} />
                                                     <RiDeleteBin6Fill className='cursor-pointer icon-red' onClick={() => handleDeletePurchase(purchase.id)} />
                                                 </div>
                                             </div>

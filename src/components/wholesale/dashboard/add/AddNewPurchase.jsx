@@ -131,13 +131,13 @@ const AddNewPurchase = ({ setClicked }) => {
             date_of_purchase: new Date().toISOString().split('T')[0]
         }, { headers })
             .then(response => {
-                // console.log(response)
+                console.log(response)
                 toast.success('Purchase added sucessfully')
                 localStorage.setItem("stock-wholesale-purchase", JSON.stringify(response.data))
                 setAlert(true)
                 setBtn(false)
             }).catch(error => {
-                // console.log(error)
+                console.log(error)
                 toast.error('Something went wrong, please try again')
                 setBtn(false)
             })

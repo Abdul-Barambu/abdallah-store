@@ -20,7 +20,7 @@ const Login = () => {
             email: email,
             password: password
         }).then(response => {
-            // console.log(response)
+            console.log(response)
             localStorage.setItem('access-token', response.data.access)
             localStorage.setItem('refresh-token', response.data.refresh)
             localStorage.setItem('full-name', response.data.full_name)

@@ -72,6 +72,7 @@ const RetailSalesRecord = ({ setClicked }) => {
                             text: "There was a problem deleting the expense.",
                             icon: "error",
                         });
+                        setLoading(false)
                         // console.error("Error deleting expense:", error);
                     });
             }
@@ -139,7 +140,7 @@ const RetailSalesRecord = ({ setClicked }) => {
                                                 </div>
                                                 <div className='flex flex-row gap-4 justify-center items-center bg-white/[0.47]'>
                                                     <IoEye className='cursor-pointer' onClick={() => { setClicked("ViewRetailRecord"); localStorage.setItem("retail-list", JSON.stringify(list)) }} />
-                                                    {/* <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditRecord"); localStorage.setItem("edit-retail", JSON.stringify(list)) }} /> */}
+                                                    <MdEditSquare className='cursor-pointer icon-blue' onClick={() => { setClicked("EditRecord"); localStorage.setItem("edit-retail", JSON.stringify(list)) }} />
                                                     <RiDeleteBin6Fill className='cursor-pointer icon-red' onClick={() => handleDeletePurchase(list.id)} />
                                                 </div>
                                             </div>

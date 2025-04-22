@@ -1,9 +1,10 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { GoArrowLeft } from "react-icons/go";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { toast, ToastContainer } from 'react-toastify';
 import EditSuccess from './EditSuccess';
+import { FaCaretDown } from "react-icons/fa";
 
 const EditRecord = ({ setClicked }) => {
 
@@ -15,6 +16,22 @@ const EditRecord = ({ setClicked }) => {
     const [stocks, setStocks] = useState([])
     const [btn, setBtn] = useState(false)
     const [rows, setRows] = useState([])
+    const [dropdownOpen, setDropdownOpen] = useState(null); // Track open dropdown for each row
+    const [searchTerm, setSearchTerm] = useState(""); // Search input state
+    const dropdownRef = useRef(null);
+    const [selectedStocks, setSelectedStocks] = useState({});
+
+    // Close dropdown when clicking outside
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setDropdownOpen(null);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
 
     useEffect(() => {
@@ -25,7 +42,7 @@ const EditRecord = ({ setClicked }) => {
                     id: index + 1,
                     stockId: item.id || "", // Set stockId from localStorage or empty
                     stockName: item.stock_name || "", // Set stockName from localStorage or empty
-                    stockPrice: item.price  || "",
+                    stockPrice: item.price || "",
                     qty: item.quantity || "",
                     discount: item.discount_price || 0,
                     totalPrice: item.item_total || "",
@@ -127,17 +144,17 @@ const EditRecord = ({ setClicked }) => {
                 discount_price: row.discount
             })),
             amount_paid: amountPaid,
-            status: status,
+            payment_status: status,
             date_of_purchase: new Date().toISOString().split('T')[0]
         }, { headers })
             .then(response => {
-                // console.log(response)
+                console.log(response)
                 toast.success('Updated sucessfully')
-                localStorage.setItem("edit-wholesale-purchase", JSON.stringify(response.data))
+                localStorage.setItem("edit-retail-purchase", JSON.stringify(response.data))
                 setAlert(true)
                 setBtn(false)
             }).catch(error => {
-                // console.log(error)
+                console.log(error)
                 toast.error('Something went wrong, please try again')
                 setBtn(false)
             })
@@ -146,6 +163,7 @@ const EditRecord = ({ setClicked }) => {
     // sum total
     const totalAmount = rows.reduce((acc, row) => acc + ((row.stockPrice - row.discount) * row.qty || 0), 0);
 
+    console.log(status)
 
     return (
         <div className='bg-color-full px-4 sm:px-0'>
@@ -177,46 +195,59 @@ const EditRecord = ({ setClicked }) => {
                     {rows.map((row) => (
                         <div key={row.id} className='flex justify-between my-1 bg-white/[0.47]'>
                             <span className='text-xs sm:text-sm font-mont py-4 px-5'>{row.id}</span>
-                            <span className='py-2 px-4'>
-                                <select
-                                    name="name"
-                                    className="bg-white px-2 text-xs sm:text-sm w-full py-3 font-mont outline-none rounded-md sm:rounded-lg"
-                                    value={row.stockId || ""} // Preselect stockId
-                                    onChange={(e) => {
-                                        const stockId = e.target.value;
-                                        const selectedOption = e.target.options[e.target.selectedIndex];
-                                        const RetailPrice = selectedOption.getAttribute("data-retail-price");
-                                        handleStockSelect(row.id, stockId, RetailPrice);
-                                    }}
-                                >
-                                    <option value="">-- Product Name --</option>
 
-                                    {/* Check if data exists in localStorage */}
-                                    {localStorage.getItem("purchase") ? (
-                                        // Render options from localStorage
-                                        JSON.parse(localStorage.getItem("purchase")).items.map((stock, index) => (
-                                            <option
-                                                key={`local-${index}`}
-                                                value={stock.id} // Use the stock ID for value
-                                                data-wholesale-price={stock.retail_price} // Store wholesale price as data attribute
-                                            >
-                                                {stock.stock_name} {/* Display the stock name */}
-                                            </option>
-                                        ))
-                                    ) : (
-                                        // Render options from the stocks array if localStorage is empty
-                                        stocks.map((stock, index) => (
-                                            <option
-                                                key={`stocks-${index}`}
-                                                value={stock.id} // Use the stock ID for value
-                                                data-retail-price={stock.retail_price} // Store wholesale price as data attribute
-                                            >
-                                                {stock.stock_name} {/* Display the stock name */}
-                                            </option>
-                                        ))
-                                    )}
-                                </select>
+                            <span className="py-2 px-4 relative">
+                                {/* Selected Stock Name Display */}
+                                <div className='bg-white rounded-md sm:rounded-lg cursor-pointer flex gap-10 items-center px-5' onClick={() => setDropdownOpen(dropdownOpen === row.id ? null : row.id)}>
+                                    <div
+                                        className=" text-xs sm:text-sm py-3 font-mont outline-none "
 
+                                    >
+                                        {selectedStocks[row.id] || ""}
+                                    </div>
+                                    <div>
+                                        <FaCaretDown />
+                                    </div>
+                                </div>
+
+                                {/* Dropdown with Search & Scroll */}
+                                {dropdownOpen === row.id && (
+                                    <div className="relative mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg h-36 overflow-y-scroll">
+                                        {/* Search Input */}
+                                        <input
+                                            type="text"
+                                            placeholder="Search product..."
+                                            className="w-full px-3 py-2 text-xs sm:text-sm border-b outline-none"
+                                            value={searchTerm}
+                                            onChange={(e) => setSearchTerm(e.target.value)}
+                                        />
+
+                                        {/* Scrollable Product List */}
+                                        <div className="max-h-32 overflow-y-auto">
+                                            {stocks
+                                                .filter((stock) =>
+                                                    stock.stock_name.toLowerCase().includes(searchTerm.toLowerCase())
+                                                )
+                                                .map((stock) => (
+                                                    <div
+                                                        key={stock.id}
+                                                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                                        onClick={() => {
+                                                            handleStockSelect(row.id, stock.id, stock.retail_price);
+                                                            setSelectedStocks((prev) => ({
+                                                                ...prev,
+                                                                [row.id]: stock.stock_name,
+                                                            }));
+                                                            setDropdownOpen(null); // Close dropdown
+                                                            setSearchTerm(""); // Reset search
+                                                        }}
+                                                    >
+                                                        {stock.stock_name}
+                                                    </div>
+                                                ))}
+                                        </div>
+                                    </div>
+                                )}
                             </span>
                             <span className='text-xs sm:text-sm font-mont py-4 px-5'>₦{Number(row.stockPrice).toLocaleString()}.00</span>
                             <span className='text-xs sm:text-sm font-mont py-2'>
